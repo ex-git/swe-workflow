@@ -91,6 +91,30 @@ Reflection may reveal need for plan changes:
 **Reason Added:** Reflection after Step N revealed duplicated code
 ```
 
+## Plan Validity Check
+
+After reflection, verify the remaining plan still makes sense:
+
+1. **Re-read the remaining PENDING steps** in the plan
+2. **Ask: Do these steps still fit the current implementation?**
+   - Were there bug fixes or adjustments that changed direction?
+   - Did any completed steps diverge from expectations?
+   - Are remaining steps still necessary and correctly scoped?
+
+3. **If plan seems off:**
+   - Summarize the discrepancy to the user
+   - Propose updated steps
+   - Get confirmation before continuing
+   - Document in Deviations from Original Plan
+
+4. **Plan drift warning signs:**
+   - Remaining steps reference code that changed
+   - Step descriptions seem outdated
+   - You're unsure what a step means anymore
+   - Previous steps took much longer than expected
+
+**Key principle:** Don't blindly follow an outdated plan. Re-assess and communicate.
+
 ## Constraints
 
 - **Prefer refactoring over patching** — fix the root cause, not the symptom
@@ -119,6 +143,7 @@ Before continuing to next step:
 - [ ] Checked for tight coupling
 - [ ] Refactored if needed (and ran tests)
 - [ ] Updated plan if structure changed
+- [ ] Verified remaining steps still make sense
 
 ## Next Step
 

@@ -3,7 +3,7 @@ name: swe-workflow
 description: A structured development workflow for coding agents. Use when starting a new feature, working on multi-step tasks, or when you need planning, validation, and quality checks. Follow Understand → Plan → Execute → Reflect phases with built-in safeguards against scope creep and incomplete implementations.
 license: MIT
 metadata:
-  version: "1.0.2"
+  version: "1.0.3"
   author: "Evan Xu"
 ---
 

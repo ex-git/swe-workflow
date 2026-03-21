@@ -115,6 +115,61 @@ If during execution you discover code changes needed outside the step's scope:
 
 **Key principle:** Never silently expand scope. All changes must be documented in the plan.
 
+## When Unplanned Work Happens
+
+If you fix a bug, make user-requested adjustments, or address issues found during review:
+
+1. **Pause and reassess:**
+   - Did this work change the scope significantly?
+   - Are remaining steps still valid?
+   - Has the implementation drifted from the original plan?
+
+2. **Re-check the plan:**
+   - Read through remaining PENDING steps
+   - Verify each step still makes sense in context
+   - Check if any steps are now redundant or need modification
+
+3. **Communicate with user:**
+   - Summarize what was done (bug fix, adjustment)
+   - State whether remaining steps are still valid
+   - Ask: "Should I continue with the remaining steps, or would you like to adjust the plan?"
+   - Do NOT assume you should just continue
+
+4. **If plan needs adjustment:**
+   - Update the affected steps
+   - Add new steps if needed
+   - Document the change in Deviations from Original Plan
+   - Get user confirmation before continuing
+
+### Signs of Plan Drift
+
+Watch for these warning signs:
+
+| Sign | What It Means | Action |
+|------|---------------|--------|
+| Bug fix took 30+ min | Scope expansion | Re-assess remaining steps |
+| User adjusted 3+ times | Unclear requirements | Consider re-clarifying |
+| Remaining steps seem wrong | Plan outdated | Update plan before continuing |
+| "While fixing X, I also did Y" | Scope creep | Document, re-assess plan |
+| Step took 3x longer than expected | Underestimated complexity | Check if remaining estimates are valid |
+
+### Good Practice Example
+
+```markdown
+**Bad:** "I fixed the bug. Continuing with Step 9..."
+
+**Good:** "I've fixed the login validation bug. This took longer than expected 
+because we discovered the auth module needed updates.
+
+Before continuing with Steps 9 and 10, I want to check: 
+- Step 9 (add password reset) should still work as planned
+- Step 10 (update auth docs) will need to include the bug fix details
+
+Would you like me to continue, or should we adjust the remaining steps?"
+```
+
+**Key principle:** After unplanned work, always re-assess before continuing. Never assume the original plan is still valid.
+
 ## When New Findings Change What We Know
 
 ### Minor findings → Update step, continue
