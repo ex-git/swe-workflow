@@ -21,6 +21,25 @@
 - [ ] [Question 1]
 - [ ] [Question 2]
 
+## Context & Learnings
+
+> Important context discovered during implementation. Update after each step to preserve learnings for future sessions.
+
+### Key Decisions
+> Decisions made and why (prevents re-litigating in future sessions)
+
+- [Decision]: [Rationale]
+
+### Gotchas & Warnings
+> Things that tripped us up or could cause issues
+
+- [Warning]: [What to watch out for]
+
+### Patterns & Conventions
+> Code patterns, naming conventions, architectural decisions discovered
+
+- [Pattern]: [Description]
+
 ## Repo Map
 
 > File locations discovered during planning and execution. Update as you learn.
@@ -55,6 +74,18 @@
 
 **Status:** PENDING
 
+**Prerequisites:**
+> What must be true before starting this step (files exist, previous steps done, etc.)
+
+- [Prerequisite 1]
+- [Prerequisite 2]
+
+**Deliverables:**
+> What this step produces (files created/modified, functions added, etc.)
+
+- [Deliverable 1]
+- [Deliverable 2]
+
 **Plan:**
 - [ ] [Specific action to take]
 - [ ] [Next action]
@@ -79,6 +110,12 @@
 ### Step 2: [Step Title]
 
 **Status:** PENDING
+
+**Prerequisites:**
+- [Prerequisite 1]
+
+**Deliverables:**
+- [Deliverable 1]
 
 **Plan:**
 - [ ] [Specific action to take]

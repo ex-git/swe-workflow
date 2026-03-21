@@ -16,6 +16,7 @@ When ALL steps in the plan are marked COMPLETED. This runs once at the end.
    - Check Implementation Log for context
    - Note any Deviations from Original Plan
    - Review Repo Map for completeness
+   - **Review Context & Learnings for completeness** — are all decisions documented?
 
 2. **Re-read ALL files created or modified:**
    - Use `read` tool for each file
@@ -28,7 +29,12 @@ When ALL steps in the plan are marked COMPLETED. This runs once at the end.
    - [ ] Does this achieve the stated Goal?
    - [ ] Are all requirements met?
    - [ ] Is the solution complete?
-   
+
+   **Context & Learnings:**
+   - [ ] Are all key decisions documented?
+   - [ ] Are warnings/gotchas captured for future reference?
+   - [ ] Are patterns and conventions noted?
+
    **Repo Map:**
    - [ ] Are all Core Files listed?
    - [ ] Are all Related Files listed?
@@ -168,6 +174,7 @@ Before declaring feature done:
 - [ ] Re-read entire plan file
 - [ ] Re-read ALL modified/created files
 - [ ] Verified Goal is achieved
+- [ ] Context & Learnings is complete (decisions, gotchas, patterns)
 - [ ] Repo Map is accurate and complete
 - [ ] Architecture is clean
 - [ ] No critical technical debt remaining

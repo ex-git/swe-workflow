@@ -40,6 +40,7 @@ Use this reference when:
 
 5. **Review context:**
    - Re-read Goal and Assumptions sections
+   - **Read Context & Learnings** — capture decisions, gotchas, patterns from previous steps
    - Check Deviations from Original Plan
    - Review recent Implementation Notes
    - Review Repo Map for file locations discovered so far
@@ -52,6 +53,8 @@ Use this reference when:
 
 7. **Resume execution:**
    - Continue from the identified step
+   - **Read the step's Prerequisites** — verify all prerequisites are met
+   - **Read the step's Deliverables** — understand what this step should produce
    - Check Repo Map for file locations before starting
    - Follow normal workflow: execute-step → validate-step → enforce-tests → review-diff → maintain-repo-map → persist-plan
 

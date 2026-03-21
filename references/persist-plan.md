@@ -29,10 +29,11 @@ The plan file (`plans/<name>.md`) is the single source of truth. Keep it accurat
 4. Fill in **Implementation Notes**: what was actually done, decisions made
 5. Fill in **Files Changed**: exact file paths created or modified
 6. **Update Repo Map**: add any newly discovered files to Core Files or Related Files
-7. Check off **Validation Checklist** items that passed
-8. Check off **Test Checklist** items that passed
-9. Update "Last Updated" date
-10. Add entry to Implementation Log table
+7. **Update Context & Learnings**: add any new decisions, gotchas, or patterns discovered
+8. Check off **Validation Checklist** items that passed
+9. Check off **Test Checklist** items that passed
+10. Update "Last Updated" date
+11. Add entry to Implementation Log table
 
 ### After Blocking a Step (BLOCKED):
 
@@ -109,6 +110,7 @@ After completion:
 - [ ] Implementation Notes filled (what + why + decisions)
 - [ ] Files Changed listed (exact paths)
 - [ ] Repo Map updated (any newly discovered files)
+- [ ] Context & Learnings updated (decisions, gotchas, patterns)
 - [ ] Validation Checklist items checked
 - [ ] Test Checklist items checked
 - [ ] Last Updated date changed

@@ -3,7 +3,7 @@ name: swe-workflow
 description: A structured development workflow for coding agents. Use when starting a new feature, working on multi-step tasks, or when you need planning, validation, and quality checks. Follow Understand → Plan → Execute → Reflect phases with built-in safeguards against scope creep and incomplete implementations.
 license: MIT
 metadata:
-  version: "1.0.4"
+  version: "1.0.5"
   author: "Evan Xu"
 ---
 
@@ -137,6 +137,14 @@ All plans saved to `plans/<feature-name>.md` with this structure:
 ## Assumptions
 - [List assumptions]
 
+## Context & Learnings
+### Key Decisions
+- [Decision]: [Rationale]
+### Gotchas & Warnings
+- [Warning]: [What to watch out for]
+### Patterns & Conventions
+- [Pattern]: [Description]
+
 ## Repo Map
 ### Core Files
 | Path | Purpose | Last Updated |
@@ -149,6 +157,8 @@ All plans saved to `plans/<feature-name>.md` with this structure:
 
 ### Step 1: [Title]
 **Status:** PENDING
+**Prerequisites:** [What must be true before starting]
+**Deliverables:** [What this step produces]
 **Plan:** [Bullet list of actions]
 **Validation Checklist:** [How to verify]
 **Test Checklist:** [Test cases]
@@ -170,3 +180,39 @@ All plans saved to `plans/<feature-name>.md` with this structure:
 - **Trust the plan** — Do not redo completed steps
 - **Persist reality** — Keep plan file accurate at all times
 - **Validate before complete** — No step passes with known issues
+
+## Session Management
+
+### When to Start a New Session
+
+Consider starting a fresh session per step when:
+- Plan has many steps (8+) and context is getting muddy
+- Previous step had significant bug fixes or pivots
+- Agent keeps referencing old/incorrect context
+- Steps are mostly independent
+
+### How Context Persists
+
+The plan file preserves all necessary context between sessions:
+
+| Section | What It Captures |
+|---------|------------------|
+| **Context & Learnings** | Decisions, gotchas, patterns discovered |
+| **Repo Map** | File locations and purposes |
+| **Implementation Notes** | What was done in each step |
+| **Implementation Log** | Chronological summary of progress |
+
+### Starting Fresh
+
+1. Ensure plan is up-to-date (persist-plan after each step)
+2. Update Context & Learnings with any new discoveries
+3. Update Repo Map with any new files
+4. End session with clear Implementation Notes
+5. New session: run resume-workflow
+
+### Why This Works
+
+- **Isolated steps**: Prerequisites and Deliverables make each step self-contained
+- **Preserved learnings**: Context & Learnings capture decisions, not just actions
+- **Fresh context**: New session = no accumulated confusion
+- **Plan-driven**: Agent reads plan to understand state, not memory

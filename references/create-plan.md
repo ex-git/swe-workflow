@@ -28,8 +28,13 @@ Before starting:
 4. **Break work into ordered steps:**
    - Each step is ONE discrete action (5-15 minutes of work)
    - Steps must be ordered by dependency
-   - Each step includes: title, plan bullets, validation checklist, test checklist
+   - Each step includes: title, prerequisites, deliverables, plan bullets, validation checklist, test checklist
    - All steps start as **PENDING**
+
+5. **Define prerequisites and deliverables for each step:**
+   - **Prerequisites:** What must be true before starting (files exist, previous steps done, dependencies installed)
+   - **Deliverables:** What this step produces (files created/modified, functions added, tests passing)
+   - This makes steps self-contained and enables new sessions to pick up any step
 
 5. **Read the plan template:**
    - Use `read` tool on: `assets/plan-template.md` (relative to this skill's directory)
@@ -66,9 +71,10 @@ Before marking complete, verify ALL of the following:
 
 - [ ] Plan file exists at `plans/<feature-name>.md`
 - [ ] File contains: Goal (one sentence), Assumptions (list), Open Questions (empty)
+- [ ] Context & Learnings section initialized (even if empty)
 - [ ] Repo Map populated with discovered files and directories
 - [ ] **Repo Map has at least one entry** in Core Files OR Related Files (empty tables are incomplete)
-- [ ] Each step has: Title, Status (PENDING), Plan bullets, Validation checklist, Test checklist
+- [ ] Each step has: Title, Status (PENDING), Prerequisites, Deliverables, Plan bullets, Validation checklist, Test checklist
 - [ ] At least one step exists (most features need 3-10 steps)
 - [ ] Steps are ordered by dependency (earlier steps don't depend on later ones)
 - [ ] No code has been written yet
