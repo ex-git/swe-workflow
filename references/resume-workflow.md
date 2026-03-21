@@ -45,7 +45,12 @@ Use this reference when:
    - Review Repo Map for file locations discovered so far
    - Understand Files Changed in previous steps
 
-6. **Resume execution:**
+6. **Remind user of remaining work:**
+   - State how many steps remain (e.g., "Step 4 of 10 - 6 steps remaining")
+   - Briefly mention what the remaining steps cover
+   - Ask: "Should I continue with Step X, or would you like to adjust the plan?"
+
+7. **Resume execution:**
    - Continue from the identified step
    - Check Repo Map for file locations before starting
    - Follow normal workflow: execute-step → validate-step → enforce-tests → review-diff → maintain-repo-map → persist-plan

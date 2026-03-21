@@ -131,6 +131,9 @@ If you fix a bug, make user-requested adjustments, or address issues found durin
 
 3. **Communicate with user:**
    - Summarize what was done (bug fix, adjustment)
+   - **Remind user of remaining progress:**
+     - "We've completed X of Y steps."
+     - "Steps remaining: [brief list]"
    - State whether remaining steps are still valid
    - Ask: "Should I continue with the remaining steps, or would you like to adjust the plan?"
    - Do NOT assume you should just continue

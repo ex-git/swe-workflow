@@ -12,6 +12,29 @@ Load this reference when:
 - You're tempted to start coding immediately
 - Multiple interpretations are possible
 
+## Before Starting: Check for Active Plans
+
+Before clarifying a new request, check if there's an existing plan in progress:
+
+1. **Check for existing plans:**
+   ```bash
+   ls plans/*.md 2>/dev/null
+   ```
+
+2. **If a plan exists:**
+   - Read the plan to check status
+   - If IN_PROGRESS steps exist: **remind user of active plan**
+   - Ask: "You have an active plan for [goal] with [N] steps remaining. Should I continue that, or switch to this new request?"
+   - Do NOT assume user wants to abandon existing work
+
+3. **If plan exists but user wants to switch:**
+   - Ask if they want to pause or close the current plan
+   - Document the status of incomplete work
+   - Then proceed with new request clarification
+
+4. **If no plan exists:**
+   - Proceed with clarification as normal
+
 ## Instructions
 
 1. **Analyze the request** for completeness:

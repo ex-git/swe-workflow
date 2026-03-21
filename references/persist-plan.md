@@ -130,3 +130,18 @@ After persisting:
 - If more PENDING steps: → Proceed to **execute-step**
 - If all steps COMPLETED: → Proceed to **global-reflection**
 - If step BLOCKED: → Proceed to next PENDING step (if any)
+
+## Remind User of Progress
+
+After persisting, briefly remind the user of remaining work:
+
+**When resuming (IN_PROGRESS step found):**
+> "Continuing with Step X of Y. We have N steps remaining after this one."
+
+**After completing a step (COMPLETED):**
+> "Step X complete. Steps remaining: [list brief descriptions]. Ready for Step Y?"
+
+**When blocked:**
+> "Step X is blocked: [reason]. Skipping to Step Y. [Or: No more steps can proceed.]"
+
+This keeps the user oriented on progress and prevents drift.
