@@ -173,4 +173,15 @@ This file accumulates knowledge across multiple tasks:
 
 Update it when you discover something that future tasks might benefit from.
 
+## Mandatory Outputs
+
+Before completing Repo Map updates, verify:
+
+- [ ] Core Files table updated if any files were modified/created
+- [ ] Related Files table updated if any files were read for context
+- [ ] Key Directories updated if new directories discovered
+- [ ] All entries have Purpose/Why Relevant filled in (not empty)
+- [ ] All entries have Last Updated date
+- [ ] No duplicate entries exist
+
 ---

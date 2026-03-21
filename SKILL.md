@@ -3,7 +3,7 @@ name: swe-workflow
 description: A structured development workflow for coding agents. Use when starting a new feature, working on multi-step tasks, or when you need planning, validation, and quality checks. Follow Understand → Plan → Execute → Reflect phases with built-in safeguards against scope creep and incomplete implementations.
 license: MIT
 metadata:
-  version: "1.0.1"
+  version: "1.0.2"
   author: "Evan Xu"
 ---
 
@@ -39,6 +39,7 @@ A structured development workflow for coding agents — compatible with Pi, Clau
 2. Use [assets/plan-template.md](assets/plan-template.md) for structure
 3. Break work into small, ordered steps (5-15 min each)
 4. Save to `plans/<feature-name>.md`
+5. Initialize Repo Map: [maintain-repo-map](references/maintain-repo-map.md) — Populate with files discovered during exploration
 
 ### Phase 3: Execute
 
@@ -50,7 +51,8 @@ For each step:
 2. **Validate:** [validate-step](references/validate-step.md) — Check correctness
 3. **Test:** [enforce-tests](references/enforce-tests.md) — Ensure coverage
 4. **Review:** [review-diff](references/review-diff.md) — Critical self-review
-5. **Persist:** [persist-plan](references/persist-plan.md) — Update plan status
+5. **Update Repo Map:** [maintain-repo-map](references/maintain-repo-map.md) — Add newly discovered files
+6. **Persist:** [persist-plan](references/persist-plan.md) — Update plan status
 
 ### Phase 4: Reflect
 
@@ -72,7 +74,7 @@ For each step:
 | [enforce-tests](references/enforce-tests.md) | Ensure test coverage | After validation |
 | [review-diff](references/review-diff.md) | Self-review changes | Before completing step |
 | [protect-code](references/protect-code.md) | Prevent accidental deletion | Before modifying files |
-| [maintain-repo-map](references/maintain-repo-map.md) | Track file locations | During planning & execution |
+| [maintain-repo-map](references/maintain-repo-map.md) | Track file locations | After create-plan, after each step |
 | [reflect-after-changes](references/reflect-after-changes.md) | Catch complexity | Every 2-3 steps |
 | [global-reflection](references/global-reflection.md) | Final review | All steps complete |
 
@@ -102,12 +104,12 @@ For each step:
 ## Skill Chain
 
 ```
-require-clarification → create-plan
+require-clarification → create-plan → maintain-repo-map (initial)
                           ↓
-                    execute-step → validate-step → enforce-tests → review-diff → persist-plan
-                          ↑                                                                      |
-                          |                                                                      ↓
-                          └────────────────────── (next step) ←─────────────────────────────────┘
+                    execute-step → validate-step → enforce-tests → review-diff → maintain-repo-map → persist-plan
+                          ↑                                                                                           |
+                          |                                                                                           ↓
+                          └─────────────────────────────────── (next step) ←──────────────────────────────────────────┘
                                                           |
                                                           ↓
                                               reflect-after-changes (every 2-3 steps)

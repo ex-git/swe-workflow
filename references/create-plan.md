@@ -67,6 +67,7 @@ Before marking complete, verify ALL of the following:
 - [ ] Plan file exists at `plans/<feature-name>.md`
 - [ ] File contains: Goal (one sentence), Assumptions (list), Open Questions (empty)
 - [ ] Repo Map populated with discovered files and directories
+- [ ] **Repo Map has at least one entry** in Core Files OR Related Files (empty tables are incomplete)
 - [ ] Each step has: Title, Status (PENDING), Plan bullets, Validation checklist, Test checklist
 - [ ] At least one step exists (most features need 3-10 steps)
 - [ ] Steps are ordered by dependency (earlier steps don't depend on later ones)

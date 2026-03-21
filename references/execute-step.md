@@ -31,23 +31,30 @@ Before starting:
    - Identify files that will be affected
    - Note any dependencies on previous steps
 
-5. **Protect code before changes:**
+5. **Check Repo Map for target files:**
+   - Before implementing, check which files the step will affect
+   - Verify each file is in the Repo Map (Core Files or Related Files)
+   - If a file is NOT in Repo Map → add it first (see [maintain-repo-map](references/maintain-repo-map.md))
+   - This prevents random file scanning and ensures you're working with known files
+
+6. **Protect code before changes:**
    - See protect-code reference for details
    - Take snapshot or note current state of files to be modified
 
-6. **Implement ONLY what this step requires:**
+7. **Implement ONLY what this step requires:**
    - Write the code/config/docs specified
    - Stay within scope — do not touch unrelated files
    - Do not "while I'm here" refactor other code
    - Use `edit` tool for surgical changes, `write` for new files
+   - If you need to access a file not in Repo Map → stop and add it first
 
-7. **Update the Repo Map as you discover files:**
+8. **Update the Repo Map as you discover files:**
+   - See [maintain-repo-map](references/maintain-repo-map.md) for detailed guidelines
    - Check Repo Map before searching for files
-   - Add newly discovered files to appropriate section
+   - Add newly discovered files to appropriate section (Core Files or Related Files)
    - Update file purposes as you learn more
-   - See `references/maintain-repo-map.md` for guidelines
 
-8. **Document what you did:**
+9. **Document what you did:**
    - Fill in **Implementation Notes** — what was done, why, any decisions
    - List all **Files Changed** with exact paths
    - Note any **deviations** from the original plan
@@ -68,11 +75,15 @@ Before starting:
 - Delete code without understanding its purpose
 - Make formatting-only changes to unrelated code
 - Leave debugging statements (console.log, print)
+- Touch files not in Repo Map without adding them first
+- Scan files randomly — check Repo Map first
 
 ## Constraints
 
 - **ONE step at a time** — never batch multiple steps
 - **Do not touch files outside the step's scope**
+- **Do not touch files not in Repo Map** — add them first
+- **Check Repo Map before scanning for files** — prefer known locations over random search
 - **Do not refactor unrelated code** — even if you see issues
 - **Do not implement more than specified** — stay within scope
 - If you discover the step needs to be split: **update the plan first**, then execute the smaller steps
@@ -147,6 +158,7 @@ Before marking step as ready for validation:
 
 - [ ] Code changes are complete
 - [ ] Only files in scope were modified
+- [ ] All modified files were in Repo Map before touching (or added first)
 - [ ] Implementation Notes are filled in
 - [ ] Files Changed list is complete
 - [ ] Any deviations are documented

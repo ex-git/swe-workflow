@@ -129,4 +129,5 @@ Before proceeding to diff review:
 After tests pass:
 
 1. → Proceed to: **review-diff** (critical review of all changes)
-2. → Then: **persist-plan** (mark step COMPLETED in plan)
+2. → Then: **maintain-repo-map** (update file locations discovered)
+3. → Then: **persist-plan** (mark step COMPLETED in plan)

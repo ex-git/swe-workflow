@@ -47,7 +47,8 @@ Use this reference when:
 
 6. **Resume execution:**
    - Continue from the identified step
-   - Follow normal workflow: execute-step → validate-step → enforce-tests → review-diff → persist-plan
+   - Check Repo Map for file locations before starting
+   - Follow normal workflow: execute-step → validate-step → enforce-tests → review-diff → maintain-repo-map → persist-plan
 
 ## Plan Discovery Commands
 

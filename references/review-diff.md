@@ -122,7 +122,8 @@ Before proceeding to persist-plan:
 
 After diff review passes:
 
-1. → Proceed to: **persist-plan** (mark step COMPLETED)
-2. → Then: Check if more steps remain
+1. → Proceed to: **maintain-repo-map** (update file locations)
+2. → Then: **persist-plan** (mark step COMPLETED)
+3. → Then: Check if more steps remain
    - If yes: → **execute-step** (next PENDING step)
    - If no: → **global-reflection** (feature complete)

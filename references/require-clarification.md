@@ -32,9 +32,20 @@ Load this reference when:
    - Ask ONE question at a time — do not overwhelm
    - WAIT for response before proceeding
 
-4. **Once all questions are resolved:**
-   - Summarize your understanding back to the user
-   - Get explicit confirmation before moving to planning
+4. **After receiving an answer, ANALYZE it:**
+   - Does this answer fully resolve the question?
+   - Did it introduce new requirements or change scope?
+   - Did it add details that need clarification themselves?
+   - If the answer changes understanding → update your mental model and check if previous assumptions are still valid
+   - If new ambiguity introduced → ask follow-up question
+   - Only proceed to step 5 when answers are complete and don't generate new questions
+
+5. **Summarize and confirm understanding:**
+   - Summarize your complete understanding back to the user
+   - Include: scope, inputs/outputs, success criteria, key decisions
+   - Explicitly state any assumptions you're making
+   - Ask: "Is this understanding correct? Ready to proceed to planning?"
+   - WAIT for explicit user confirmation before moving to create-plan
 
 ## Mandatory Checklist
 
@@ -44,15 +55,18 @@ Before marking this reference complete, verify:
 - [ ] Inputs and outputs are specified
 - [ ] Success criteria are clear and testable
 - [ ] No assumptions are being made about unclear requirements
-- [ ] User has confirmed your understanding
+- [ ] All answers analyzed for scope changes and new requirements
+- [ ] User has confirmed your understanding explicitly
 
 ## Constraints
 
 - **Never assume missing requirements** — ask instead
 - **Never skip to planning with open questions**
+- **Analyze every answer** — check if it introduces new requirements or changes scope
 - **Read the codebase first** — don't ask questions you can answer yourself
 - If user says "just do it": acknowledge urgency but still flag the top 1-2 risks of ambiguity
 - One question at a time — don't overwhelm the user
+- **Must get explicit confirmation** — no confirmation = no plan
 
 ## Red Flags — You're Skipping This Phase
 
@@ -60,6 +74,9 @@ Before marking this reference complete, verify:
 - Saying "I'll assume X" for anything non-trivial
 - Jumping straight to code after reading a one-line request
 - Not reading the codebase before asking clarifying questions
+- Treating "user answered my question" as "all questions resolved"
+- Not analyzing whether an answer introduces new requirements or changes scope
+- Proceeding to create-plan without explicit user confirmation
 
 ## Next Step
 

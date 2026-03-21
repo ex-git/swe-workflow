@@ -114,4 +114,5 @@ After validation passes:
 
 1. → Proceed to: **enforce-tests** (write/run tests)
 2. → Then: **review-diff** (review your changes critically)
-3. → Then: **persist-plan** (mark step COMPLETED)
+3. → Then: **maintain-repo-map** (update file locations)
+4. → Then: **persist-plan** (mark step COMPLETED)
