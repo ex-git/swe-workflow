@@ -1,26 +1,5 @@
 # Require Clarification
 
-## ⚠️ THIS IS THE FIRST STEP
-
-**Before any planning, before any coding, you MUST clarify the request.**
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  USER REQUEST RECEIVED                                          │
-│         ↓                                                       │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │  STOP. Do NOT start coding.                               │  │
-│  │  STOP. Do NOT start planning.                             │  │
-│  │                                                           │  │
-│  │  INVOKE require-clarification FIRST                       │  │
-│  │  → Ask questions                                          │  │
-│  │  → Understand scope, inputs, outputs, success criteria    │  │
-│  │  → Get user confirmation                                  │  │
-│  │  → ONLY THEN proceed to create-plan                       │  │
-│  └───────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
 ## Overview
 
 Ensure the request is fully understood before any planning or coding begins. Ambiguity caught here saves hours of wasted work later.
@@ -28,7 +7,7 @@ Ensure the request is fully understood before any planning or coding begins. Amb
 ## When to Use
 
 Load this reference when:
-- **Receiving ANY new task or feature request** (this is the first step)
+- Receiving any new task or feature request
 - The request seems vague or underspecified
 - You're tempted to start coding immediately
 - Multiple interpretations are possible
@@ -114,89 +93,16 @@ Before marking this reference complete, verify:
 
 ## Red Flags — You're Skipping This Phase
 
-If you catch yourself doing any of these, STOP and go back to clarification:
-
-| Red Flag | Correct Action |
-|----------|----------------|
-| Starting to write a plan without understanding full scope | Ask clarifying questions first |
-| Saying "I'll assume X" for anything non-trivial | Ask instead of assuming |
-| Jumping straight to code after reading a one-line request | Read codebase, then ask questions |
-| Not reading the codebase before asking questions | Read codebase first to understand context |
-| Treating "user answered my question" as "all questions resolved" | Analyze if answer introduces new questions |
-| Proceeding to create-plan without explicit user confirmation | Get explicit "yes, proceed" first |
-
-## Wrong vs Right
-
-### ❌ WRONG: Skipping Clarification
-
-```
-User: "Remove the Slack Integration tab and move auto-replier to Listeners"
-
-Agent: "I'll create a quick plan and start implementing:
-       # Plan: Remove Slack Integration Tab
-       ## Steps
-       1. Remove nav item
-       2. Delete page
-       3. Add to listeners
-       [starts coding...]"
-```
-
-**Problems:**
-- No clarification
-- No scope understanding
-- No success criteria
-- Will likely miss edge cases
-
-### ✓ RIGHT: Clarifying First
-
-```
-User: "Remove the Slack Integration tab and move auto-replier to Listeners"
-
-Agent: "Before I plan this, I need to clarify a few things:
-
-       1. What about the Channel Digest feature that's currently on the Slack tab?
-          a) Remove it entirely
-          b) Move it somewhere else (where?)
-          c) Keep it but different UI
-
-       2. For auto-replier, should it work the same way for Slack and Google Chat?
-          - Same rules UI? Separate configuration per platform?
-
-       3. The Task Listener redirect functionality - should that be removed too?"
-
-[Wait for user response, then summarize understanding and get confirmation]
-```
-
-## Common Questions to Ask
-
-### For Feature Changes
-- What should happen to existing data/configurations?
-- Is this backwards compatible?
-- What's the migration path?
-- Are there related features that need updating?
-
-### For Refactoring
-- What's the desired end state?
-- Are there parts that should NOT change?
-- Is this incremental or one-shot?
-- What tests need to pass?
-
-### For Bug Fixes
-- What's the expected vs actual behavior?
-- When did it start happening?
-- Are there workarounds in place?
-- What's the impact severity?
-
-### For New Features
-- What triggers the feature?
-- What are the inputs and outputs?
-- Are there permission/auth requirements?
-- What happens on error?
+- Starting to write a plan without understanding the full scope
+- Saying "I'll assume X" for anything non-trivial
+- Jumping straight to code after reading a one-line request
+- Not reading the codebase before asking clarifying questions
+- Treating "user answered my question" as "all questions resolved"
+- Not analyzing whether an answer introduces new requirements or changes scope
+- Proceeding to create-plan without explicit user confirmation
 
 ## Next Step
 
 → Proceed to: **create-plan** (break down into structured steps)
 
 **Only proceed when:** All questions are resolved and user has confirmed your understanding.
-
-**DO NOT proceed if:** You still have open questions or haven't gotten explicit confirmation.
