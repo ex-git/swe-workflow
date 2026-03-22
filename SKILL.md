@@ -3,13 +3,47 @@ name: swe-workflow
 description: A structured development workflow for coding agents. Use when starting a new feature, working on multi-step tasks, or when you need planning, validation, and quality checks. Follow Understand → Plan → Execute → Reflect phases with built-in safeguards against scope creep and incomplete implementations.
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
   author: "Evan Xu"
 ---
 
 # SWE Workflow
 
 A structured development workflow for coding agents — compatible with Pi, Claude Code, and Cursor.
+
+## ⚠️ MANDATORY: Invoke This Skill First
+
+**DO NOT create ad-hoc plans. DO NOT start writing code directly.**
+
+When starting ANY new feature or multi-step task, you MUST follow this workflow:
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│  NEW TASK RECEIVED                                             │
+│         ↓                                                      │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  STOP. Do NOT start writing code.                       │  │
+│  │  STOP. Do NOT create your own plan format.              │  │
+│  │                                                          │  │
+│  │  INVOKE THIS SKILL:                                      │  │
+│  │  1. require-clarification → ask questions first         │  │
+│  │  2. create-plan → use THIS skill's plan template        │  │
+│  │  3. execute-step → one step at a time                   │  │
+│  └─────────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────────┘
+```
+
+### Recognizing a Task Requires This Workflow
+
+Use this workflow when:
+- User asks to implement a feature
+- User asks to refactor code
+- User asks to fix a bug (complex, not trivial)
+- User asks to add functionality
+- Task involves modifying multiple files
+- Task will take multiple steps
+
+**Do NOT skip to implementation. Always start with require-clarification.**
 
 ## Quick Start
 
@@ -39,7 +73,7 @@ plans/
 
 ## Workflow Phases
 
-### Phase 1: Understand
+### Phase 1: Understand (MANDATORY FIRST)
 
 **Goal:** Ensure the request is fully understood before any work begins.
 
@@ -47,6 +81,8 @@ plans/
 2. Analyze scope, inputs, outputs, success criteria
 3. Ask targeted questions if ambiguous
 4. Get user confirmation before proceeding
+
+**DO NOT skip this phase. Even if requirements seem clear, verify understanding.**
 
 ### Phase 2: Plan
 
@@ -58,6 +94,8 @@ plans/
 4. Break work into small, ordered steps (5-15 min each)
 5. Save plan to `plans/<feature-name>.md`
 6. Populate repo-map.md with files discovered during exploration
+
+**DO NOT create your own plan format. Use the template.**
 
 ### Phase 3: Execute
 
@@ -72,6 +110,8 @@ For each step:
 5. **Update Repo Map:** [maintain-repo-map](references/maintain-repo-map.md) — Add newly discovered files
 6. **Persist:** [persist-plan](references/persist-plan.md) — Update plan status and dump context
 
+**DO NOT batch multiple steps. One step at a time.**
+
 ### Phase 4: Reflect
 
 **Goal:** Catch issues before they compound.
@@ -83,7 +123,7 @@ For each step:
 
 | Reference | Purpose | When to Use |
 |-----------|---------|-------------|
-| [require-clarification](references/require-clarification.md) | Clarify ambiguous requests | Before any planning |
+| [require-clarification](references/require-clarification.md) | Clarify ambiguous requests | **BEFORE any planning** |
 | [create-plan](references/create-plan.md) | Create structured plan | After clarification |
 | [resume-workflow](references/resume-workflow.md) | Resume existing work | New session, context switch |
 | [execute-step](references/execute-step.md) | Implement one step | Ready to code |
@@ -122,6 +162,62 @@ For each step:
 | **Repo map update** | **Lost file context, redundant searches** |
 | Context dump | Lost session progress |
 | Reflection | Accumulating complexity |
+
+## The Wrong Way vs The Right Way
+
+### ❌ WRONG: Ad-hoc Planning
+
+```markdown
+# Plan: Remove Slack Integration Tab
+
+## Goal
+Remove the tab and move features...
+
+## Files to Modify
+- [ ] file1.ts
+- [ ] file2.ts
+
+## Steps
+### Step 1: Remove from navigation
+- Do X, Y, Z
+
+[Agent starts coding immediately...]
+```
+
+**Problems:**
+- No clarification phase
+- No structured template
+- No repo map
+- Steps too large
+- No validation gates
+- No context preservation
+
+### ✓ RIGHT: This Workflow
+
+```
+1. require-clarification
+   → "I see you want to remove the Slack tab. Before planning, I need to clarify..."
+   → Ask about: backward compatibility, migration strategy, etc.
+
+2. create-plan
+   → Use plan-template.md
+   → Create plans/remove-slack-tab.md
+   → Create plans/repo-map.md
+   → Break into small steps (5-15 min each)
+   → Each step has: prerequisites, deliverables, validation, tests
+
+3. execute-step (one step at a time)
+   → Mark IN_PROGRESS
+   → Implement
+   → validate-step (including repo map sync check)
+   → enforce-tests
+   → review-diff
+   → persist-plan (mark COMPLETED, dump context)
+   → Next step
+
+4. [Every 2-3 steps] reflect-after-changes
+5. [All done] global-reflection
+```
 
 ## Skill Chain
 
