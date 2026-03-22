@@ -3,7 +3,7 @@ name: swe-workflow
 description: A structured development workflow for coding agents. Use when starting a new feature, working on multi-step tasks, or when you need planning, validation, and quality checks. Follow Understand → Plan → Execute → Reflect phases with built-in safeguards against scope creep and incomplete implementations.
 license: MIT
 metadata:
-  version: "1.0.5"
+  version: "1.1.0"
   author: "Evan Xu"
 ---
 
@@ -20,6 +20,23 @@ A structured development workflow for coding agents — compatible with Pi, Clau
 | Resume existing work | [resume-workflow](references/resume-workflow.md) |
 | Execute plan step | [execute-step](references/execute-step.md) |
 
+## File Structure
+
+The workflow uses three files to manage context:
+
+```
+plans/
+├── repo-map.md      # Project-wide file inventory (shared across all plans)
+├── context.md       # Current session state (overwritten each pause)
+└── <task>.md        # Task-specific plan and progress (one per feature)
+```
+
+| File | Scope | When Updated | Purpose |
+|------|-------|--------------|---------|
+| `repo-map.md` | Project | Whenever files discovered | Navigation, context preservation |
+| `context.md` | Session | Before each pause/work complete | Resume capability |
+| `<task>.md` | Task | After each step | Task tracking and progress |
+
 ## Workflow Phases
 
 ### Phase 1: Understand
@@ -33,13 +50,14 @@ A structured development workflow for coding agents — compatible with Pi, Clau
 
 ### Phase 2: Plan
 
-**Goal:** Create a structured plan file as single source of truth.
+**Goal:** Create structured plan files as single source of truth.
 
 1. Read [create-plan](references/create-plan.md)
-2. Use [assets/plan-template.md](assets/plan-template.md) for structure
-3. Break work into small, ordered steps (5-15 min each)
-4. Save to `plans/<feature-name>.md`
-5. Initialize Repo Map: [maintain-repo-map](references/maintain-repo-map.md) — Populate with files discovered during exploration
+2. Use [assets/plan-template.md](assets/plan-template.md) for plan structure
+3. Initialize [assets/repo-map-template.md](assets/repo-map-template.md) in `plans/repo-map.md`
+4. Break work into small, ordered steps (5-15 min each)
+5. Save plan to `plans/<feature-name>.md`
+6. Populate repo-map.md with files discovered during exploration
 
 ### Phase 3: Execute
 
@@ -52,7 +70,7 @@ For each step:
 3. **Test:** [enforce-tests](references/enforce-tests.md) — Ensure coverage
 4. **Review:** [review-diff](references/review-diff.md) — Critical self-review
 5. **Update Repo Map:** [maintain-repo-map](references/maintain-repo-map.md) — Add newly discovered files
-6. **Persist:** [persist-plan](references/persist-plan.md) — Update plan status
+6. **Persist:** [persist-plan](references/persist-plan.md) — Update plan status and dump context
 
 ### Phase 4: Reflect
 
@@ -70,6 +88,7 @@ For each step:
 | [resume-workflow](references/resume-workflow.md) | Resume existing work | New session, context switch |
 | [execute-step](references/execute-step.md) | Implement one step | Ready to code |
 | [persist-plan](references/persist-plan.md) | Update plan status | After any progress |
+| [dump-context](references/dump-context.md) | Save session state | Before asking user, after steps |
 | [validate-step](references/validate-step.md) | Verify correctness | After implementation |
 | [enforce-tests](references/enforce-tests.md) | Ensure test coverage | After validation |
 | [review-diff](references/review-diff.md) | Self-review changes | Before completing step |
@@ -89,6 +108,7 @@ For each step:
 | Clarification has open questions | Run require-clarification |
 | Step validation failed | Fix issues first |
 | Tests not written/run | Run enforce-tests |
+| **Repo map not synchronized** | **Update plans/repo-map.md first** |
 
 **Do NOT skip:**
 
@@ -99,6 +119,8 @@ For each step:
 | Validation | Bugs, incomplete implementations |
 | Testing | No coverage, future breakage |
 | Diff review | Artifacts, scope creep |
+| **Repo map update** | **Lost file context, redundant searches** |
+| Context dump | Lost session progress |
 | Reflection | Accumulating complexity |
 
 ## Skill Chain
@@ -115,54 +137,70 @@ require-clarification → create-plan → maintain-repo-map (initial)
                                               reflect-after-changes (every 2-3 steps)
                                                           |
                                                           ↓
+                                              dump-context (before asking user)
+                                                          |
+                                                          ↓
                                               global-reflection (when all done)
 ```
+
+## Context Preservation
+
+### Why Dump Context?
+
+When an agent pauses to ask the user "Should I continue?", it should preserve session state:
+
+- **Resume seamlessly** — Next session picks up exactly where stopped
+- **No memory loss** — All decisions, discoveries, and progress preserved
+- **Better handoffs** — Another agent can understand current state
+
+### When to Dump Context
+
+- Before asking "Should I continue?"
+- After completing 2-3 steps
+- When significant decisions have been made
+- Before ending a session
+
+### Context File Contents
+
+| Section | Purpose |
+|---------|---------|
+| Current Task | What we're working on |
+| Completed Steps | What's done and files changed |
+| Current Step | Progress, decisions, active files |
+| Key Learnings | Gotchas, patterns, warnings |
+| Open Questions | Waiting for user input |
+| Next Actions | Ordered next steps |
+
+See [dump-context](references/dump-context.md) for full guidelines.
+
+## Repo Map
+
+### Why Separate Repo Map?
+
+The repo map is a project-wide file (`plans/repo-map.md`) separate from individual plans:
+
+- **Single source of truth** — All plans reference the same file inventory
+- **Accumulates knowledge** — Patterns and conventions discovered in one task benefit future tasks
+- **Reduces duplication** — Update once, all plans benefit
+- **Prevents repeated searches** — Know where files are without re-exploring
+
+### What's Tracked
+
+| Section | Content |
+|---------|---------|
+| Core Files | Files directly modified |
+| Related Files | Files referenced for context |
+| Key Directories | Important project directories |
+| Architecture Notes | Patterns, conventions, dependencies |
+| Task History | Which tasks touched which files |
+
+See [maintain-repo-map](references/maintain-repo-map.md) for full guidelines.
 
 ## Templates
 
 - **Plan Template:** [assets/plan-template.md](assets/plan-template.md)
-
-## Plan File Structure
-
-All plans saved to `plans/<feature-name>.md` with this structure:
-
-```markdown
-# Plan: [Feature Name]
-
-> Status: DRAFT | IN_PROGRESS | COMPLETED
-
-## Goal
-[One sentence]
-
-## Assumptions
-- [List assumptions]
-
-## Context & Learnings
-### Key Decisions
-- [Decision]: [Rationale]
-### Gotchas & Warnings
-- [Warning]: [What to watch out for]
-### Patterns & Conventions
-- [Pattern]: [Description]
-
-## Repo Map
-### Core Files
-| Path | Purpose | Last Updated |
-### Related Files
-| Path | Why Relevant | Last Updated |
-### Key Directories
-| Path | Contents | Last Updated |
-
-## Steps
-
-### Step 1: [Title]
-**Status:** PENDING
-**Prerequisites:** [What must be true before starting]
-**Deliverables:** [What this step produces]
-**Plan:** [Bullet list of actions]
-**Validation Checklist:** [How to verify]
-**Test Checklist:** [Test cases]
-```
+- **Repo Map Template:** [assets/repo-map-template.md](assets/repo-map-template.md)
+- **Context Template:** [assets/context-template.md](assets/context-template.md)
 
 ## Status Values
 
@@ -179,7 +217,10 @@ All plans saved to `plans/<feature-name>.md` with this structure:
 - **Stay in scope** — Do not touch files outside the step's scope
 - **Trust the plan** — Do not redo completed steps
 - **Persist reality** — Keep plan file accurate at all times
+- **Maintain repo map** — All touched files MUST be in `plans/repo-map.md`
+- **Dump context** — Save session state before asking user to continue
 - **Validate before complete** — No step passes with known issues
+- **No step passes without repo map sync** — Verify all files are tracked
 
 ## Session Management
 
@@ -193,22 +234,30 @@ Consider starting a fresh session per step when:
 
 ### How Context Persists
 
-The plan file preserves all necessary context between sessions:
-
-| Section | What It Captures |
-|---------|------------------|
-| **Context & Learnings** | Decisions, gotchas, patterns discovered |
-| **Repo Map** | File locations and purposes |
-| **Implementation Notes** | What was done in each step |
-| **Implementation Log** | Chronological summary of progress |
+| File | What It Captures | Lifetime |
+|------|------------------|----------|
+| `context.md` | Current session state | Overwritten each pause |
+| `<task>.md` | Task definition, all steps | Task lifetime |
+| `repo-map.md` | All discovered files | Project lifetime |
 
 ### Starting Fresh
 
-1. Ensure plan is up-to-date (persist-plan after each step)
-2. Update Context & Learnings with any new discoveries
-3. Update Repo Map with any new files
-4. End session with clear Implementation Notes
-5. New session: run resume-workflow
+1. **Read `plans/context.md`** (MANDATORY if exists) — quick state overview
+2. **Read `plans/<task>.md`** (MANDATORY) — full task details and progress
+3. **Read `plans/repo-map.md`** (MANDATORY) — file locations and patterns
+4. Resume from the identified step
+
+### Mandatory Resume Checklist
+
+| Step | Action | Why |
+|------|--------|-----|
+| 1 | Read context.md | Know where work stopped |
+| 2 | Read plan file | Know full task scope |
+| 3 | Read repo-map.md | Know where files are |
+| 4 | Verify completed steps | Don't redo work |
+| 5 | Identify current step | Know what to do next |
+| 6 | Capture decisions/learnings | Don't re-litigate |
+| 7 | Note file locations | Don't search for known files |
 
 ### Why This Works
 
@@ -216,3 +265,5 @@ The plan file preserves all necessary context between sessions:
 - **Preserved learnings**: Context & Learnings capture decisions, not just actions
 - **Fresh context**: New session = no accumulated confusion
 - **Plan-driven**: Agent reads plan to understand state, not memory
+- **Per-file persistence**: repo-map.md survives across tasks, context.md preserves sessions
+- **Mandatory reads**: Three-file check ensures no forgotten context

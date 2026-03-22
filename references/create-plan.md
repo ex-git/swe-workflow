@@ -36,28 +36,40 @@ Before starting:
    - **Deliverables:** What this step produces (files created/modified, functions added, tests passing)
    - This makes steps self-contained and enables new sessions to pick up any step
 
-5. **Read the plan template:**
+6. **Read the plan template:**
    - Use `read` tool on: `assets/plan-template.md` (relative to this skill's directory)
    - Understand the required structure before writing
 
-6. **Create the plans directory if needed:**
+7. **Create the plans directory if needed:**
    - Run: `mkdir -p plans/`
 
-7. **Derive the plan filename:**
+8. **Initialize repo-map.md if it doesn't exist:**
+   - Check if `plans/repo-map.md` exists
+   - If not, read the template: `assets/repo-map-template.md` (relative to this skill's directory)
+   - Create `plans/repo-map.md` using the template structure
+   - This file persists across all plans and is shared for the entire project
+
+9. **Derive the plan filename:**
    - Use kebab-case derived from the feature description
    - Examples:
      - "Add user authentication" → `plans/add-user-authentication.md`
      - "Fix memory leak in cache" → `plans/fix-memory-leak-in-cache.md`
      - "Refactor API handlers" → `plans/refactor-api-handlers.md`
 
-8. **Write the plan file:**
+10. **Write the plan file:**
    - Use the `write` tool to create `plans/<feature-name>.md`
    - Follow the template structure exactly
-   - Populate the Repo Map with files discovered during exploration
+   - For Repo Map: include quick reference table only, full map is in `plans/repo-map.md`
 
-9. **Verify the plan was created:**
+11. **Update repo-map.md with discovered files:**
+   - Add files discovered during exploration
+   - See `references/maintain-repo-map.md` for guidelines
+   - This is a project-wide file that accumulates knowledge across tasks
+
+12. **Verify the plan was created:**
    - Use `read` tool to confirm the file exists and has correct structure
-   - Ensure all sections are present: Goal, Assumptions, Repo Map, Steps
+   - Ensure all sections are present: Goal, Assumptions, Steps
+   - Verify `plans/repo-map.md` exists
 
 ## Step Sizing Guide
 
@@ -72,18 +84,32 @@ Before marking complete, verify ALL of the following:
 - [ ] Plan file exists at `plans/<feature-name>.md`
 - [ ] File contains: Goal (one sentence), Assumptions (list), Open Questions (empty)
 - [ ] Context & Learnings section initialized (even if empty)
-- [ ] Repo Map populated with discovered files and directories
-- [ ] **Repo Map has at least one entry** in Core Files OR Related Files (empty tables are incomplete)
+- [ ] Quick Reference table in plan includes key files
+- [ ] `plans/repo-map.md` exists with at least one entry
 - [ ] Each step has: Title, Status (PENDING), Prerequisites, Deliverables, Plan bullets, Validation checklist, Test checklist
 - [ ] At least one step exists (most features need 3-10 steps)
 - [ ] Steps are ordered by dependency (earlier steps don't depend on later ones)
 - [ ] No code has been written yet
+
+## File Structure
+
+```
+plans/
+├── repo-map.md           # Project-wide file map (shared across all plans)
+├── context.md            # Current session context (created on pause/resume)
+└── <feature-name>.md     # Individual plan for this task
+```
+
+- **repo-map.md**: One file per project, accumulates file knowledge across all tasks
+- **context.md**: One file per project, overwritten each session, preserves current work state
+- **plan files**: One file per task/feature, contains steps and task-specific context
 
 ## Constraints
 
 - **Do NOT write any code** in this phase — plans only
 - **Do NOT skip directly to implementation** — the plan must exist first
 - **Do NOT proceed without reading the template** — use the template structure
+- **Do NOT embed repo map in plan** — use repo-map.md for all files
 - Steps must be small enough to validate individually
 - If you can't break it into steps, the scope is too vague — go back to clarification
 

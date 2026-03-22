@@ -40,31 +40,14 @@
 
 - [Pattern]: [Description]
 
-## Repo Map
+## Repo Map Reference
 
-> File locations discovered during planning and execution. Update as you learn.
-> See `references/maintain-repo-map.md` for guidelines.
+> Project-wide file map maintained separately. See `plans/repo-map.md` for all discovered files.
 
-### Core Files
-
-> Files directly modified by this task.
-
-| Path | Purpose | Last Updated |
-|------|---------|--------------|
-
-### Related Files
-
-> Files that may need updates or are referenced during implementation.
-
-| Path | Why Relevant | Last Updated |
-|------|--------------|--------------|
-
-### Key Directories
-
-> Important directories for understanding project structure.
-
-| Path | Contents | Last Updated |
-|------|----------|--------------|
+### Quick Reference
+| Path | Purpose | Status |
+|------|---------|--------|
+| [key file] | [why important] | [new/modified/referenced] |
 
 ---
 
@@ -154,3 +137,8 @@
 | Step | Reason | Date Blocked |
 |------|--------|--------------|
 | [Step N] | [Why it's blocked] | [YYYY-MM-DD] |
+
+---
+
+*File locations tracked in: plans/repo-map.md*
+*Session context tracked in: plans/context.md*

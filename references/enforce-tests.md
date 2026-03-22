@@ -124,10 +124,27 @@ Before proceeding to diff review:
 - [ ] Test Checklist items checked off in plan
 - [ ] (If no framework) Manual verification documented
 
+## Test Files and Repo Map
+
+**Don't forget:** Any test files you create or modify must be added to the repo map.
+
+When writing tests:
+1. Note which test files you create/modify
+2. These are Core Files (test files are part of the implementation)
+3. Add them to `plans/repo-map.md` under Core Files
+4. Purpose: "Tests for [feature/functionality]"
+
+Example:
+```markdown
+| Path | Purpose | Task | Last Updated |
+|------|---------|------|--------------|
+| tests/auth/login.test.ts | Tests for login validation | add-user-auth | 2024-01-15 |
+```
+
 ## Next Steps
 
 After tests pass:
 
 1. → Proceed to: **review-diff** (critical review of all changes)
-2. → Then: **maintain-repo-map** (update file locations discovered)
+2. → Then: **maintain-repo-map** (update file locations discovered — including test files)
 3. → Then: **persist-plan** (mark step COMPLETED in plan)
