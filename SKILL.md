@@ -1,15 +1,35 @@
 ---
 name: swe-workflow
-description: A structured development workflow for coding agents. Use when starting a new feature, working on multi-step tasks, or when you need planning, validation, and quality checks. Follow Understand → Plan → Execute → Reflect phases with built-in safeguards against scope creep and incomplete implementations.
+description: Structured workflow for complex coding tasks requiring planning and coordination. Use ONLY when task involves multiple interdependent files, has ambiguous scope needing clarification, or requires explicit upfront planning. Do NOT use for single-file edits, quick fixes, simple refactors, debugging, or when requirements are already clear.
 license: MIT
 metadata:
-  version: "1.2.0"
+  version: "1.2.1"
   author: "Evan Xu"
 ---
 
 # SWE Workflow
 
 A structured development workflow for coding agents — compatible with Pi, Claude Code, and Cursor.
+
+## ⚠️ When NOT to Use This Skill
+
+**Skip this workflow entirely when:**
+
+| Skip If... | Why |
+|------------|-----|
+| Task is a single straightforward edit | No coordination needed |
+| Requirements are clear and unambiguous | No clarification phase needed |
+| Task takes <5 minutes without planning | Overhead exceeds benefit |
+| You're answering questions or explaining code | No implementation needed |
+| User says "quick fix" or "just change X" | Explicit simple request |
+| Fixing a bug with known cause | Direct implementation suffices |
+
+**Decision test:** Ask yourself:
+1. Does this require tracking state across multiple files?
+2. Would I benefit from writing down a plan before starting?
+3. Is the scope unclear enough to need clarification?
+
+If **all answers are "no"** → work directly, don't use this workflow.
 
 ## Quick Start
 
