@@ -81,6 +81,39 @@ Before marking this reference complete, verify:
 - [ ] All answers analyzed for scope changes and new requirements
 - [ ] User has confirmed your understanding explicitly
 
+## Handling Partial Answers
+
+When you ask multiple questions and the user only answers some of them:
+
+| Situation | Wrong Response | Correct Response |
+|-----------|----------------|------------------|
+| User answered 2 of 4 questions | Assume answers for unanswered questions | Re-ask the unanswered questions |
+| User gave vague answer | Interpret what they meant | Ask for clarification |
+| User said "figure it out" | Make assumptions | Provide options and ask which to use |
+| User skipped a question entirely | Proceed without that answer | Explicitly ask that question again |
+
+**Example:**
+
+```
+Agent: "I need to clarify a few things:
+       1. What should happen to Channel Digest?
+       2. Should auto-replier work the same for Slack and Google Chat?
+       3. What about Task Listener?"
+
+User: "Channel Digest should be removed. Auto-replier same behavior."
+
+Agent: "Got it. Two clarifications:
+       1. Channel Digest → remove ✓
+       2. Auto-replier → same behavior ✓
+       
+       You didn't mention Task Listener - what should happen to it?
+       a) Remove entirely
+       b) Move somewhere else
+       c) Keep as-is"
+```
+
+**DO NOT proceed until ALL questions are answered.**
+
 ## Constraints
 
 - **Never assume missing requirements** — ask instead
@@ -100,6 +133,8 @@ Before marking this reference complete, verify:
 - Treating "user answered my question" as "all questions resolved"
 - Not analyzing whether an answer introduces new requirements or changes scope
 - Proceeding to create-plan without explicit user confirmation
+- **Assuming answers for questions the user didn't answer**
+- **Crossing out questions because user didn't mention them**
 
 ## Next Step
 
