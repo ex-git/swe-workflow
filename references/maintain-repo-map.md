@@ -277,4 +277,4 @@ From the step's Files Changed section:
      - If missing → FAIL, must add
 ```
 
-This verification is enforced in validate-step and persist-plan.
+This verification is enforced in verify-step and persist-plan.

@@ -43,26 +43,9 @@ Additionally, when pausing to ask the user if work should continue, dump context
 
 ### Repo Map Sync Verification
 
-**Before marking COMPLETED, verify repo map synchronization:**
+Before marking a step COMPLETED, verify every file in the step's `Files Changed` is tracked in `plans/repo-map.md` (Core Files if modified, Related Files if only read). If anything is missing, add it first — do not mark the step COMPLETED with a stale repo map.
 
-```bash
-# Read the step's Files Changed section
-# Compare against plans/repo-map.md
-
-For each file in step's Files Changed:
-  IF file is new → must be added to repo map
-  IF file was modified → must be in Core Files
-  IF file was read/reference only → must be in Related Files
-  IF file directory is new → must be in Key Directories
-```
-
-If any file is missing from repo map:
-1. STOP - do not mark as COMPLETED
-2. Add missing files to `plans/repo-map.md`
-3. Update Purpose/Why Relevant for each
-4. Update Last Updated date
-5. Re-read repo map to confirm
-6. Then proceed to complete the step
+Full procedure and checklist: [maintain-repo-map](maintain-repo-map.md#verification-checklist).
 
 ### After Blocking a Step (BLOCKED):
 
@@ -91,12 +74,7 @@ If you need to add/modify/remove steps mid-execution:
 
 ## Status Values
 
-| Status | Meaning | Next Action |
-|--------|---------|-------------|
-| PENDING | Not started | Wait until earlier steps complete |
-| IN_PROGRESS | Currently being worked on | Complete or block the step |
-| COMPLETED | Done, validated, tested | Move to next PENDING step |
-| BLOCKED | Cannot proceed | Document reason, try next step |
+See the Status Values table in [SKILL.md](../SKILL.md#status-values).
 
 ## Example Edit
 
@@ -187,21 +165,6 @@ After completion:
 
 **The repo map is the navigation system. Without it, the agent is lost.**
 
-## File Relationships
-
-```
-plans/
-├── repo-map.md      ← Project-wide file inventory
-├── context.md       ← Current session state (overwritten each pause)
-└── <task>.md        ← Task-specific plan and progress
-```
-
-| File | Scope | Updates | Purpose |
-|------|-------|---------|---------|
-| repo-map.md | Project | Whenever files discovered | Navigation, context |
-| context.md | Session | Before each pause | Resume capability |
-| <task>.md | Task | After each step | Task tracking |
-
 ## Next Step
 
 After persisting:
@@ -219,7 +182,7 @@ After persisting, briefly remind the user of remaining work:
 > "Continuing with Step X of Y. We have N steps remaining after this one."
 
 **After completing a step (COMPLETED):**
-> "Step X complete. Repo map syncronized. Steps remaining: [list brief descriptions]. Context saved. Ready for Step Y?"
+> "Step X complete. Repo map synchronized. Steps remaining: [list brief descriptions]. Context saved. Ready for Step Y?"
 
 **When blocked:**
 > "Step X is blocked: [reason]. Skipping to Step Y. [Or: No more steps can proceed.]"

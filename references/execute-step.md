@@ -37,9 +37,29 @@ Before starting:
    - If a file is NOT in Repo Map → add it first (see [maintain-repo-map](references/maintain-repo-map.md))
    - This prevents random file scanning and ensures you're working with known files
 
-6. **Protect code before changes:**
-   - See protect-code reference for details
-   - Take snapshot or note current state of files to be modified
+6. **Protect code before changes** (safety net against accidental overwrites):
+
+   Choose one strategy, in order of preference:
+
+   - **Git (preferred):** commit or stash the current state so you can `git diff` and roll back:
+     ```bash
+     git add -A && git commit -m "WIP: before step N"   # checkpoint
+     # or
+     git add -A && git stash push -m "before step N"
+     ```
+   - **Copy snapshot:** if git isn't available, copy files you'll modify into `snapshots/step-N/`.
+   - **Read and note:** as a last resort, `read` the file and keep content in context.
+
+   **Rules of thumb:**
+
+   | Change size | Tool to use |
+   |---|---|
+   | 1–20 lines | `edit` tool (surgical) |
+   | 21+ lines in an existing file | `edit` with multiple entries; only `write` after verifying against snapshot |
+   | New file | `write` tool |
+   | Delete file | Verify it's in the plan, then delete |
+
+   **Never use `write` to "edit" an existing file** — you'll lose anything not in your new version. Prefer surgical edits.
 
 7. **Implement ONLY what this step requires:**
    - Write the code/config/docs specified
@@ -226,8 +246,8 @@ Before marking step as ready for validation:
 
 After implementation:
 
-1. → Proceed to: **validate-step** (verify correctness)
-2. → Then: **enforce-tests** (write/run tests)
-3. → Then: **review-diff** (review your changes)
-4. → Then: **persist-plan** (mark COMPLETED)
-5. → Then: **execute-step** (next PENDING step) or **global-reflection** (if all done)
+1. → Proceed to: **verify-step** (validate + test + review-diff in one gate)
+2. → Then: **persist-plan** (mark COMPLETED)
+3. → Then: **execute-step** (next PENDING step) or **global-reflection** (if all done)
+
+After `verify-step` passes, compare final diff against the snapshot from step 6. If unrelated code was modified or deleted, restore from the snapshot and re-implement with smaller edits.
