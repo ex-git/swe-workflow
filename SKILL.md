@@ -1,38 +1,73 @@
 ---
 name: swe-workflow
-description: Structured workflow for complex coding tasks requiring planning and coordination. Use ONLY when task involves multiple interdependent files, has ambiguous scope needing clarification, or requires explicit upfront planning. Do NOT use for single-file edits, quick fixes, simple refactors, debugging, or when requirements are already clear.
+description: Behavioral guards for all code-related tasks, plus a structured planning workflow for complex coding tasks. Always apply the Behavioral Guards when writing, reviewing, debugging, or refactoring code. Use the full plan-file workflow only when the task involves multiple interdependent files, ambiguous scope needing clarification, or explicit upfront planning.
 license: MIT
 metadata:
-  version: "1.3.0"
+  version: "1.3.1"
   author: "Evan Xu"
 ---
 
 # SWE Workflow
 
-A structured development workflow for coding agents — compatible with Pi, Claude Code, Cursor, Codex, Gemini, and other agents supporting the Agent Skills spec.
+Behavioral guards for all code-related tasks, plus a structured development workflow for complex coding tasks — compatible with Pi, Claude Code, Cursor, Codex, Gemini, and other agents supporting the Agent Skills spec.
 
-> No code without a plan. One step at a time. Every step validated and tested.
+> Apply the Behavioral Guards to every coding task. Use plan files only when the task is large or ambiguous.
 
-## ⚠️ When NOT to Use This Skill
+## Operating Modes
 
-Skip this workflow entirely when any of these are true:
+| Mode | Use when | Required behavior |
+|---|---|---|
+| **Lightweight mode** | Simple edits, quick fixes, clear debugging, small refactors, code review/explanation | Apply Behavioral Guards; work directly without plan files |
+| **Full workflow mode** | Multiple interdependent files, ambiguous scope, explicit upfront planning, or work that benefits from resumable state | Apply Behavioral Guards + require clarification, create plan files, execute one verified step at a time |
 
-| Skip if... | Why |
-|---|---|
-| Task is a single straightforward edit | No coordination needed |
-| Requirements are clear and unambiguous | No clarification phase needed |
-| Task takes <5 minutes without planning | Overhead exceeds benefit |
-| You're answering questions or explaining code | No implementation needed |
-| User says "quick fix" or "just change X" | Explicit simple request |
-| Fixing a bug with known cause | Direct implementation suffices |
-
-**Decision test:** if the answer to all three is "no", work directly and don't use this skill.
+**Full workflow decision test:** use full workflow mode if any answer is "yes":
 
 1. Does this require tracking state across multiple files?
 2. Would I benefit from writing down a plan before starting?
 3. Is the scope unclear enough to need clarification?
 
-## Quick Start
+If all three are "no", stay in lightweight mode. Do **not** create `plans/` files just to satisfy the workflow.
+
+## Behavioral Guards — Apply to All Code Tasks
+
+These guards are always active when writing, reviewing, debugging, or refactoring code, regardless of whether full workflow mode is used.
+
+### 1. Think Before Coding
+
+- State assumptions explicitly when they matter.
+- If multiple interpretations exist, present them instead of silently choosing one.
+- If something important is unclear, stop and ask a targeted question.
+- Surface tradeoffs when there is more than one reasonable approach.
+- Push back when the requested approach is likely overcomplicated, risky, or inconsistent with the codebase.
+
+### 2. Simplicity First
+
+- Write the minimum code that solves the requested problem.
+- Do not add features, abstractions, configurability, or flexibility that were not requested.
+- Avoid abstractions for single-use code.
+- Do not add defensive handling for impossible or irrelevant scenarios.
+- If the implementation feels much larger than the problem, simplify before proceeding.
+
+### 3. Surgical Changes
+
+- Touch only files and lines needed for the request.
+- Do not perform unrelated cleanups, formatting changes, comment rewrites, renames, or refactors.
+- Match existing code style and patterns, even if you would choose differently in new code.
+- If you notice unrelated dead code or quality issues, mention them; do not fix them unless asked.
+- Remove imports, variables, functions, or files only when your own changes made them unused or obsolete.
+- Every changed line should trace directly to the user request or the current plan step.
+
+### 4. Goal-Driven Execution
+
+- Define what success means before implementing.
+- Prefer verifiable checks: tests, type checks, lint, build, or documented manual verification.
+- For bug fixes, prefer a regression test or reproduction before/alongside the fix.
+- For refactors, preserve behavior and verify before and after when practical.
+- Loop until the requested behavior is verified or clearly report what could not be verified.
+
+## Full Workflow Quick Start
+
+Use this table only after choosing **full workflow mode**.
 
 | Starting point | Load reference |
 |---|---|
@@ -41,7 +76,9 @@ Skip this workflow entirely when any of these are true:
 | Resume existing work (new session, handoff) | [resume-workflow](references/resume-workflow.md) |
 | Execute the next PENDING step | [execute-step](references/execute-step.md) |
 
-## File Structure
+## Full Workflow File Structure
+
+Created only in full workflow mode.
 
 ```
 plans/
@@ -56,7 +93,7 @@ plans/
 | `context.md` | Session | Before each pause | Resume capability across sessions |
 | `<task>.md` | Task | After each step | Task tracking and progress |
 
-## Workflow Phases
+## Full Workflow Phases
 
 ### 1. Understand — [require-clarification](references/require-clarification.md)
 Analyze scope, inputs, outputs, success criteria. Ask targeted questions if ambiguous. Get explicit user confirmation before planning.
@@ -106,9 +143,9 @@ require-clarification → create-plan → execute-step → verify-step → maint
 | [reflect-after-changes](references/reflect-after-changes.md) | Catch complexity early | Every 2–3 steps |
 | [global-reflection](references/global-reflection.md) | Final feature review | All steps complete |
 
-## Workflow Guards
+## Full Workflow Guards
 
-**Do NOT proceed if:**
+In full workflow mode, **do NOT proceed if:**
 
 | Condition | Required action |
 |---|---|
@@ -128,7 +165,7 @@ require-clarification → create-plan → execute-step → verify-step → maint
 | COMPLETED | Done, verified, repo map synced |
 | BLOCKED | Cannot proceed (reason documented) |
 
-## Core Constraints
+## Full Workflow Core Constraints
 
 - **One step at a time** — never batch multiple steps.
 - **Stay in scope** — do not touch files outside the step's Plan.
@@ -138,9 +175,9 @@ require-clarification → create-plan → execute-step → verify-step → maint
 - **Dump context before pausing** — preserves session for resume.
 - **Never mark COMPLETED with known issues** — fix or mark BLOCKED.
 
-## Resume Protocol
+## Full Workflow Resume Protocol
 
-When starting a fresh session on existing work, read three files **in this order**:
+When starting a fresh session on existing full workflow work, read three files **in this order**:
 
 1. `plans/context.md` — where work stopped, recent decisions
 2. `plans/<task>.md` — full task definition and step progress
@@ -154,7 +191,7 @@ See [resume-workflow](references/resume-workflow.md) for the full procedure and 
 - [assets/repo-map-template.md](assets/repo-map-template.md)
 - [assets/context-template.md](assets/context-template.md)
 
-## Why This Works
+## Why Full Workflow Mode Works
 
 - **Isolated steps** — Prerequisites and Deliverables make each step self-contained; a new session can pick up any step.
 - **Preserved learnings** — Context & Learnings captures decisions, not just actions, so they aren't re-litigated.

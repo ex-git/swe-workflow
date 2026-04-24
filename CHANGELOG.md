@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _(nothing yet)_
 
+## [1.3.1] - 2026-04-24
+
+### Added
+- Behavioral Guards that apply to all code-related tasks: think before coding, simplicity first, surgical changes, and goal-driven execution.
+
+### Changed
+- Reframed the skill into lightweight and full workflow modes so simple coding tasks use behavioral guidance without creating plan files.
+- Updated package metadata to describe behavioral guards plus the structured planning workflow.
+
 ## [1.3.0] - 2026-04-17
 
 ### Added
@@ -66,7 +75,8 @@ _(nothing yet)_
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/ex-git/swe-workflow/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/ex-git/swe-workflow/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/ex-git/swe-workflow/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/ex-git/swe-workflow/compare/v1.0.0...v1.2.0
