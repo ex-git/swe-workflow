@@ -1,9 +1,9 @@
 ---
 name: swe-workflow
-description: Behavioral guards for all code-related tasks, plus a structured planning workflow for complex coding tasks. Always apply the Behavioral Guards when writing, reviewing, debugging, or refactoring code. Use the full plan-file workflow only when the task involves multiple interdependent files, ambiguous scope needing clarification, or explicit upfront planning.
+description: Behavioral guards for all code-related tasks, mandatory workflow triage, and a structured planning workflow for complex or broad coding tasks. Always declare Lightweight or Full mode before edits; use Full workflow for mandatory triggers, ambiguity, or work needing resumable state.
 license: MIT
 metadata:
-  version: "1.3.1"
+  version: "1.4.0"
   author: "Evan Xu"
 ---
 
@@ -11,22 +11,51 @@ metadata:
 
 Behavioral guards for all code-related tasks, plus a structured development workflow for complex coding tasks — compatible with Pi, Claude Code, Cursor, Codex, Gemini, and other agents supporting the Agent Skills spec.
 
-> Apply the Behavioral Guards to every coding task. Use plan files only when the task is large or ambiguous.
+> Apply the Behavioral Guards to every coding task. Every code task starts with workflow triage; use plan files only when the task is large, ambiguous, or hits a mandatory Full workflow trigger.
+
+## Mandatory Workflow Triage — All Code Tasks
+
+Before using any write/edit/delete tool for a code-related task, declare the workflow mode. The first assistant response for code work MUST include:
+
+```text
+Workflow mode: Lightweight | Full
+Reason: <one sentence>
+Success criteria:
+- <what done means>
+Plan needed: yes | no
+```
+
+If the task is already in progress and plan files exist, declare Full workflow mode and use the [resume protocol](#full-workflow-resume-protocol) before making implementation edits.
+
+You MUST choose **Full workflow mode** for:
+
+- repo-wide scans, migrations, or cleanup
+- lint/type/build/test cleanup
+- broad refactors or behavior-preserving rewrites touching multiple files
+- deleting files or moving/renaming files
+- backend + frontend/UI changes in one task
+- API/schema/route/tooling/configuration contract changes
+- docs/source-of-truth updates, including changes to this skill's workflow rules
+- any task expected to touch more than 3 files
+- any task where scope or success criteria are ambiguous
+
+If a task begins in Lightweight mode but later hits any Full workflow trigger, STOP before further edits, declare escalation to Full workflow mode, create/update the plan, and continue from the current verified state.
 
 ## Operating Modes
 
 | Mode | Use when | Required behavior |
 |---|---|---|
-| **Lightweight mode** | Simple edits, quick fixes, clear debugging, small refactors, code review/explanation | Apply Behavioral Guards; work directly without plan files |
-| **Full workflow mode** | Multiple interdependent files, ambiguous scope, explicit upfront planning, or work that benefits from resumable state | Apply Behavioral Guards + require clarification, create plan files, execute one verified step at a time |
+| **Lightweight mode** | Simple edits, quick fixes, clear debugging, small refactors, code review/explanation, and none of the mandatory Full triggers apply | Apply Behavioral Guards; work directly without plan files |
+| **Full workflow mode** | Any mandatory Full trigger, multiple interdependent files, ambiguous scope, explicit upfront planning, or work that benefits from resumable state | Apply Behavioral Guards + require clarification, create plan files, execute one verified step at a time |
 
 **Full workflow decision test:** use full workflow mode if any answer is "yes":
 
-1. Does this require tracking state across multiple files?
-2. Would I benefit from writing down a plan before starting?
-3. Is the scope unclear enough to need clarification?
+1. Does a mandatory Full workflow trigger apply?
+2. Does this require tracking state across multiple files?
+3. Would I benefit from writing down a plan before starting?
+4. Is the scope unclear enough to need clarification?
 
-If all three are "no", stay in lightweight mode. Do **not** create `plans/` files just to satisfy the workflow.
+If all four are "no", stay in Lightweight mode. Do **not** create `plans/` files just to satisfy the workflow.
 
 ## Behavioral Guards — Apply to All Code Tasks
 
@@ -75,6 +104,18 @@ Use this table only after choosing **full workflow mode**.
 | Create plan from clarified request | [create-plan](references/create-plan.md) |
 | Resume existing work (new session, handoff) | [resume-workflow](references/resume-workflow.md) |
 | Execute the next PENDING step | [execute-step](references/execute-step.md) |
+
+## Compact Full Workflow — Cleanup, Refactor, Lint
+
+Use this compact variant when a broad cleanup/refactor/lint task triggers Full workflow mode but does not need a feature-spec plan:
+
+1. Create `plans/<task>.md` with a checklist of categories or file groups.
+2. Scan and record findings before fixing them.
+3. Fix one category or file group at a time as the current `IN_PROGRESS` step.
+4. Verify after each category with the relevant lint/type/build/test/manual check.
+5. Update repo map, plan status, and any affected source-of-truth docs before moving on.
+
+This is still Full workflow mode: plan file required, one verified step at a time, no batching unrelated fixes.
 
 ## Full Workflow File Structure
 
@@ -145,16 +186,20 @@ require-clarification → create-plan → execute-step → verify-step → maint
 
 ## Full Workflow Guards
 
-In full workflow mode, **do NOT proceed if:**
+In Full workflow mode, **do NOT proceed if:**
 
 | Condition | Required action |
 |---|---|
-| No plan file exists | Run create-plan |
-| A step is IN_PROGRESS | Complete or revert before starting another |
+| No plan file exists and you are not currently creating the required workflow plan files | Run create-plan |
+| About to edit task target files but no step is `IN_PROGRESS` | Mark the current PENDING step `IN_PROGRESS` via execute-step first |
+| Intended edit does not map to the current `IN_PROGRESS` step | STOP; update the plan or ask for clarification before editing |
+| A different step is already `IN_PROGRESS` | Complete or revert it before starting another |
 | Clarification has open questions | Run require-clarification |
 | verify-step failed | Fix issues first |
 | Repo map not synchronized with Files Changed | Update `plans/repo-map.md` first |
 | Pausing for user without dumping context | Run dump-context first |
+
+**Pre-edit hard stop:** before any write/edit/delete tool call that changes task target files in Full workflow mode, a plan file must exist, exactly one current step must be `IN_PROGRESS`, and the intended edit must belong to that step. Only workflow bookkeeping files (`plans/*.md`) may be created or updated before this gate is satisfied.
 
 ## Status Values
 

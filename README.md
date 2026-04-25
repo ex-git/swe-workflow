@@ -2,19 +2,20 @@
 
 A lightweight, structured development workflow for AI coding agents. Compatible with **Pi**, **Claude Code**, **Cursor**, **Codex**, **Gemini**, and other agents supporting the Agent Skills spec.
 
-> No code without a plan. One step at a time. Every step validated and tested.
+> Every code task starts with workflow triage. Simple tasks stay lightweight; broad, ambiguous, or multi-file tasks use a persisted plan.
 
 ## What It Does
 
-Enforces a disciplined process for any coding task complex enough to warrant it:
+Enforces visible workflow selection plus a disciplined process for any coding task complex enough to warrant it:
 
-1. **Clarify** — understand the request before acting
-2. **Plan** — break work into small, ordered steps
-3. **Execute** — one step at a time, documented as you go
-4. **Verify** — re-read, test, review diff (single gate)
-5. **Reflect** — catch complexity before it compounds
+1. **Triage** — declare `Lightweight` or `Full` mode before edits
+2. **Clarify** — understand the request before acting
+3. **Plan** — break Full workflow work into small, ordered steps
+4. **Execute** — one step at a time, documented as you go
+5. **Verify** — re-read, test, review diff (single gate)
+6. **Reflect** — catch complexity before it compounds
 
-State lives in three files under `plans/`, so work survives across sessions and can be handed off between agents.
+In Full workflow mode, state lives in three files under `plans/`, so work survives across sessions and can be handed off between agents.
 
 ## Why
 
@@ -24,7 +25,23 @@ Without structure, coding agents tend to:
 - Skip testing and self-review
 - Lose context across sessions
 
-This workflow addresses all of that with a single skill and persistent plan files. See [`SKILL.md`](SKILL.md) for the full agent-facing specification.
+This workflow addresses all of that with a single skill, mandatory mode declaration, and persistent plan files when needed. See [`SKILL.md`](SKILL.md) for the full agent-facing specification.
+
+## Expected Agent Behavior
+
+For every code-related task, the agent must first declare:
+
+```text
+Workflow mode: Lightweight | Full
+Reason: ...
+Success criteria:
+- ...
+Plan needed: yes | no
+```
+
+Full workflow mode is mandatory for broad cleanup/refactor/lint tasks, deletes/moves, backend + UI changes, API/schema/route/tooling/config changes, source-of-truth docs, ambiguous work, or anything expected to touch more than 3 files.
+
+In Full workflow mode, implementation edits must wait until a plan exists, the current step is marked `IN_PROGRESS`, and the edit maps to that step.
 
 ## Installation
 
@@ -84,6 +101,7 @@ swe-workflow/
 │   ├── repo-map-template.md
 │   └── context-template.md
 ├── examples/                    # Worked examples (optional reading)
+├── AGENTS.md                     # Repo-level agent instructions / template
 ├── CHANGELOG.md
 ├── LICENSE
 ├── package.json
@@ -98,7 +116,7 @@ After installing, test with a vague feature request:
 Add a function that validates email addresses
 ```
 
-**Expected behavior:** the agent asks clarifying questions first (scope, input format, error shape) rather than jumping to code.
+**Expected behavior:** the agent declares Full workflow mode, explains why the request is ambiguous, and asks clarifying questions (scope, input format, error shape) rather than jumping to code.
 
 ## Multi-Agent Handoffs
 

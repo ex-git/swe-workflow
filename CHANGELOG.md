@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _(nothing yet)_
 
+## [1.4.0] - 2026-04-24
+
+### Added
+- Mandatory workflow triage in `SKILL.md`, requiring agents to declare Lightweight or Full mode before code-task edits.
+- Explicit Full workflow triggers for broad cleanup, lint/type/build/test cleanup, refactors, file deletion/moves, backend + UI changes, API/config contracts, source-of-truth docs, ambiguous scope, and tasks expected to touch more than 3 files.
+- Full workflow pre-edit hard stop requiring a plan, an `IN_PROGRESS` step, and an edit mapped to that step before task target files are changed.
+- Compact Full workflow guidance for broad cleanup/refactor/lint tasks.
+- `AGENTS.md` repo-level instruction template to make workflow expectations visible outside the skill file.
+
+### Changed
+- Updated `README.md` to document triage-first behavior and stronger Full workflow expectations.
+- Updated package metadata and included `AGENTS.md` in the package file list.
+
 ## [1.3.1] - 2026-04-24
 
 ### Added
@@ -75,7 +88,8 @@ _(nothing yet)_
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.3.1...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/ex-git/swe-workflow/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/ex-git/swe-workflow/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/ex-git/swe-workflow/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/ex-git/swe-workflow/compare/v1.2.0...v1.2.1
