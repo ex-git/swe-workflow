@@ -29,12 +29,20 @@ After finishing the implementation portion of `execute-step`, before moving to `
    # Rust:      cargo clippy && cargo test
    # Go:        go vet ./... && go test ./...
    ```
-3. **Verify repo-map sync.** Every file in the step's `Files Changed` must appear in `plans/repo-map.md` (Core Files if modified, Related Files if only read). If any are missing, add them before proceeding. See [maintain-repo-map](maintain-repo-map.md).
+3. **Run configured pre-commit hooks / quality gates** when present. Detect common hook managers and run the matching command, for example:
+   ```bash
+   # Lefthook:  npx lefthook run pre-commit --all-files
+   # Lefthook:  lefthook run pre-commit --all-files
+   # Generic:   pre-commit run --all-files
+   ```
+   If hooks exist but cannot run in the environment, document the reason and the closest equivalent checks that were run.
+4. **Verify repo-map sync.** Every file in the step's `Files Changed` must appear in `plans/repo-map.md` (Core Files if modified, Related Files if only read). If any are missing, add them before proceeding. See [maintain-repo-map](maintain-repo-map.md).
 
 ### Validate checklist
 - [ ] All modified files re-read with `read` tool
 - [ ] Code parses (no syntax / type errors)
 - [ ] Linter clean (if configured)
+- [ ] Pre-commit hooks / quality gates run clean (if configured, e.g. lefthook)
 - [ ] Implementation matches the step's Plan section
 - [ ] Edge cases / error cases handled
 - [ ] Only files in scope were modified
@@ -61,7 +69,7 @@ After finishing the implementation portion of `execute-step`, before moving to `
 
 | Change type | Tests required |
 |---|---|
-| New function / module | Unit tests (happy, edge, error) |
+| New utility / function / module | Unit tests (happy, edge, error) |
 | Bug fix | Regression test that fails before fix, passes after |
 | API change | Integration tests (request validation, response shape, errors) |
 | Config change | Valid / invalid config behavior |
@@ -71,6 +79,7 @@ After finishing the implementation portion of `execute-step`, before moving to `
 - [ ] Happy path covered
 - [ ] Edge cases covered
 - [ ] Error paths covered
+- [ ] New utilities/functions/modules have focused tests when a test framework exists
 - [ ] All tests pass (or manual verification documented)
 - [ ] Test files added to repo map
 
@@ -117,7 +126,7 @@ After finishing the implementation portion of `execute-step`, before moving to `
 
 Before moving to `persist-plan`, all three passes must be clean:
 
-- [ ] **Validate:** re-read, checks pass, repo map synced
+- [ ] **Validate:** re-read, checks and configured hooks pass, repo map synced
 - [ ] **Test:** written, running, passing (or manual steps documented)
 - [ ] **Review:** diff clean, scope intact, no artifacts
 
@@ -133,7 +142,7 @@ Before moving to `persist-plan`, all three passes must be clean:
 - **No step passes with known issues** — fix them or mark the step BLOCKED.
 - **No step passes without repo map sync.**
 - **Do not rely on memory** — re-read actual files and view the actual diff.
-- **Run automated checks** when they exist — don't just visually inspect.
+- **Run automated checks and configured pre-commit hooks** when they exist — don't just visually inspect.
 - **Fix issues now, not later.**
 
 ## Next Step

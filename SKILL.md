@@ -3,7 +3,7 @@ name: swe-workflow
 description: Behavioral guards for all code-related tasks, mandatory workflow triage, and a structured planning workflow for complex or broad coding tasks. Always declare Lightweight or Full mode before edits; use Full workflow for mandatory triggers, ambiguity, or work needing resumable state.
 license: MIT
 metadata:
-  version: "1.4.0"
+  version: "1.4.1"
   author: "Evan Xu"
 ---
 
@@ -90,8 +90,10 @@ These guards are always active when writing, reviewing, debugging, or refactorin
 
 - Define what success means before implementing.
 - Prefer verifiable checks: tests, type checks, lint, build, or documented manual verification.
+- For new utilities, functions, modules, or components, add focused tests covering happy path, edge cases, and error paths when a test framework exists.
 - For bug fixes, prefer a regression test or reproduction before/alongside the fix.
 - For refactors, preserve behavior and verify before and after when practical.
+- Run configured project quality gates, including pre-commit hooks such as lefthook, before calling work done.
 - Loop until the requested behavior is verified or clearly report what could not be verified.
 
 ## Full Workflow Quick Start

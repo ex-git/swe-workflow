@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _(nothing yet)_
 
+## [1.4.1] - 2026-04-26
+
+### Changed
+- Strengthened workflow guidance to require focused tests for new utilities/functions/modules when a test framework exists.
+- Strengthened verification guidance to run configured pre-commit hooks and quality gates, including lefthook, before marking work complete.
+
 ## [1.4.0] - 2026-04-24
 
 ### Added
@@ -88,7 +94,8 @@ _(nothing yet)_
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/ex-git/swe-workflow/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/ex-git/swe-workflow/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/ex-git/swe-workflow/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/ex-git/swe-workflow/compare/v1.2.1...v1.3.0
