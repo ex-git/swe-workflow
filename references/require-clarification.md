@@ -48,12 +48,15 @@ Before clarifying a new request, check if there's an existing plan in progress:
    - Look for related functionality
    - Understand the architecture context
    - Only ask questions you CAN'T answer by reading
+   - If a question can be answered by exploring code, explore instead of asking
 
-3. **If ANY ambiguity exists:**
-   - Ask specific, targeted questions
-   - Prefer multiple-choice when possible (easier to answer)
+3. **If ANY ambiguity exists, grill relentlessly:**
+   - Walk down each branch of the design tree, resolving dependencies between decisions one by one
+   - Ask specific, targeted questions — prefer multiple-choice when possible
    - Ask ONE question at a time — do not overwhelm
+   - For each question, provide your recommended answer
    - WAIT for response before proceeding
+   - Do not stop after one round — keep probing until every branch is resolved
 
 4. **After receiving an answer, ANALYZE it:**
    - Does this answer fully resolve the question?

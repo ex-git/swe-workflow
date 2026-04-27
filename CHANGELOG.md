@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2026-04-26
+
+### Added
+- Behavioral guards persistence note: guards are active for the entire session, not just the first response.
+- Step decomposition anti-pattern in SKILL.md: WRONG (horizontal slices) vs RIGHT (vertical slices).
+- Vertical-slice step sizing guide in `create-plan.md` with visual comparison.
+- Grilling intensity for clarification: walk each branch of the design tree, provide recommended answers, explore codebase instead of asking when possible.
+
+## [1.5.0] - 2026-04-26
+
+### Changed
+- **Restructured SKILL.md for agent compliance.** Plan format and step format are now inlined directly in SKILL.md so agents get the required output structure on the first read. Previously the plan template was 3 hops away (SKILL.md → create-plan.md → plan-template.md), causing 72% of plans to be non-compliant.
+- SKILL.md reduced from 248 to 150 lines while adding the inlined plan format.
+- Behavioral guards condensed from multi-bullet sections to one-line summaries.
+- Added WRONG vs RIGHT anti-pattern comparison for plan format.
+- Reference files are now supplementary (consulted when needed), not sequential prerequisites.
+- `create-plan.md` updated to reference SKILL.md for plan format instead of deleted template file.
+
+### Removed
+- `assets/` directory and all template files (`plan-template.md`, `context-template.md`, `repo-map-template.md`). Content is now inlined in SKILL.md and respective reference files.
+- Operating Modes table, Full workflow decision test, Skill Chain diagram, "Why Full Workflow Works" section, and Compact Variant section from SKILL.md (content preserved in condensed form or reference files).
+
 ## [1.4.2] - 2026-04-26
 
 ### Fixed
@@ -96,8 +118,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.4.1...HEAD
-[1.4.1]: https://github.com/ex-git/swe-workflow/compare/v1.4.0...v1.4.1
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.5.1...HEAD
+[1.5.1]: https://github.com/ex-git/swe-workflow/compare/v1.5.0...v1.5.1
+[1.5.0]: https://github.com/ex-git/swe-workflow/compare/v1.4.2...v1.5.0
+[1.4.2]: https://github.com/ex-git/swe-workflow/compare/v1.4.1...v1.4.2
 [1.4.0]: https://github.com/ex-git/swe-workflow/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/ex-git/swe-workflow/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/ex-git/swe-workflow/compare/v1.2.1...v1.3.0

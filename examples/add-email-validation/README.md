@@ -14,7 +14,7 @@ It shows what the three `plans/` files look like mid-task — after Step 1 and S
 
 ## How to use
 
-Read these as examples of what **good** workflow files look like after a few steps of real work. They're not templates — use [`assets/plan-template.md`](../../assets/plan-template.md) etc. for that. They're models of the level of detail and structure that makes a plan useful for a resuming agent.
+Read these as examples of what **good** workflow files look like after a few steps of real work. They're not templates — see the Plan Format section in [`SKILL.md`](../../SKILL.md#plan-format--required-structure) for that. They're models of the level of detail and structure that makes a plan useful for a resuming agent.
 
 ## Scenario
 

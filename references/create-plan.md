@@ -36,40 +36,34 @@ Before starting:
    - **Deliverables:** What this step produces (files created/modified, functions added, tests passing)
    - This makes steps self-contained and enables new sessions to pick up any step
 
-6. **Read the plan template:**
-   - Use `read` tool on: `assets/plan-template.md` (relative to this skill's directory)
-   - Understand the required structure before writing
-
-7. **Create the plans directory if needed:**
+6. **Create the plans directory if needed:**
    - Run: `mkdir -p plans/`
 
-8. **Initialize repo-map.md if it doesn't exist:**
+7. **Initialize repo-map.md if it doesn't exist:**
    - Check if `plans/repo-map.md` exists
-   - If not, read the template: `assets/repo-map-template.md` (relative to this skill's directory)
-   - Create `plans/repo-map.md` using the template structure
+   - If not, create it using the repo-map structure defined in [maintain-repo-map](maintain-repo-map.md)
    - This file persists across all plans and is shared for the entire project
 
-9. **Derive the plan filename:**
+8. **Derive the plan filename:**
    - Use kebab-case derived from the feature description
    - Examples:
      - "Add user authentication" → `plans/add-user-authentication.md`
      - "Fix memory leak in cache" → `plans/fix-memory-leak-in-cache.md`
      - "Refactor API handlers" → `plans/refactor-api-handlers.md`
 
-10. **Write the plan file — ALL steps:**
+9. **Write the plan file — ALL steps:**
    - Use the `write` tool to create `plans/<feature-name>.md`
+   - The plan file MUST follow the **Plan Format** defined in [SKILL.md](../SKILL.md#plan-format--required-structure) — do NOT invent your own format
    - The plan file MUST contain every step for the entire task, not just the first phase or batch
    - If the user approved a multi-phase plan discussed in chat, write ALL phases and ALL steps to the file before any execution begins
    - A plan file missing later phases/steps is incomplete and blocks execution
-   - Follow the template structure exactly
-   - For Repo Map: include quick reference table only, full map is in `plans/repo-map.md`
 
-11. **Update repo-map.md with discovered files:**
+10. **Update repo-map.md with discovered files:**
    - Add files discovered during exploration
    - See `references/maintain-repo-map.md` for guidelines
    - This is a project-wide file that accumulates knowledge across tasks
 
-12. **Verify the plan was created:**
+11. **Verify the plan was created:**
    - Use `read` tool to confirm the file exists and has correct structure
    - Ensure all sections are present: Goal, Assumptions, Steps
    - Verify `plans/repo-map.md` exists
@@ -79,6 +73,17 @@ Before starting:
 Good step: "Add user validation function with email format check"
 Too big: "Implement the entire authentication system"
 Too small: "Import the email regex library"
+
+**Vertical slices, not horizontal.** Each step should be a thin slice through all layers (types, logic, tests) that is independently verifiable — NOT a horizontal slice of one layer.
+
+```
+WRONG (horizontal):              RIGHT (vertical):
+  Step 1: Define all types         Step 1: Implement + test feature A
+  Step 2: Write all functions       Step 2: Implement + test feature B
+  Step 3: Write all tests           Step 3: Implement + test feature C
+```
+
+A completed step should be demoable or verifiable on its own.
 
 ## Mandatory Outputs
 
@@ -113,7 +118,7 @@ plans/
 - **Do NOT write any code** in this phase — plans only
 - **Do NOT skip directly to implementation** — the plan must exist first
 - **Do NOT write a partial plan** — the plan file must contain ALL steps for ALL phases of the task; never write only the current or next phase
-- **Do NOT proceed without reading the template** — use the template structure
+- **Do NOT invent your own plan format** — use the Plan Format defined in SKILL.md
 - **Do NOT embed repo map in plan** — use repo-map.md for all files
 - Steps must be small enough to validate individually
 - If you can't break it into steps, the scope is too vague — go back to clarification

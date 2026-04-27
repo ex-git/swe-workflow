@@ -84,8 +84,8 @@ cp -r swe-workflow ~/.gemini/skills/
 
 ```
 swe-workflow/
-├── SKILL.md                     # Agent-facing entry point (start here)
-├── references/                  # Detailed reference documents
+├── SKILL.md                     # Agent-facing entry point (plan format inlined)
+├── references/                  # Supplementary detail for each workflow phase
 │   ├── require-clarification.md
 │   ├── create-plan.md
 │   ├── resume-workflow.md
@@ -96,12 +96,8 @@ swe-workflow/
 │   ├── dump-context.md
 │   ├── reflect-after-changes.md
 │   └── global-reflection.md
-├── assets/
-│   ├── plan-template.md
-│   ├── repo-map-template.md
-│   └── context-template.md
 ├── examples/                    # Worked examples (optional reading)
-├── AGENTS.md                     # Repo-level agent instructions / template
+├── AGENTS.md                    # Repo-level agent instructions / template
 ├── CHANGELOG.md
 ├── LICENSE
 ├── package.json
