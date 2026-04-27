@@ -53,7 +53,7 @@ Before starting:
 
 9. **Write the plan file — ALL steps:**
    - Use the `write` tool to create `plans/<feature-name>.md`
-   - The plan file MUST follow the **Plan Format** defined in [SKILL.md](../SKILL.md#plan-format--required-structure) — do NOT invent your own format
+   - Copy [`../references/plan-template.md`](plan-template.md) verbatim — do NOT invent your own format
    - The plan file MUST contain every step for the entire task, not just the first phase or batch
    - If the user approved a multi-phase plan discussed in chat, write ALL phases and ALL steps to the file before any execution begins
    - A plan file missing later phases/steps is incomplete and blocks execution
@@ -118,7 +118,7 @@ plans/
 - **Do NOT write any code** in this phase — plans only
 - **Do NOT skip directly to implementation** — the plan must exist first
 - **Do NOT write a partial plan** — the plan file must contain ALL steps for ALL phases of the task; never write only the current or next phase
-- **Do NOT invent your own plan format** — use the Plan Format defined in SKILL.md
+- **Do NOT invent your own plan format** — copy `references/plan-template.md` verbatim
 - **Do NOT embed repo map in plan** — use repo-map.md for all files
 - Steps must be small enough to validate individually
 - If you can't break it into steps, the scope is too vague — go back to clarification

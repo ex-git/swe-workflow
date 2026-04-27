@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-04-26
+
+### Changed
+- **Skill `description` rewritten as an enforceable contract (845 chars).** The advertised description — the only part of the skill guaranteed to be in an agent's context — now explicitly instructs the agent to `read` SKILL.md, emit the triage block with the exact four labels, and use `references/plan-template.md` verbatim for Full-mode plans. It also names common violation shapes (freeform plans, inline `[STATUS]` headers, skipping triage).
+- **SKILL.md restructured to front-load enforceable content.** First section is now "Contract" — a 16-line minimum-compliance block covering triage, Full-workflow triggers, pre-edit gate, plan file format, and one-step-at-a-time. The WRONG vs RIGHT anti-pattern block is promoted above Full Workflow. A third anti-pattern — "Triage skipped because the task seemed simple" — was added.
+- The inline plan skeleton in SKILL.md was extracted to `references/plan-template.md` to remove duplication and give agents a concrete copy target.
+
+### Added
+- `references/plan-template.md` — canonical `plans/<task>.md` skeleton with a required-fields checklist and a violations list. Plans must copy this file verbatim.
+- `plans/` is now gitignored. Plan files are local session state, not published artifacts.
+
 ## [1.5.1] - 2026-04-26
 
 ### Added
