@@ -1,6 +1,18 @@
 ---
 name: swe-workflow
-description: REQUIRED for every code-related task. Step 1 read this skill's SKILL.md via the `read` tool before acting — do not proceed from this description alone. Step 2 emit the triage block as the first lines of your reply; it has four labels exactly `Workflow mode: Lightweight|Full`, `Reason:`, `Success criteria:`, `Plan needed: yes|no`. Step 3 for Full-mode work, write `plans/<task>.md` using the template at `references/plan-template.md` (required per-step fields `Status`, `Prerequisites`, `Deliverables`, `Plan`, `Validation Checklist`, `Test Checklist`, `Files Changed`, plus a top-level `Implementation Log`). Violations include freeform plans, inline `### Step N — title [STATUS]` headers, skipping the triage block, and deciding a task is "simple" without emitting triage. Applies to reads, edits, writes, and bash — triage comes first.
+description: >-
+  REQUIRED for every code-related task. Step 1 read this skill's SKILL.md via
+  the `read` tool before acting — do not proceed from this description alone.
+  Step 2 emit the triage block as the first lines of your reply; it has four
+  labels exactly `Workflow mode: Lightweight|Full`, `Reason:`, `Success
+  criteria:`, `Plan needed: yes|no`. Step 3 for Full-mode work, write
+  `plans/<task>.md` using the template at `references/plan-template.md`
+  (required per-step fields `Status`, `Prerequisites`, `Deliverables`, `Plan`,
+  `Validation Checklist`, `Test Checklist`, `Files Changed`, plus a top-level
+  `Implementation Log`). Violations include freeform plans, inline
+  `### Step N — title [STATUS]` headers, skipping the triage block, and
+  deciding a task is "simple" without emitting triage. Applies to reads,
+  edits, writes, and bash — triage comes first.
 license: MIT
 metadata:
   version: "1.6.0"
