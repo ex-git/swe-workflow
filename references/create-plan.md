@@ -123,6 +123,17 @@ plans/
 - Steps must be small enough to validate individually
 - If you can't break it into steps, the scope is too vague — go back to clarification
 
+### Common Scope Traps
+
+Before writing the plan, grep the repo for every occurrence of any value that is meant to stay consistent across files. Missing even one causes silent drift.
+
+- **Version bumps:** grep for the current version string (e.g. `1.5.1`) across `SKILL.md`, `package.json`, `CHANGELOG.md`, `README.md`, and any other config/docs. Every hit is a file the plan must touch.
+- **Renames (symbols, routes, env vars, file paths):** grep for the old name; include every caller in the plan's Files Changed.
+- **Schema/column changes:** grep for the column name in migrations, models, raw SQL, and type definitions.
+- **Config keys:** grep for the key in `.env.example`, `config.*`, docs, and tests.
+
+If the grep surfaces unexpected hits, either fold them into the plan or explicitly call them out in Assumptions as intentionally out of scope.
+
 ## Next Step
 
 → Proceed to: **execute-step** (implement the first PENDING step)
