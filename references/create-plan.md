@@ -56,8 +56,11 @@ Before starting:
      - "Fix memory leak in cache" → `plans/fix-memory-leak-in-cache.md`
      - "Refactor API handlers" → `plans/refactor-api-handlers.md`
 
-10. **Write the plan file:**
+10. **Write the plan file — ALL steps:**
    - Use the `write` tool to create `plans/<feature-name>.md`
+   - The plan file MUST contain every step for the entire task, not just the first phase or batch
+   - If the user approved a multi-phase plan discussed in chat, write ALL phases and ALL steps to the file before any execution begins
+   - A plan file missing later phases/steps is incomplete and blocks execution
    - Follow the template structure exactly
    - For Repo Map: include quick reference table only, full map is in `plans/repo-map.md`
 
@@ -88,6 +91,7 @@ Before marking complete, verify ALL of the following:
 - [ ] `plans/repo-map.md` exists with at least one entry
 - [ ] Each step has: Title, Status (PENDING), Prerequisites, Deliverables, Plan bullets, Validation checklist, Test checklist
 - [ ] At least one step exists (most features need 3-10 steps)
+- [ ] ALL steps for ALL phases of the task are present — no phase or step discussed with the user is omitted
 - [ ] Steps are ordered by dependency (earlier steps don't depend on later ones)
 - [ ] No code has been written yet
 
@@ -108,6 +112,7 @@ plans/
 
 - **Do NOT write any code** in this phase — plans only
 - **Do NOT skip directly to implementation** — the plan must exist first
+- **Do NOT write a partial plan** — the plan file must contain ALL steps for ALL phases of the task; never write only the current or next phase
 - **Do NOT proceed without reading the template** — use the template structure
 - **Do NOT embed repo map in plan** — use repo-map.md for all files
 - Steps must be small enough to validate individually

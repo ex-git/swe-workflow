@@ -3,7 +3,7 @@ name: swe-workflow
 description: Behavioral guards for all code-related tasks, mandatory workflow triage, and a structured planning workflow for complex or broad coding tasks. Always declare Lightweight or Full mode before edits; use Full workflow for mandatory triggers, ambiguity, or work needing resumable state.
 license: MIT
 metadata:
-  version: "1.4.1"
+  version: "1.4.2"
   author: "Evan Xu"
 ---
 
@@ -193,6 +193,7 @@ In Full workflow mode, **do NOT proceed if:**
 | Condition | Required action |
 |---|---|
 | No plan file exists and you are not currently creating the required workflow plan files | Run create-plan |
+| Plan file exists but is missing steps for later phases discussed with the user | Complete the plan file with ALL steps before executing any |
 | About to edit task target files but no step is `IN_PROGRESS` | Mark the current PENDING step `IN_PROGRESS` via execute-step first |
 | Intended edit does not map to the current `IN_PROGRESS` step | STOP; update the plan or ask for clarification before editing |
 | A different step is already `IN_PROGRESS` | Complete or revert it before starting another |
