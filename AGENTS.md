@@ -45,3 +45,8 @@ Only workflow bookkeeping files (`plans/*.md`) may be created or updated before 
 - Keep changes surgical and tied to the user request or current plan step.
 - Verify each step with the relevant lint/type/build/test/manual check.
 - Update `CHANGELOG.md` for user-visible behavior, packaging, or source-of-truth documentation changes.
+
+## Known Pitfalls
+
+- **SKILL.md YAML front-matter.** The `description` field (and any other scalar) must not contain bare `: ` (colon-space) sequences in plain, unquoted form — YAML parses `: ` as a map-key separator and loaders will raise `mapping values are not allowed in this context`. This is easy to hit because the description often quotes the triage labels (`Workflow mode: ...`, `Plan needed: ...`). Wrap any description that mentions `: ` in a folded block scalar (`>-`) or a double-/single-quoted string. After editing, validate by parsing the front-matter, e.g. `awk '/^---$/{c++;if(c==1)next;if(c==2)exit}c==1' SKILL.md | ruby -ryaml -e 'YAML.safe_load($stdin.read); puts "OK"'`.
+- **Version bumps drift across files.** The canonical version lives in three places: `SKILL.md` front-matter `metadata.version`, `package.json` `version`, and the top `CHANGELOG.md` entry. Any bump plan must grep for the current version string and touch every hit. See `references/create-plan.md` ⨟ Common Scope Traps.
