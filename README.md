@@ -15,7 +15,7 @@ Enforces visible workflow selection plus a disciplined process for any coding ta
 5. **Verify** — re-read, test, review diff (single gate)
 6. **Reflect** — catch complexity before it compounds
 
-In Full workflow mode, state lives in three files under `plans/`, so work survives across sessions and can be handed off between agents.
+In Full workflow mode, task state lives in `plans/<task>.md` plus `plans/context.md`; optional `plans/repo-map.md` stores advisory project memory that must be verified against the current workspace.
 
 ## Why
 
@@ -116,7 +116,7 @@ Add a function that validates email addresses
 
 ## Multi-Agent Handoffs
 
-The three `plans/` files are portable across agents. Agent A can complete steps 1–3 and dump context; Agent B reads `plans/context.md` + `plans/<task>.md` + `plans/repo-map.md` and picks up at step 4. Rules and validation gates are the same for both.
+The task plan and context files are portable across agents. Agent A can complete steps 1–3 and dump context; Agent B reads `plans/context.md` + `plans/<task>.md`, optionally checks `plans/repo-map.md` for advisory project memory, verifies relevant entries in the current workspace, and picks up at step 4.
 
 ## Documentation
 

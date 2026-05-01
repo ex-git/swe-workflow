@@ -20,10 +20,11 @@ Before starting:
    - **Assumptions:** what we're taking for granted
    - **Open Questions:** must be empty (otherwise stop here)
 
-3. **Explore the codebase:**
-   - Search for relevant files and directories
-   - Note file locations for the Repo Map
-   - See `references/maintain-repo-map.md` for guidelines
+3. **Explore the codebase narrowly:**
+   - Search for relevant files and directories with targeted `rg`/`find`/`git` commands
+   - Read only files needed to plan the task: likely targets, direct callers/callees, nearby tests, and relevant config
+   - Record task-local evidence in the plan's Working Set and Verified Facts
+   - If `plans/repo-map.md` exists, treat it as advisory project memory; verify entries against the current workspace before relying on them
 
 4. **Break work into ordered steps:**
    - Each step is ONE discrete action (5-15 minutes of work)
@@ -39,10 +40,10 @@ Before starting:
 6. **Create the plans directory if needed:**
    - Run: `mkdir -p plans/`
 
-7. **Initialize repo-map.md if it doesn't exist:**
-   - Check if `plans/repo-map.md` exists
-   - If not, create it using the repo-map structure defined in [maintain-repo-map](maintain-repo-map.md)
-   - This file persists across all plans and is shared for the entire project
+7. **Use advisory repo-map.md only when helpful:**
+   - Check if `plans/repo-map.md` exists when the task would benefit from project memory
+   - Do not create or update it as a complete inventory
+   - Add to it only for durable project conventions, stable directories, architecture notes, or handoff facts that will help future tasks
 
 8. **Derive the plan filename:**
    - Use kebab-case derived from the feature description
@@ -58,15 +59,15 @@ Before starting:
    - If the user approved a multi-phase plan discussed in chat, write ALL phases and ALL steps to the file before any execution begins
    - A plan file missing later phases/steps is incomplete and blocks execution
 
-10. **Update repo-map.md with discovered files:**
-   - Add files discovered during exploration
-   - See `references/maintain-repo-map.md` for guidelines
-   - This is a project-wide file that accumulates knowledge across tasks
+10. **Populate Working Set and Verified Facts:**
+   - Add each likely target file to the plan's Working Set with the evidence used to verify it
+   - Record facts that affect implementation choices, such as existing test style, dependency availability, import/export patterns, callers, and relevant config
+   - Keep this task-local; do not turn the plan into an exhaustive repo inventory
 
 11. **Verify the plan was created:**
    - Use `read` tool to confirm the file exists and has correct structure
-   - Ensure all sections are present: Goal, Assumptions, Steps
-   - Verify `plans/repo-map.md` exists
+   - Ensure all sections are present: Goal, Assumptions, Context & Learnings, Working Set, Verified Facts, Steps
+   - Verify every non-trivial assumption is either answered, recorded as an assumption, or backed by evidence
 
 ## Step Sizing Guide
 
@@ -91,9 +92,9 @@ Before marking complete, verify ALL of the following:
 
 - [ ] Plan file exists at `plans/<feature-name>.md`
 - [ ] File contains: Goal (one sentence), Assumptions (list), Open Questions (empty)
-- [ ] Context & Learnings section initialized (even if empty)
-- [ ] Quick Reference table in plan includes key files
-- [ ] `plans/repo-map.md` exists with at least one entry
+- [ ] Context & Learnings section initialized, including Working Set and Verified Facts
+- [ ] Working Set lists key files for the task with evidence, not guesses
+- [ ] Verified Facts records implementation-relevant facts with read/search/tool evidence
 - [ ] Each step has: Title, Status (PENDING), Prerequisites, Deliverables, Plan bullets, Validation checklist, Test checklist
 - [ ] At least one step exists (most features need 3-10 steps)
 - [ ] ALL steps for ALL phases of the task are present — no phase or step discussed with the user is omitted
@@ -104,14 +105,14 @@ Before marking complete, verify ALL of the following:
 
 ```
 plans/
-├── repo-map.md           # Project-wide file map (shared across all plans)
+├── repo-map.md           # Optional advisory project memory; verify before use
 ├── context.md            # Current session context (created on pause/resume)
-└── <feature-name>.md     # Individual plan for this task
+└── <feature-name>.md     # Individual plan with Working Set and Verified Facts
 ```
 
-- **repo-map.md**: One file per project, accumulates file knowledge across all tasks
+- **repo-map.md**: Optional advisory memory for durable project conventions, stable directories, and gotchas; not authoritative across branches/worktrees
 - **context.md**: One file per project, overwritten each session, preserves current work state
-- **plan files**: One file per task/feature, contains steps and task-specific context
+- **plan files**: One file per task/feature, contains steps, Working Set, Verified Facts, and task-specific context
 
 ## Constraints
 
@@ -119,7 +120,7 @@ plans/
 - **Do NOT skip directly to implementation** — the plan must exist first
 - **Do NOT write a partial plan** — the plan file must contain ALL steps for ALL phases of the task; never write only the current or next phase
 - **Do NOT invent your own plan format** — copy `references/plan-template.md` verbatim
-- **Do NOT embed repo map in plan** — use repo-map.md for all files
+- **Do NOT create an exhaustive repo inventory** — keep Working Set limited to files/facts needed for this task
 - Steps must be small enough to validate individually
 - If you can't break it into steps, the scope is too vague — go back to clarification
 

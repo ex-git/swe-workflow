@@ -44,11 +44,11 @@ Adding a `validateEmail` utility with structured error codes and full Vitest cov
 
 #### Active Files
 
-| Path | Status | Purpose |
-|---|---|---|
-| `src/utils/email.test.ts` | modifying | Vitest suite (in progress) |
-| `src/utils/email.ts` | reading | Reference while writing tests — don't modify |
-| `src/utils/phone.test.ts` | reading | Pattern source for `describe.each` usage |
+| Path | Status | Purpose | Evidence |
+|---|---|---|---|
+| `src/utils/email.test.ts` | modifying | Vitest suite (in progress) | created in Step 3 |
+| `src/utils/email.ts` | reading | Reference while writing tests — don't modify | read during Steps 1-3 |
+| `src/utils/phone.test.ts` | reading | Pattern source for `describe.each` usage | read before Step 3 |
 
 ## Key Learnings
 
@@ -80,15 +80,16 @@ _(none — ready to continue)_
 5. Run verify-step, then persist-plan → mark Step 3 COMPLETED
 6. Proceed to Step 4 (CHANGELOG + docs)
 
-## Quick Reference
+## Working Set / Verified Facts
 
-### Key Files
+| Path | Role | Evidence |
+|---|---|---|
+| `src/utils/email.ts` | The validator under test | read during Steps 1-3 |
+| `src/utils/email.test.ts` | Current work | created in Step 3 |
+| `src/utils/phone.test.ts` | Pattern source | read before Step 3 |
 
-| Path | Purpose |
-|---|---|
-| `src/utils/email.ts` | The validator under test |
-| `src/utils/email.test.ts` | Current work |
-| `src/utils/phone.test.ts` | Pattern source |
+- Vitest command for focused test run is `npx vitest run src/utils/email.test.ts` — verified by running/using it during Step 3.
+- `describe.each` is the local test style for validator matrices — verified by reading `src/utils/phone.test.ts`.
 
 ### Commands Used
 
@@ -99,4 +100,4 @@ _(none — ready to continue)_
 
 ---
 
-*Full repo map: [`repo-map.md`](repo-map.md)*
+*Optional advisory project memory: [`repo-map.md`](repo-map.md); verify entries before use.*

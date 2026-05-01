@@ -2,192 +2,120 @@
 
 ## Overview
 
-The plan file (`plans/<name>.md`) is the single source of truth for a task. Keep it accurate at all times. Every status change, implementation note, and file change must be recorded.
+The plan file (`plans/<name>.md`) is the source of truth for the current task. Keep it accurate after every status change, implementation step, verification result, and scope change.
 
-Additionally, when pausing to ask the user if work should continue, dump context to `plans/context.md` so future sessions can resume seamlessly.
-
-**CRITICAL:** This includes verifying repo map synchronization before marking COMPLETED.
+When pausing to ask the user if work should continue, dump context to `plans/context.md` so future sessions can resume safely.
 
 ## When to Use
 
-- After marking a step IN_PROGRESS (before execution)
-- After completing implementation notes (after execution)
-- After marking a step COMPLETED or BLOCKED
-- Whenever the plan needs to reflect reality
-- **Before asking the user "Should I continue?"** — dump context
+- After marking a step `IN_PROGRESS`
+- After implementation changes are made
+- After verification passes or fails
+- After marking a step `COMPLETED` or `BLOCKED`
+- Whenever the plan no longer matches reality
+- Before asking the user whether to continue
 
-## Instructions
+## After Starting a Step
 
-### After Starting a Step (IN_PROGRESS):
+1. Read the plan file.
+2. Find the current step.
+3. Change `**Status:** PENDING` to `**Status:** IN_PROGRESS`.
+4. Update `Last Updated`.
+5. Add an Implementation Log entry if useful.
 
-1. Open the plan file with `read` tool
-2. Find the current step
-3. Use `edit` tool to change status from PENDING to IN_PROGRESS
-4. Update "Last Updated" date in header
-5. Add entry to Implementation Log if desired
+## After Completing Implementation
 
-### After Completing a Step (COMPLETED):
+Before verification, update the current step with:
 
-1. **Read the plan file** with `read` tool
-2. **Read plans/repo-map.md** with `read` tool
-3. **Find the current step** in the plan
-4. **Update Status:** IN_PROGRESS → COMPLETED
-5. **Fill in Implementation Notes:** what was actually done, decisions made
-6. **Fill in Files Changed:** exact file paths created or modified
-7. **Verify repo map sync** — see "Repo Map Sync Verification" below
-8. **Update Context & Learnings:** add any new decisions, gotchas, or patterns discovered
-9. **Check off Validation Checklist** items that passed
-10. **Check off Test Checklist** items that passed
-11. **Update "Last Updated" date**
-12. **Add entry to Implementation Log** table
+- **Implementation Notes:** what changed, why, decisions, deviations
+- **Files Changed:** exact paths created/modified/deleted
+- **Working Set:** files/facts used for this step and the evidence used to verify them
+- **Verified Facts:** implementation-relevant facts proven by `read`, `rg`, config, tests, or tooling
 
-### Repo Map Sync Verification
+Do not record guesses as facts. If something was inferred but not verified, label it as an assumption.
 
-Before marking a step COMPLETED, verify every file in the step's `Files Changed` is tracked in `plans/repo-map.md` (Core Files if modified, Related Files if only read). If anything is missing, add it first — do not mark the step COMPLETED with a stale repo map.
+## After Verification Passes
 
-Full procedure and checklist: [maintain-repo-map](maintain-repo-map.md#verification-checklist).
+Before marking a step `COMPLETED`:
 
-### After Blocking a Step (BLOCKED):
+1. Re-read the step and confirm all required fields are populated.
+2. Check off passed Validation Checklist items.
+3. Check off passed Test Checklist items, or document manual verification / why tests could not run.
+4. Confirm introduced issues were fixed, or mark the step `BLOCKED`.
+5. Update Context & Learnings with durable decisions, gotchas, and patterns.
+6. Update advisory `plans/repo-map.md` only for durable project discoveries worth preserving beyond this task.
+7. Change `**Status:** IN_PROGRESS` to `**Status:** COMPLETED`.
+8. Update `Last Updated`.
+9. Add an Implementation Log row.
 
-1. Open the plan file with `read` tool
-2. Find the current step
-3. Update **Status:** IN_PROGRESS → BLOCKED
-4. Add entry to Blocked Steps table with reason
-5. Update "Last Updated" date
+## After Blocking a Step
 
-### When Scope Changes:
+1. Read the plan file.
+2. Find the current step.
+3. Change `**Status:** IN_PROGRESS` to `**Status:** BLOCKED`.
+4. Document the blocker, evidence, and what is needed to unblock.
+5. Update `Last Updated`.
+6. If another PENDING step can safely proceed, explain why; otherwise report the blocker to the user.
 
-If you need to add/modify/remove steps mid-execution:
-1. Read the entire plan
-2. Use `edit` to insert/modify/remove steps
-3. Preserve order (insert in correct dependency sequence)
-4. Update any affected Implementation Notes
-5. Add Deviations entry explaining the change
+## When Scope Changes
 
-### Before Asking User "Should I Continue?":
+If you need to add, modify, split, or remove steps mid-execution:
 
-1. Read `references/dump-context.md` for context dump guidelines
-2. Write current state to `plans/context.md` using the template
-3. Include: completed steps, current step progress, decisions, active files
-4. Verify context file was written
-5. Then ask your question to the user
+1. Stop implementation.
+2. Read the entire plan.
+3. Update steps in dependency order.
+4. Document the change in Implementation Notes or Deviations from Original Plan.
+5. Ensure exactly one step is `IN_PROGRESS` before resuming edits.
 
-## Status Values
+## Before Asking User "Should I Continue?"
 
-See the Status Values table in [SKILL.md](../SKILL.md#status-values).
+1. Read `references/dump-context.md`.
+2. Write current state to `plans/context.md`.
+3. Include completed steps, current step progress, decisions, Working Set, Verified Facts, active files, and next actions.
+4. Verify the context file was written.
+5. Then ask the user.
 
-## Example Edit
+## Mandatory Updates When Marking COMPLETED
 
-Before:
-```markdown
-### Step 1: Add validation function
-
-**Status:** PENDING
-```
-
-After (use edit tool):
-```markdown
-### Step 1: Add validation function
-
-**Status:** IN_PROGRESS
-```
-
-After completion:
-```markdown
-### Step 1: Add validation function
-
-**Status:** COMPLETED
-
-**Implementation Notes:**
-- Created `validateEmail()` function in `src/utils/validation.ts`
-- Used regex pattern for email validation
-- Returns `{ valid: boolean, error?: string }`
-
-**Files Changed:**
-- src/utils/validation.ts (created)
-
-**Validation Checklist:**
-- [x] Function accepts string input
-- [x] Returns validation result object
-- [x] Handles empty strings
-
-**Test Checklist:**
-- [x] Valid email passes
-- [x] Invalid email fails
-- [x] Empty string handled
-```
-
-## Mandatory Updates
-
-**Always update these when marking COMPLETED:**
-
-- [ ] Status changed to COMPLETED
-- [ ] Implementation Notes filled (what + why + decisions)
-- [ ] Files Changed listed (exact paths)
-- [ ] **Repo map verified (all Files Changed are in repo map)**
-- [ ] **Repo map updated (any newly discovered files added)**
-- [ ] Context & Learnings updated (decisions, gotchas, patterns)
-- [ ] Validation Checklist items checked
-- [ ] Test Checklist items checked
-- [ ] Last Updated date changed
+- [ ] Status changed to `COMPLETED`
+- [ ] Implementation Notes filled with what/why/decisions
+- [ ] Files Changed lists exact paths
+- [ ] Working Set and Verified Facts are accurate and evidence-backed
+- [ ] Context & Learnings updated for decisions, gotchas, and patterns
+- [ ] Validation Checklist items checked or documented
+- [ ] Test Checklist items checked or documented
+- [ ] Introduced check/lint/test/format failures fixed, or blocker documented
+- [ ] Last Updated changed
 - [ ] Implementation Log entry added
-
-**Always dump context before asking to continue:**
-
-- [ ] `plans/context.md` written
-- [ ] Last Updated includes date and time
-- [ ] Completed Steps listed
-- [ ] Current Step status and progress clear
-- [ ] Decisions Made captures key decisions
-- [ ] Active Files lists current work
-- [ ] Next Actions is ordered and actionable
+- [ ] Advisory repo map updated only if durable project discoveries were made
 
 ## Constraints
 
-- **Plan must never drift from reality** — if reality changed, update the plan immediately
-- **Repo map must never drift from files** — all touched files must be tracked
-- **Never leave IN_PROGRESS across sessions** — complete it or revert to PENDING before ending session
-- **Always dump context before pausing** — preserves session for resume
-- **Use edit tool for status changes** — don't rewrite the entire plan file
-- **Keep repo map synchronized** — update `plans/repo-map.md` whenever files are touched
-- If a step is blocked: mark BLOCKED with clear reason, then move to next unblocked step
-- When adding steps mid-execution: insert them in dependency order
-- Document any deviations from original plan
+- **Plan must never drift from reality** — update it as soon as reality changes.
+- **Never mark COMPLETED with known introduced issues** — fix them or mark `BLOCKED`.
+- **Never leave stale evidence** — Working Set and Verified Facts must reflect what was actually verified.
+- **Never trust repo-map entries blindly** — verify against the current workspace before relying on them.
+- **Never leave IN_PROGRESS across sessions** — complete it, block it, or dump context with exact next action.
+- **Use edit tool for status changes** — don't rewrite the entire plan file unless restructuring the plan itself.
 
-## Why Repo Map Sync Matters
+## Remind User of Progress
 
-| Problem | Consequence |
-|---------|-------------|
-| File not in repo map | Future sessions waste time searching |
-| Stale entries | Wrong file locations cause confusion |
-| Missing purpose | Context lost about why file matters |
-| No task history | Hard to trace what changed when |
+After persisting, briefly orient the user:
 
-**The repo map is the navigation system. Without it, the agent is lost.**
+**After completing a step:**
+> "Step X complete. Verification passed: [checks]. Steps remaining: [brief list]."
+
+**When blocked:**
+> "Step X is blocked: [reason]. Evidence: [what was checked]."
+
+**Before continuing:**
+> "I've saved progress to `plans/context.md`. Should I continue with [next action]?"
 
 ## Next Step
 
 After persisting:
 
-- If more PENDING steps: → Proceed to **execute-step**
-- If all steps COMPLETED: → Proceed to **global-reflection**
-- If step BLOCKED: → Proceed to next PENDING step (if any)
-- If pausing for user: → Context dumped, ready to ask
-
-## Remind User of Progress
-
-After persisting, briefly remind the user of remaining work:
-
-**When resuming (IN_PROGRESS step found):**
-> "Continuing with Step X of Y. We have N steps remaining after this one."
-
-**After completing a step (COMPLETED):**
-> "Step X complete. Repo map synchronized. Steps remaining: [list brief descriptions]. Context saved. Ready for Step Y?"
-
-**When blocked:**
-> "Step X is blocked: [reason]. Skipping to Step Y. [Or: No more steps can proceed.]"
-
-**Before continuing:**
-> "I've saved our progress to `plans/context.md`. Should I continue with [next action]?"
-
-This keeps the user oriented on progress and prevents drift.
+- If more PENDING steps: proceed to **execute-step**
+- If all steps COMPLETED: proceed to **global-reflection**
+- If step BLOCKED: proceed to the next safe PENDING step or report the blocker
+- If pausing for user: context dumped, ready to ask

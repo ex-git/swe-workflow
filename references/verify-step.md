@@ -22,13 +22,14 @@ After finishing the implementation portion of `execute-step`, before moving to `
 **Goal:** the code is correct, matches the plan, and stays in scope.
 
 1. **Re-read every modified file** with the `read` tool. Do not rely on memory of what you wrote.
-2. **Run automated checks** that exist in the project:
+2. **Run automated checks** that exist in the project, including formatter/format-checker when configured:
    ```bash
    # JS/TS:     npm run lint && npm run typecheck && npm test
    # Python:    ruff check . && mypy . && pytest
-   # Rust:      cargo clippy && cargo test
-   # Go:        go vet ./... && go test ./...
+   # Rust:      cargo fmt --check && cargo clippy && cargo test
+   # Go:        gofmt -w <changed-files> && go vet ./... && go test ./...
    ```
+   Prefer the narrowest meaningful check first for quick feedback, then run the project-standard gate before completion when practical.
 3. **Run configured pre-commit hooks / quality gates** when present. Detect common hook managers and run the matching command, for example:
    ```bash
    # Lefthook:  npx lefthook run pre-commit --all-files
@@ -36,17 +37,18 @@ After finishing the implementation portion of `execute-step`, before moving to `
    # Generic:   pre-commit run --all-files
    ```
    If hooks exist but cannot run in the environment, document the reason and the closest equivalent checks that were run.
-4. **Verify repo-map sync.** Every file in the step's `Files Changed` must appear in `plans/repo-map.md` (Core Files if modified, Related Files if only read). If any are missing, add them before proceeding. See [maintain-repo-map](maintain-repo-map.md).
+4. **Verify task evidence.** Every changed file must be listed in the step's `Files Changed`, and any file/fact used to justify the change must appear in the plan's Working Set or Verified Facts with read/search/tool evidence. Update the advisory repo map only for durable project discoveries. See [maintain-repo-map](maintain-repo-map.md).
 
 ### Validate checklist
 - [ ] All modified files re-read with `read` tool
 - [ ] Code parses (no syntax / type errors)
 - [ ] Linter clean (if configured)
+- [ ] Formatter/format-checker clean (if configured)
 - [ ] Pre-commit hooks / quality gates run clean (if configured, e.g. lefthook)
 - [ ] Implementation matches the step's Plan section
 - [ ] Edge cases / error cases handled
 - [ ] Only files in scope were modified
-- [ ] All touched files are in the repo map
+- [ ] Working Set, Verified Facts, and Files Changed are accurate and evidence-backed
 
 ---
 
@@ -63,7 +65,7 @@ After finishing the implementation portion of `execute-step`, before moving to `
    - [x] Manual: ran `node scripts/example.js` → expected output "success"
    - [x] Manual: tested with invalid input → error message shown
    ```
-5. **Add test files to the repo map** as Core Files — tests are part of the implementation.
+5. **Add test files to the Working Set** — tests are part of the implementation evidence.
 
 ### What tests look like by change type
 
@@ -81,7 +83,7 @@ After finishing the implementation portion of `execute-step`, before moving to `
 - [ ] Error paths covered
 - [ ] New utilities/functions/modules have focused tests when a test framework exists
 - [ ] All tests pass (or manual verification documented)
-- [ ] Test files added to repo map
+- [ ] Test files added to the Working Set
 
 **Write tests that verify behavior, not that the function exists.** If writing a test reveals a bug, fix the implementation and note it.
 
@@ -104,10 +106,13 @@ After finishing the implementation portion of `execute-step`, before moving to `
    |---|---|
    | Artifacts | `console.log`, `print`, commented-out code, stray `TODO`/`FIXME`, unused imports |
    | Scope creep | Formatting-only changes to unrelated files, "while I'm here" refactors, renames without reason |
+   | Evidence gaps | Imports, packages, APIs, paths, callers, or conventions not verified by read/search/tool output |
    | Bad patterns | Magic numbers, hardcoded values, poor names (`temp`, `data`, `x`), deep nesting (>3), long functions (>30 lines) |
+   | Degraded patterns | Copying unsafe or obsolete surrounding patterns instead of using project-approved tooling/conventions |
+   | Unnecessary abstraction | New utilities, wrappers, factories, dependencies, or indirection not required by the task |
    | Duplication | Copy-pasted blocks, similar logic in multiple places |
    | Missing handling | No error handling on fallible ops, missing null/empty checks |
-   | Style | Doesn't match existing codebase conventions |
+   | Style | Doesn't match existing codebase formatting, naming, imports, or comments |
 
 3. **Scope audit:** every changed file should be explainable by the step's Plan. If not, either (a) it's a dependency — document in Implementation Notes, or (b) it's scope creep — revert.
 
@@ -118,6 +123,8 @@ After finishing the implementation portion of `execute-step`, before moving to `
 - [ ] Only planned files modified
 - [ ] No copy-paste duplication
 - [ ] Error handling present where operations can fail
+- [ ] No unverified imports, dependencies, paths, APIs, callers, or conventions
+- [ ] No unnecessary abstraction, dependency, or utility was added
 - [ ] Style matches surrounding code
 
 ---
@@ -126,24 +133,25 @@ After finishing the implementation portion of `execute-step`, before moving to `
 
 Before moving to `persist-plan`, all three passes must be clean:
 
-- [ ] **Validate:** re-read, checks and configured hooks pass, repo map synced
+- [ ] **Validate:** re-read, checks and configured hooks pass, task evidence accurate
 - [ ] **Test:** written, running, passing (or manual steps documented)
 - [ ] **Review:** diff clean, scope intact, no artifacts
 
 ## If Any Pass Fails
 
 1. Document the issue in the step's Implementation Notes.
-2. Fix it immediately — do not defer.
+2. Fix issues introduced by this change immediately — do not defer.
 3. Re-run the failing pass.
-4. If the fix requires significant extra work, consider updating the plan (see `execute-step` → "When New Findings Require Additional Changes").
+4. If a failure is pre-existing and unrelated, document evidence, run the narrowest relevant passing check, and do not broaden scope without user approval.
+5. If the fix requires significant extra work, consider updating the plan (see `execute-step` → "When New Findings Require Additional Changes").
 
 ## Constraints
 
-- **No step passes with known issues** — fix them or mark the step BLOCKED.
-- **No step passes without repo map sync.**
+- **No step passes with known introduced issues** — fix them or mark the step BLOCKED.
+- **No step passes with guessed facts** — Working Set and Verified Facts must be evidence-backed.
 - **Do not rely on memory** — re-read actual files and view the actual diff.
-- **Run automated checks and configured pre-commit hooks** when they exist — don't just visually inspect.
-- **Fix issues now, not later.**
+- **Run automated checks, formatters, and configured pre-commit hooks** when they exist — don't just visually inspect.
+- **Fix introduced issues now, not later.**
 
 ## Next Step
 

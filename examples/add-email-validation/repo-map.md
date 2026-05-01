@@ -3,7 +3,7 @@
 > Last Updated: 2024-11-05
 > Project: example-app (TypeScript + Vitest)
 
-This file tracks all discovered files for this project. Shared across plans.
+This file is advisory project memory for stable files, directories, and conventions discovered during the example task. It is not authoritative; verify paths and conventions in the current workspace before relying on them.
 
 ## Core Files
 
@@ -56,4 +56,4 @@ This file tracks all discovered files for this project. Shared across plans.
 
 ---
 
-*See [`../../references/maintain-repo-map.md`](../../references/maintain-repo-map.md) for update guidelines.*
+*See [`../../references/maintain-repo-map.md`](../../references/maintain-repo-map.md) for advisory repo-map guidelines. Task-specific evidence belongs in `plan.md` Working Set / Verified Facts.*

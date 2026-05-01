@@ -60,9 +60,12 @@ Preserve session state before pausing for user input. This allows future session
 - [Decision]: [Rationale]
 
 ### Active Files
-| Path | Status | Purpose |
-|------|--------|---------|
-| [path] | [reading/modifying/created] | [why it matters] |
+| Path | Status | Purpose | Evidence |
+|------|--------|---------|----------|
+| [path] | [reading/modifying/created] | [why it matters] | [read/search/tool evidence] |
+
+### Working Set / Verified Facts
+- [Fact or file role] — verified by [read/rg/test/config/tool].
 
 ## Key Learnings
 
@@ -90,14 +93,13 @@ Preserve session state before pausing for user input. This allows future session
 2. [Following action]
 3. [And so on]
 
-## Repo Map Summary
+## Advisory Project Memory
 
-> Quick reference to key files (full map in plans/repo-map.md)
+> Optional: only include durable repo-map notes that were verified in the current workspace. Keep task-specific evidence above.
 
-| Path | Purpose |
-|------|---------|
-| [key file 1] | [what it's for] |
-| [key file 2] | [what it's for] |
+| Path/Pattern | Note | Last Verified |
+|--------------|------|---------------|
+| [optional] | [durable convention/gotcha] | [date/tool] |
 ```
 
 4. **Verify context was written:**
@@ -168,10 +170,14 @@ Implementing JWT-based user authentication.
 - Refresh tokens stored in httpOnly cookies: Prevents XSS
 
 ### Active Files
-| Path | Status | Purpose |
-|------|--------|---------|
-| src/routes/auth.ts | modifying | Login endpoint implementation |
-| src/utils/jwt.ts | created | JWT generation/validation utilities |
+| Path | Status | Purpose | Evidence |
+|------|--------|---------|----------|
+| src/routes/auth.ts | modifying | Login endpoint implementation | read route file before edit |
+| src/utils/jwt.ts | created | JWT generation/validation utilities | verified no existing JWT util with rg |
+
+### Working Set / Verified Facts
+- Auth routes live in `src/routes/auth.ts` — verified by reading the route file.
+- JWT utility did not already exist — verified with `rg "jwt" src/utils`.
 
 ## Key Learnings
 
@@ -191,14 +197,11 @@ Implementing JWT-based user authentication.
 2. Wire up login route to use JWT utils
 3. Add auth middleware for protected routes
 
-## Repo Map Summary
+## Advisory Project Memory
 
-| Path | Purpose |
-|------|---------|
-| src/models/User.ts | User schema definition |
-| src/utils/password.ts | Password hashing utilities |
-| src/routes/auth.ts | Authentication routes |
-| src/utils/jwt.ts | JWT handling |
+| Path/Pattern | Note | Last Verified |
+|--------------|------|---------------|
+| `src/routes/` | Route handlers live here | 2024-01-15 read |
 ```
 
 ## Integration with Other References
@@ -207,7 +210,7 @@ Implementing JWT-based user authentication.
 |-----------|-----------|---------------------|
 | resume-workflow | Start of session | Reads context if available |
 | persist-plan | After each step | Context mentions plan existence |
-| maintain-repo-map | During execution | Context has quick summary |
+| maintain-repo-map | Only for durable project discoveries | Context may mention verified advisory notes |
 | reflect-after-changes | Every 2-3 steps | Context captures reflect findings |
 
 ## Mandatory Elements
@@ -220,7 +223,7 @@ Before completing a context dump, verify:
 - [ ] Current Step clearly shows progress
 - [ ] Decisions Made captures all key decisions
 - [ ] Next Actions is ordered and actionable
-- [ ] Active Files lists files being worked on
+- [ ] Active Files and Working Set list files/facts with evidence
 
 ## After Dumping Context
 

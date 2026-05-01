@@ -31,11 +31,13 @@ Before starting:
    - Identify files that will be affected
    - Note any dependencies on previous steps
 
-5. **Check Repo Map for target files:**
-   - Before implementing, check which files the step will affect
-   - Verify each file is in the Repo Map (Core Files or Related Files)
-   - If a file is NOT in Repo Map → add it first (see [maintain-repo-map](references/maintain-repo-map.md))
-   - This prevents random file scanning and ensures you're working with known files
+5. **Verify the Working Set before editing:**
+   - Re-read target files or targeted sections; do not rely on memory
+   - Check imports/exports and nearby code to understand local conventions
+   - Search callers/usages before changing shared functions, types, routes, schemas, or config contracts
+   - Check nearby tests or test conventions for the area being changed
+   - Verify dependencies/packages/APIs exist before importing or using them
+   - Record new evidence in the plan's Working Set and Verified Facts
 
 6. **Protect code before changes** (safety net against accidental overwrites):
 
@@ -66,13 +68,13 @@ Before starting:
    - Stay within scope — do not touch unrelated files
    - Do not "while I'm here" refactor other code
    - Use `edit` tool for surgical changes, `write` for new files
-   - If you need to access a file not in Repo Map → stop and add it first
+   - If you need to access a file outside the Working Set, verify it first and add the evidence to the plan
 
-8. **Update the Repo Map as you discover files:**
-   - See [maintain-repo-map](references/maintain-repo-map.md) for detailed guidelines
-   - Check Repo Map before searching for files
-   - Add newly discovered files to appropriate section (Core Files or Related Files)
-   - Update file purposes as you learn more
+8. **Update task-local evidence as you discover facts:**
+   - Add modified files to the Working Set with their role and evidence
+   - Record implementation-relevant facts in Verified Facts with the tool/read/search used to prove them
+   - Update advisory repo map only for durable project discoveries (see [maintain-repo-map](maintain-repo-map.md))
+   - Do not record guesses as facts
 
 9. **Document what you did:**
    - Fill in **Implementation Notes** — what was done, why, any decisions
@@ -84,26 +86,27 @@ Before starting:
 
 ### DO:
 - Make surgical, minimal changes
-- Follow existing code patterns and style
-- Write self-documenting code with clear names
-- Handle edge cases and errors
-- Update related documentation
+- Follow existing formatting, naming, import, and comment conventions
+- Write self-documenting, cohesive code with clear names
+- Avoid duplication in touched code when extraction is small and in scope
+- Handle edge cases and errors consistently with the project
+- Update related documentation when the behavior or contract changes
 
 ### DO NOT:
 - Refactor code outside the step's scope
-- Add features "while you're here"
+- Add features, abstractions, utilities, dependencies, or cleanup "while you're here"
 - Delete code without understanding its purpose
 - Make formatting-only changes to unrelated code
 - Leave debugging statements (console.log, print)
-- Touch files not in Repo Map without adding them first
-- Scan files randomly — check Repo Map first
+- Silence lint/type/test failures without understanding and documenting why
+- Copy degraded correctness patterns just because surrounding code has them
+- Guess paths, imports, packages, APIs, or callers — verify them first
 
 ## Constraints
 
 - **ONE step at a time** — never batch multiple steps
 - **Do not touch files outside the step's scope**
-- **Do not touch files not in Repo Map** — add them first
-- **Check Repo Map before scanning for files** — prefer known locations over random search
+- **Do not edit based on guesses** — verify files, imports, dependencies, and callers first
 - **Do not refactor unrelated code** — even if you see issues
 - **Do not implement more than specified** — stay within scope
 - If you discover the step needs to be split: **update the plan first**, then execute the smaller steps
@@ -236,11 +239,11 @@ Before marking step as ready for validation:
 
 - [ ] Code changes are complete
 - [ ] Only files in scope were modified
-- [ ] All modified files were in Repo Map before touching (or added first)
+- [ ] Working Set and Verified Facts reflect any new files or facts used
 - [ ] Implementation Notes are filled in
 - [ ] Files Changed list is complete
 - [ ] Any deviations are documented
-- [ ] Repo Map updated if new files discovered
+- [ ] Advisory repo map updated only if durable project discoveries were made
 
 ## Next Steps
 

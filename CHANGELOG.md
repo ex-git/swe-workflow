@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2026-04-30
+
+### Changed
+- Strengthened all-code-task behavioral guards with evidence-first, language-agnostic quality guidance: verify paths/imports/dependencies, avoid degraded correctness patterns, run formatter/format-checker when present, and fix introduced issues before completion.
+- Added task-local Working Set and Verified Facts sections to the Full workflow plan template so agents record evidence for files, APIs, dependencies, conventions, and tests instead of relying on guesses.
+- Reframed `plans/repo-map.md` as optional advisory project memory, not a mandatory file inventory; planning, execution, verification, persistence, resume, context dump, and reflection now prioritize task-local evidence and current-workspace verification.
+- Updated README and the email-validation worked example to make `plans/context.md` and `plans/<task>.md` primary, with `plans/repo-map.md` optional/advisory.
+
 ## [1.6.0] - 2026-04-26
 
 ### Changed
@@ -129,7 +137,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.5.1...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.6.1...HEAD
+[1.6.1]: https://github.com/ex-git/swe-workflow/compare/v1.6.0...v1.6.1
+[1.6.0]: https://github.com/ex-git/swe-workflow/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/ex-git/swe-workflow/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/ex-git/swe-workflow/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/ex-git/swe-workflow/compare/v1.4.1...v1.4.2

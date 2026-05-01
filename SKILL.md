@@ -15,7 +15,7 @@ description: >-
   edits, writes, and bash — triage comes first.
 license: MIT
 metadata:
-  version: "1.6.0"
+  version: "1.6.1"
   author: "Evan Xu"
 ---
 
@@ -42,7 +42,7 @@ This block is the minimum every agent must follow. If you skim only this section
 
 ## Plan Template
 
-Use [`references/plan-template.md`](references/plan-template.md) as the source of truth for `plans/<task>.md`. Copy it verbatim for every new plan. Do not reconstruct the structure from memory; do not invent alternative formats.
+Use [`references/plan-template.md`](references/plan-template.md) as the source of truth for `plans/<task>.md`. Copy it verbatim for every new plan. Do not reconstruct the structure from memory; do not invent alternative formats. Full plans capture a task-local Working Set and Verified Facts so agents use evidence instead of guessed paths, APIs, or conventions.
 
 ## Anti-Patterns — Wrong vs Right
 
@@ -76,10 +76,11 @@ Status values: `PENDING` | `IN_PROGRESS` | `COMPLETED` | `BLOCKED`
 
 These guards are active for the **entire session**, not just the first response. Do not drift.
 
-1. **Think first** — state assumptions; ask when ambiguous; surface tradeoffs; push back on overcomplicated approaches.
-2. **Simplicity** — minimum code for the problem; no unrequested features, abstractions, or defensive handling.
-3. **Surgical changes** — touch only needed files/lines; match existing style; mention unrelated issues but don't fix them.
-4. **Goal-driven** — define success before coding; verify via tests/lint/build/typecheck; add focused tests for new code and bug fixes when a test framework exists; run quality gates including pre-commit hooks; loop until verified.
+1. **Evidence first** — read relevant files before editing; verify paths/imports/dependencies; search callers/usages before changing shared behavior.
+2. **Simplicity** — minimum code for the problem; no unrequested features, abstractions, dependencies, or defensive handling.
+3. **Surgical changes** — touch only needed files/lines; match formatting, naming, and import conventions; do not copy degraded correctness patterns.
+4. **Code quality** — write clear, cohesive code with good names; avoid duplication in touched code without broad refactors; mention unrelated issues but don't fix them.
+5. **Goal-driven** — define success before coding; verify via tests/lint/format/build/typecheck; add focused tests for new code and bug fixes when a test framework exists; run quality gates including pre-commit hooks; fix introduced issues or report blockers.
 
 ## Full Workflow
 
@@ -87,28 +88,28 @@ These guards are active for the **entire session**, not just the first response.
 
 ```
 plans/
-├── repo-map.md      # Project-wide file inventory (shared across plans)
+├── repo-map.md      # Advisory project memory; verify before relying on it
 ├── context.md       # Session state (overwritten each pause)
-└── <task>.md        # Task plan and progress (one per feature)
+└── <task>.md        # Task plan, Working Set, Verified Facts, progress
 ```
 
 ### Phases
 
 1. **Clarify** — analyze scope, ask targeted questions, get explicit confirmation. See [require-clarification](references/require-clarification.md).
 2. **Plan** — break into small ordered steps, copy [`references/plan-template.md`](references/plan-template.md) to `plans/<task>.md` and fill it in. See [create-plan](references/create-plan.md).
-3. **Execute** — one step at a time: [execute-step](references/execute-step.md) → [verify-step](references/verify-step.md) → [maintain-repo-map](references/maintain-repo-map.md) → [persist-plan](references/persist-plan.md). Every 2–3 steps: [reflect](references/reflect-after-changes.md). Before pausing: [dump-context](references/dump-context.md).
+3. **Execute** — one step at a time: [execute-step](references/execute-step.md) → [verify-step](references/verify-step.md) → [persist-plan](references/persist-plan.md). Update [maintain-repo-map](references/maintain-repo-map.md) only for durable project discoveries. Every 2–3 steps: [reflect](references/reflect-after-changes.md). Before pausing: [dump-context](references/dump-context.md).
 4. **Reflect** — after all steps done: [global-reflection](references/global-reflection.md).
 
 ### Resume Protocol
 
-New session on existing work → read in order: `plans/context.md` → `plans/<task>.md` → `plans/repo-map.md`. See [resume-workflow](references/resume-workflow.md).
+New session on existing work → read in order: `plans/context.md` → `plans/<task>.md`; read `plans/repo-map.md` only if present/useful and verify entries against the current workspace. See [resume-workflow](references/resume-workflow.md).
 
 ## Core Constraints
 
 - **One step at a time** — never batch multiple steps.
 - **Stay in scope** — only touch files in the step's plan.
 - **Persist reality** — keep the plan file accurate at all times.
-- **Maintain the repo map** — every touched file must be tracked.
+- **Record evidence** — keep the plan's Working Set, Verified Facts, Implementation Notes, and Files Changed accurate.
 - **Never mark COMPLETED with known issues** — fix or mark BLOCKED.
 
 ## Reference Guide
@@ -120,7 +121,7 @@ New session on existing work → read in order: `plans/context.md` → `plans/<t
 | [create-plan](references/create-plan.md) | Exploration, step sizing, plan creation procedure |
 | [execute-step](references/execute-step.md) | Code protection, implementation, scope management |
 | [verify-step](references/verify-step.md) | Validate + test + review diff (single gate) |
-| [maintain-repo-map](references/maintain-repo-map.md) | Track file locations and architecture |
+| [maintain-repo-map](references/maintain-repo-map.md) | Maintain advisory project memory; verify before relying on it |
 | [persist-plan](references/persist-plan.md) | Update plan status and context |
 | [dump-context](references/dump-context.md) | Save session state before pausing |
 | [reflect-after-changes](references/reflect-after-changes.md) | Catch complexity every 2–3 steps |

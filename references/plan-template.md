@@ -25,6 +25,12 @@
 - [Decision]: [Rationale]
 ### Gotchas & Warnings
 - [Warning]: [What to watch out for]
+### Working Set
+| Path | Role in this task | Evidence |
+|------|-------------------|----------|
+| [path] | [why this file matters] | [read/rg/test/config check used to verify] |
+### Verified Facts
+- [Fact] — verified by [tool/read/search/config], [date or step].
 
 ## Steps
 
@@ -68,7 +74,7 @@ The top-level plan file must also have:
 
 - [ ] Header block with `Status`, `Created`, `Last Updated`
 - [ ] `Goal`, `Assumptions`, `Open Questions` (empty before execution)
-- [ ] `Context & Learnings`
+- [ ] `Context & Learnings`, including `Working Set` and `Verified Facts`
 - [ ] `Implementation Log` table (appended to as steps complete)
 
 ## Violations to avoid
@@ -77,4 +83,5 @@ The top-level plan file must also have:
 - Steps missing any of the seven required fields.
 - Horizontal slicing (Step 1 = all types, Step 2 = all logic, Step 3 = all tests). Each step must be a thin vertical slice through the necessary layers — independently verifiable.
 - Marking a step `COMPLETED` with known validation or test failures. Either fix them or mark `BLOCKED`.
+- Recording guessed paths, APIs, dependencies, or conventions as facts without read/search/tool evidence.
 - Batching multiple steps in a single execution pass.

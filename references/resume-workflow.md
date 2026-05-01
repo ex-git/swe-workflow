@@ -2,11 +2,12 @@
 
 ## Overview
 
-Safely resume work from where it was left off. Never restart, never guess — read the plan, context, and repo map.
+Safely resume existing work. Never restart or guess from memory — read the saved files, identify the current step, verify evidence against the current workspace, and then continue.
 
 ## When to Use
 
 Use this reference when:
+
 - Starting a new session on existing work
 - Resuming after a context switch
 - Taking over from another agent
@@ -14,239 +15,156 @@ Use this reference when:
 
 ## Critical Principle
 
-**Memory is unreliable. Files are truth.**
+**Memory is unreliable. Files plus current-workspace verification are truth.**
 
-When resuming, you MUST read three files in order:
-1. `plans/context.md` — current session state
-2. `plans/<task>.md` — task definition and progress
-3. `plans/repo-map.md` — file locations and purposes
+Read in this priority order:
 
-Without reading all three, you WILL forget important context.
+1. `plans/context.md` — latest session state, if present
+2. `plans/<task>.md` — task definition, Working Set, Verified Facts, progress
+3. `plans/repo-map.md` — optional advisory project memory, if present/useful
+
+The plan and context are authoritative for the current task. The repo map is advisory and may be stale across branches/worktrees; verify before relying on it.
 
 ## Instructions
 
 ### Step 1: Discover Existing Plans
 
 ```bash
-# Check if plans directory exists
 ls -la plans/ 2>/dev/null || echo "No plans directory"
-
-# List all plan files with timestamps
 ls -lt plans/*.md 2>/dev/null || echo "No plan files found"
 ```
 
 If no plans exist, start from require-clarification.
 
-### Step 2: Read Context File (MANDATORY)
+### Step 2: Read Context File First
 
-**This step is mandatory, not optional.**
+If `plans/context.md` exists, read it completely.
 
-```
-Use read tool on: plans/context.md
-```
+Capture:
 
-The context file contains:
-- What was being worked on
-- Which steps are complete
-- Current step progress
-- Decisions made
-- Active files
-- Key learnings (gotchas, patterns)
-- Next actions planned
+- current task and step
+- completed work
+- decisions made
+- active files
+- Working Set / Verified Facts summary
+- open questions
+- next actions
 
-If context file exists, you MUST read it completely.
+If context is absent, note that and proceed to the plan.
 
-**If context file doesn't exist:**
-- Note that this is a fresh resume
-- Proceed to read the plan file
+### Step 3: Read the Plan File Completely
 
-**Checkpoint:** 
-- [ ] Context file read (or confirmed absent)
-- [ ] Completed steps identified
-- [ ] Current step identified
-- [ ] Decisions made captured
-- [ ] Key learnings captured
+Use `read` on `plans/<task-name>.md`.
 
-### Step 3: Read Plan File (MANDATORY)
+Read:
 
-```
-Use read tool on: plans/<task-name>.md
-```
-
-Read ALL sections:
-- Goal and Assumptions
-- Context & Learnings (decisions, gotchas, patterns)
-- Repo Map Quick Reference
-- ALL steps (not just current one)
+- Goal, Assumptions, Open Questions
+- Context & Learnings
+- Working Set and Verified Facts
+- all steps, not just the current one
 - Implementation Log
-- Deviations from Original Plan
+- Files Changed and Implementation Notes
 
-**Do NOT rely on memory or partial reads.**
+If multiple plan files could apply, ask the user which one to resume.
 
-If multiple plans exist, ask the user which one to resume.
+### Step 4: Optionally Read Repo Map
 
-**Checkpoint:**
-- [ ] Goal understood
-- [ ] Assumptions captured
-- [ ] All COMPLETED steps noted
-- [ ] Current step(s) identified
-- [ ] Any BLOCKED steps noted
-- [ ] Implementation log reviewed
+Read `plans/repo-map.md` only if it exists and would help orientation.
 
-### Step 4: Read Repo Map (MANDATORY)
+When using it:
 
-**This step is mandatory, not optional.**
-
-```
-Use read tool on: plans/repo-map.md
-```
-
-The repo map contains:
-- All discovered files and their purposes
-- Which task touched which files
-- Key directories
-- Architecture patterns and conventions
-- Dependencies
-
-**Why This Matters:**
-- Without repo map, you'll waste time searching for files
-- You might modify wrong files or forget related files
-- You'll miss patterns and conventions discovered earlier
-- Future searches are redundant if repo map is current
-
-**Checkpoint:**
-- [ ] Core Files table reviewed
-- [ ] Related Files table reviewed
-- [ ] Key Directories captured
-- [ ] Architecture Notes (patterns, conventions) noted
-- [ ] File locations for current task identified
+- Treat entries as hints, not facts.
+- Verify paths with `ls`, `rg`, `find`, `git ls-files`, or `read` before editing.
+- If entries conflict with the current workspace, trust the current workspace and update the task plan's Verified Facts.
 
 ### Step 5: Find Resume Point
 
-After reading all three files:
+Scan for the first non-COMPLETED step:
 
-```
-Scan for first non-COMPLETED step:
-- If IN_PROGRESS: read its Implementation Notes, continue from where stopped
-- If PENDING: this is the next step to execute
-- If BLOCKED: note reason, try next unblocked step
-- If all COMPLETED: proceed to global-reflection
-```
+- `IN_PROGRESS` — read Implementation Notes and continue only after verifying current state
+- `PENDING` — this is the next step to execute
+- `BLOCKED` — note reason; try next unblocked step only if safe
+- all `COMPLETED` — proceed to global-reflection
 
-Cross-check with context file's "Current Step" to ensure consistency.
+Cross-check with `plans/context.md` if present. If context and plan disagree significantly, ask the user before editing.
 
-### Step 6: Verify Prerequisites
+### Step 6: Verify Prerequisites and Evidence
 
-Before executing the step:
+Before executing:
 
-1. **Read the step's Prerequisites section**
-2. **Check if all prerequisites are met**
-3. If prerequisites reference files:
-   - Verify files exist in repo map
-   - Read those files if needed
+1. Read the step's Prerequisites.
+2. Confirm required files/facts are in Working Set or Verified Facts.
+3. Re-verify any stale or branch-sensitive facts in the current workspace.
+4. Read target files or targeted sections before editing.
 
 ### Step 7: Orient User
 
-Tell the user clearly:
+Before continuing, summarize briefly:
 
-```
-**Resuming work on: [task name]**
+```markdown
+**Resuming work on:** [task name]
 
 **Files Read:**
-- ✓ plans/context.md — session state
-- ✓ plans/[task].md — task progress
-- ✓ plans/repo-map.md — file inventory
+- ✓ plans/context.md — [read / absent]
+- ✓ plans/[task].md — task progress and evidence
+- [optional] plans/repo-map.md — advisory project memory, verified where used
 
 **Progress:**
 - Completed: Step X, Y, Z
 - Current: Step N — [step title]
 - Remaining: [N steps]
 
-**Key Decisions Made:**
-- [Decision 1 from context/plan]
-- [Decision 2]
+**Key Decisions / Facts:**
+- [Decision or verified fact]
 
-**Key Learnings:**
-- [Gotcha 1 from context/plan]
-- [Pattern discovered]
-
-**Files We're Working With:**
-- [Key file 1] — [purpose from repo map]
-- [Key file 2] — [purpose]
+**Working Set:**
+- [file] — [role/evidence]
 
 Should I continue with Step N, or would you like to adjust the plan?
 ```
 
 ### Step 8: Resume Execution
 
-Continue from the identified step:
-- Follow normal workflow
-- Reference repo map before searching for files
-- Reference context for decisions and learnings
-- Reference plan for step details
+Continue from the identified step using execute-step:
+
+- Keep one step `IN_PROGRESS`
+- Stay within the plan
+- Verify files/facts before editing
+- Update Working Set, Verified Facts, Implementation Notes, and Files Changed as reality changes
 
 ## Mandatory Checklist
 
-Before proceeding with execution, verify ALL of:
+Before proceeding with edits:
 
 | Check | Why It Matters |
 |-------|----------------|
-| Context file read (or confirmed absent) | Knows where work stopped |
+| Context file read or confirmed absent | Knows where work stopped |
 | Plan file read completely | Knows full task scope |
-| Repo map read completely | Knows where files are |
 | Resume point identified | Knows what to do next |
+| Working Set and Verified Facts reviewed | Avoids hallucinated paths/APIs/conventions |
 | Prerequisites verified | Won't fail due to missing deps |
-| Decisions and learnings captured | Won't re-litigate settled decisions |
-| File locations identified | Won't search for known files |
+| Current workspace checked for target files | Avoids stale branch/worktree assumptions |
+| User oriented if resuming interactive work | Prevents drift |
 
 **If any check fails, STOP and complete it before proceeding.**
-
-## File Priority Order
-
-Read in this exact order: **context → plan → repo-map**. Context is most recent (current state + pointers), plan has full step definitions and learnings, repo-map has file locations so you don't re-search.
-
-## Example Resume
-
-```markdown
-# After reading context.md, plans/add-user-auth.md, plans/repo-map.md:
-
-> Found existing work: plans/add-user-auth.md
->
-> **Context:** Step 2 of 5 completed. Currently on Step 3: JWT Implementation.
-> **Key Decisions:** Using httpOnly cookies for JWT storage (prevents XSS).
-> **Key Learnings:** User model needs lean() call for proper JSON serialization.
-> **Active Files:**
-> - src/utils/jwt.ts (in progress) — JWT generation/validation
-> - src/routes/auth.ts (to modify) — Login endpoint
-> - src/config/constants.ts (reference) — JWT config
->
-> Should I continue with Step 3, or adjust the plan?
-```
-
-## Status Interpretation
-
-See [SKILL.md → Status Values](../SKILL.md#status-values). On resume:
-- **IN_PROGRESS** — read Implementation Notes, continue from where stopped
-- **PENDING** — this is the next step to execute
-- **BLOCKED** — note reason, try next unblocked step
-- All **COMPLETED** → proceed to `global-reflection`
-
-## Constraints
-
-- **Never proceed without reading all three files** (or confirming context is absent).
-- **Never redo completed steps** — trust the plan.
-- **Never start from scratch** if a plan exists — ask the user first.
-- **Never rely on memory** — use the `read` tool on all files.
-- **Always orient the user** with a brief summary before continuing.
 
 ## Edge Cases
 
 | Situation | Action |
 |---|---|
 | Context file missing, plan exists | Read plan completely; treat as fresh resume; create context after first action |
-| Context and plan disagree | Trust plan for step status, context for decisions/active work; if they contradict significantly, ask user |
+| Context and plan disagree | Trust plan for step status, context for recent work; ask user if contradiction affects edits |
+| Repo map disagrees with current files | Trust current workspace; update Verified Facts and optionally repo map |
 | Multiple plan files | Ask user which to resume |
-| Plan looks stale or wrong | Ask user: continue, start fresh, or something else |
+| Plan looks stale or wrong | Ask user: continue, update plan, start fresh, or something else |
+
+## Constraints
+
+- **Never restart from scratch** if a plan exists without asking.
+- **Never redo completed steps** unless user asks or verification proves they are invalid.
+- **Never rely on memory** — read saved files and current targets.
+- **Never rely on repo-map entries without current-workspace verification.**
+- **Always orient the user** with a brief summary before continuing interactive work.
 
 ## Next Step
 

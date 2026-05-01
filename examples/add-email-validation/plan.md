@@ -35,26 +35,30 @@ _(none)_
 - **Local part max is 64 chars.** Check independently — some emails have short domains but very long local parts.
 - Unicode domains (IDN / Punycode) are explicitly out of scope for v1.
 
+
+### Working Set
+
+| Path | Role in this task | Evidence |
+|---|---|---|
+| `src/utils/email.ts` | New validator and main implementation target | Planned from user request; created in Step 1 |
+| `src/utils/email.test.ts` | Vitest coverage for validator behavior | Test framework confirmed in `package.json`; created in Step 3 |
+| `src/utils/index.ts` | Barrel export for utils | Existing barrel pattern verified by reading file in Step 1 |
+| `src/utils/phone.ts` | Reference validator shape/style | Read before implementation; matches `{ valid, error }` pattern |
+| `src/utils/phone.test.ts` | Reference test structure | Read before Step 3; uses `describe.each` |
+| `docs/deps-policy.md` | Dependency policy | Read before planning; rejects `validator` package |
+
+### Verified Facts
+
+- Vitest is already configured — verified by reading `package.json`.
+- Validators use named exports and barrel export through `src/utils/index.ts` — verified by reading existing utils.
+- Tests are colocated as `*.test.ts` next to source files — verified by reading `src/utils/phone.test.ts`.
+- The `validator` package should not be added — verified by reading `docs/deps-policy.md`.
+
 ### Patterns & Conventions
 
 - Every util in `src/utils/` has a matching `*.test.ts` next to it (not in a separate `tests/` tree).
 - All validators return `{ valid: boolean; error?: Code }` — see `validatePhone`, `validateZip`.
 - Barrel export through `src/utils/index.ts`.
-
-## Repo Map Reference
-
-Full map in [`repo-map.md`](repo-map.md).
-
-### Quick Reference
-
-| Path | Purpose | Status |
-|---|---|---|
-| `src/utils/email.ts` | New validator — main deliverable | new |
-| `src/utils/email.test.ts` | Vitest cases for validator | new |
-| `src/utils/index.ts` | Barrel export | modified |
-| `src/utils/phone.ts` | Pattern reference for shape/style | referenced |
-
----
 
 ## Steps
 
@@ -213,5 +217,5 @@ Full map in [`repo-map.md`](repo-map.md).
 
 ---
 
-*File locations tracked in: [`repo-map.md`](repo-map.md)*
-*Session context tracked in: [`context.md`](context.md)*
+*Session context tracked in: [`context.md`](context.md).*
+*Advisory project memory in [`repo-map.md`](repo-map.md) must be verified before use.*

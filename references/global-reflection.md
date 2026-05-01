@@ -15,7 +15,8 @@ When ALL steps in the plan are marked COMPLETED. This runs once at the end.
    - Verify all steps are COMPLETED
    - Check Implementation Log for context
    - Note any Deviations from Original Plan
-   - Review Repo Map for completeness
+   - Review Working Set and Verified Facts for evidence gaps
+   - Review advisory repo map only for durable discoveries that should survive this task
    - **Review Context & Learnings for completeness** — are all decisions documented?
 
 2. **Re-read ALL files created or modified:**
@@ -35,11 +36,11 @@ When ALL steps in the plan are marked COMPLETED. This runs once at the end.
    - [ ] Are warnings/gotchas captured for future reference?
    - [ ] Are patterns and conventions noted?
 
-   **Repo Map:**
-   - [ ] Are all Core Files listed?
-   - [ ] Are all Related Files listed?
-   - [ ] Are Key Directories documented?
-   - [ ] Is the map accurate and complete?
+   **Evidence & handoff:**
+   - [ ] Are Working Set entries accurate and evidence-backed?
+   - [ ] Are Verified Facts still true in the current workspace?
+   - [ ] Are Files Changed complete for every step?
+   - [ ] Are durable project conventions/gotchas captured in the advisory repo map if useful?
    
    **Architecture:**
    - [ ] Is the overall design clean?
@@ -175,7 +176,8 @@ Before declaring feature done:
 - [ ] Re-read ALL modified/created files
 - [ ] Verified Goal is achieved
 - [ ] Context & Learnings is complete (decisions, gotchas, patterns)
-- [ ] Repo Map is accurate and complete
+- [ ] Working Set, Verified Facts, and Files Changed are accurate
+- [ ] Advisory repo map updated only for durable project discoveries
 - [ ] Architecture is clean
 - [ ] No critical technical debt remaining
 - [ ] All tests passing
