@@ -1,147 +1,105 @@
 # Create Plan
 
-## Overview
+## Contract — Read This First
 
-Transform a clarified request into a structured, step-by-step plan. The plan is saved as a file and becomes the single source of truth for execution.
-
-## Prerequisites
-
-Before starting:
-- [ ] Clarification is complete (require-clarification finished)
-- [ ] No known requirement/design questions remain; if any exist, stop and ask in chat
-- [ ] You understand the scope, inputs, outputs, and success criteria
+1. Clarification must be complete — no unresolved questions. If any remain, stop and ask in chat.
+2. Open Questions must be exactly `None.` — do not create a plan with unresolved questions.
+3. Explore narrowly — read only files needed to plan; record evidence in Working Set and Verified Facts.
+4. Discover design conventions — if the task touches UI, schema, or API, search for existing patterns, shared components, and reusable code before planning. Record in Verified Facts.
+5. Fill the Design Decisions table — surface every UX, schema, or API choice for user confirmation. Write `None — no design-sensitive changes.` if N/A.
+6. Break into vertical slices — each step is one thin slice through all layers (types, logic, tests), independently verifiable. Never horizontal.
+7. Bullet quality — every plan bullet must name a tool (`edit`/`write`/`bash`), a file path, and the specific change. If a bullet doesn't reference a concrete location, it's too vague.
+8. Reuse before create — search for existing shared code before planning to create new components, utilities, or patterns. Evidence in Verified Facts.
+9. Write ALL steps — the plan file must contain every step for every phase. Partial plans block execution.
+10. Copy [`plan-template.md`](plan-template.md) verbatim — do not invent your own format.
 
 ## Instructions
 
-1. **Verify clarification is complete before writing a plan** — if any open questions remain, go back to require-clarification and ask them in chat. Do not create, finalize, or present a plan with unresolved questions.
+1. **Verify clarification is complete** — if any open questions remain, go back to require-clarification. Do not create, finalize, or present a plan with unresolved questions.
 
 2. **Define the plan header:**
    - **Goal:** one sentence describing what we're building
    - **Assumptions:** what we're taking for granted
-   - **Open Questions:** write exactly `None.`. If anything else would go here, stop before writing/finalizing the plan and ask the user. `DRAFT` means awaiting plan approval after clarification, not awaiting requirement answers.
+   - **Open Questions:** exactly `None.`. If anything else would go here, stop and ask the user.
+   - **Design Decisions:** fill the table or write `None — no design-sensitive changes.`
 
 3. **Explore the codebase narrowly:**
    - Search for relevant files and directories with targeted `rg`/`find`/`git` commands
-   - Read only files needed to plan the task: likely targets, direct callers/callees, nearby tests, and relevant config
-   - Record task-local evidence in the plan's Working Set and Verified Facts
-   - If `plans/repo-map.md` exists, treat it as advisory project memory; verify entries against the current workspace before relying on them
+   - Read only files needed to plan: likely targets, direct callers/callees, nearby tests, relevant config
+   - **Design convention discovery** (when task touches UI, schema, or API):
+     - Frontend: search for existing shared/reusable components, design tokens, layout patterns
+     - Schema: search for naming conventions, relationship patterns, migration style
+     - API: search for route naming, response shape, error format
+   - **Reuse check:** before planning to create anything new, search for existing equivalents. Record evidence ("no match found" or "existing X can be extended").
+   - Record all evidence in the plan's Working Set and Verified Facts
+   - If `plans/repo-map.md` exists, treat it as advisory; verify entries before relying on them
 
-4. **Break work into ordered steps:**
+4. **Break work into ordered vertical-slice steps:**
    - Each step is ONE discrete action (5-15 minutes of work)
+   - Each step is a thin slice through all layers (types, logic, tests) — independently verifiable
    - Steps must be ordered by dependency
    - Each step includes: title, prerequisites, deliverables, plan bullets, validation checklist, test checklist
    - All steps start as **PENDING**
-   - Do not add a step whose purpose is to resolve open questions; clarification is a pre-plan gate
+   - Do not add a step whose purpose is to resolve open questions
 
 5. **Define prerequisites and deliverables for each step:**
-   - **Prerequisites:** What must be true before starting (files exist, previous steps done, dependencies installed)
-   - **Deliverables:** What this step produces (files created/modified, functions added, tests passing)
-   - This makes steps self-contained and enables new sessions to pick up any step
+   - **Prerequisites:** What must be true (step deps, files to modify, design confirmations needed)
+   - **Deliverables:** What this step produces + "After this step: [observable outcome]"
 
-6. **Create the plans directory if needed:**
-   - Run: `mkdir -p plans/`
+6. **Create the plans directory:** `mkdir -p plans/`
 
-7. **Use advisory repo-map.md only when helpful:**
-   - Check if `plans/repo-map.md` exists when the task would benefit from project memory
-   - Do not create or update it as a complete inventory
-   - Add to it only for durable project conventions, stable directories, architecture notes, or handoff facts that will help future tasks
+7. **Use advisory repo-map.md only when helpful** — add only durable project conventions, not exhaustive inventories.
 
-8. **Derive the plan filename:**
-   - Use kebab-case derived from the feature description
-   - Examples:
-     - "Add user authentication" → `plans/add-user-authentication.md`
-     - "Fix memory leak in cache" → `plans/fix-memory-leak-in-cache.md`
-     - "Refactor API handlers" → `plans/refactor-api-handlers.md`
+8. **Derive the plan filename** — kebab-case from the feature description (e.g. `plans/add-user-auth.md`).
 
 9. **Write the plan file — ALL steps:**
-   - Use the `write` tool to create `plans/<feature-name>.md`
-   - Copy [`../references/plan-template.md`](plan-template.md) verbatim — do NOT invent your own format
-   - The plan file MUST contain every step for the entire task, not just the first phase or batch
-   - If the user approved a multi-phase plan discussed in chat, write ALL phases and ALL steps to the file before any execution begins
+   - Copy [`plan-template.md`](plan-template.md) verbatim
+   - ALL phases and ALL steps before any execution begins
    - A plan file missing later phases/steps is incomplete and blocks execution
 
 10. **Populate Working Set and Verified Facts:**
-   - Add each likely target file to the plan's Working Set with the evidence used to verify it
-   - Record facts that affect implementation choices, such as existing test style, dependency availability, import/export patterns, callers, and relevant config
-   - Keep this task-local; do not turn the plan into an exhaustive repo inventory
+    - Add each target file with evidence used to verify it
+    - Record facts affecting implementation: test style, dependency availability, import patterns, callers, config
+    - Keep task-local; do not create an exhaustive repo inventory
 
-11. **Verify the plan was created:**
-   - Use `read` tool to confirm the file exists and has correct structure
-   - Ensure all sections are present: Goal, Assumptions, Open Questions, Context & Learnings, Working Set, Verified Facts, Steps
-   - Verify `## Open Questions` contains exactly `None.`
-   - Verify every non-trivial assumption is either answered, recorded as an assumption, or backed by evidence
+11. **Verify the plan:**
+    - `read` the file — confirm Goal, Assumptions, Open Questions (`None.`), Design Decisions, Working Set, Verified Facts, Steps
+    - Verify every non-trivial assumption is answered, recorded, or evidence-backed
 
-12. **Report the clean clarification state:**
-   - Tell the user: `Plan created. Open questions: none. Ready to proceed with Step 1?`
-   - If you cannot truthfully say this, the plan is invalid; go back to require-clarification.
-
-## Step Sizing Guide
-
-Good step: "Add user validation function with email format check"
-Too big: "Implement the entire authentication system"
-Too small: "Import the email regex library"
-
-**Vertical slices, not horizontal.** Each step should be a thin slice through all layers (types, logic, tests) that is independently verifiable — NOT a horizontal slice of one layer.
-
-```
-WRONG (horizontal):              RIGHT (vertical):
-  Step 1: Define all types         Step 1: Implement + test feature A
-  Step 2: Write all functions       Step 2: Implement + test feature B
-  Step 3: Write all tests           Step 3: Implement + test feature C
-```
-
-A completed step should be demoable or verifiable on its own.
+12. **Report:** `Plan created. Open questions: none. Ready to proceed with Step 1?` — if you cannot truthfully say this, the plan is invalid.
 
 ## Mandatory Outputs
 
-Before marking complete, verify ALL of the following:
-
-- [ ] Plan file exists at `plans/<feature-name>.md`
-- [ ] File contains: Goal (one sentence), Assumptions (list), Open Questions (exactly `None.`)
-- [ ] Context & Learnings section initialized, including Working Set and Verified Facts
-- [ ] Working Set lists key files for the task with evidence, not guesses
-- [ ] Verified Facts records implementation-relevant facts with read/search/tool evidence
-- [ ] Each step has: Title, Status (PENDING), Prerequisites, Deliverables, Plan bullets, Validation checklist, Test checklist
-- [ ] At least one step exists (most features need 3-10 steps)
-- [ ] ALL steps for ALL phases of the task are present — no phase or step discussed with the user is omitted
-- [ ] Steps are ordered by dependency (earlier steps don't depend on later ones)
-- [ ] No code has been written yet
-
-## File Structure
-
-```
-plans/
-├── repo-map.md           # Optional advisory project memory; verify before use
-├── context.md            # Current session context (created on pause/resume)
-└── <feature-name>.md     # Individual plan with Working Set and Verified Facts
-```
-
-- **repo-map.md**: Optional advisory memory for durable project conventions, stable directories, and gotchas; not authoritative across branches/worktrees
-- **context.md**: One file per project, overwritten each session, preserves current work state
-- **plan files**: One file per task/feature, contains steps, Working Set, Verified Facts, and task-specific context
+- [ ] Plan file at `plans/<feature-name>.md`
+- [ ] Goal, Assumptions, Open Questions (`None.`), Design Decisions (filled or `None`)
+- [ ] Working Set with evidence, Verified Facts with tool citations
+- [ ] Each step has all 7 fields: Status, Prerequisites, Deliverables, Plan, Validation, Test, Files Changed
+- [ ] ALL steps for ALL phases present; steps ordered by dependency
+- [ ] Every plan bullet names a tool + file path + specific change
+- [ ] No code written yet
 
 ## Constraints
 
-- **Do NOT write any code** in this phase — plans only
-- **Do NOT skip directly to implementation** — the plan must exist first
-- **Do NOT write a plan with unresolved questions** — ask those questions in chat before creating/finalizing the plan
-- **Do NOT use `DRAFT` as a loophole** — DRAFT plans still require completed clarification; DRAFT only means plan structure awaits approval
-- **Do NOT write a partial plan** — the plan file must contain ALL steps for ALL phases of the task; never write only the current or next phase
-- **Do NOT invent your own plan format** — copy `references/plan-template.md` verbatim
-- **Do NOT create an exhaustive repo inventory** — keep Working Set limited to files/facts needed for this task
-- Steps must be small enough to validate individually
+- **Do NOT write code** in this phase — plans only
+- **Do NOT skip to implementation** — plan must exist first
+- **Do NOT write a plan with unresolved questions** — ask in chat first
+- **Do NOT use DRAFT as a loophole** — DRAFT requires completed clarification
+- **Do NOT write a partial plan** — ALL steps for ALL phases required
+- **Do NOT invent your own format** — copy plan-template.md verbatim
+- **Do NOT create new code without a reuse check** — search for existing equivalents first; evidence in Verified Facts
+- **Do NOT make silent design choices** — surface in Design Decisions table for user confirmation
 - If you can't break it into steps, the scope is too vague — go back to clarification
 
 ### Common Scope Traps
 
-Before writing the plan, grep the repo for every occurrence of any value that is meant to stay consistent across files. Missing even one causes silent drift.
+Before writing the plan, grep for any value that must stay consistent across files:
 
-- **Version bumps:** grep for the current version string (e.g. `1.5.1`) across `SKILL.md`, `package.json`, `CHANGELOG.md`, `README.md`, and any other config/docs. Every hit is a file the plan must touch.
-- **Renames (symbols, routes, env vars, file paths):** grep for the old name; include every caller in the plan's Files Changed.
-- **Schema/column changes:** grep for the column name in migrations, models, raw SQL, and type definitions.
-- **Config keys:** grep for the key in `.env.example`, `config.*`, docs, and tests.
+- **Version bumps:** grep current version across SKILL.md, package.json, CHANGELOG.md, README.md
+- **Renames:** grep old name; include every caller in the plan
+- **Schema/column changes:** grep in migrations, models, raw SQL, type definitions
+- **Config keys:** grep in `.env.example`, `config.*`, docs, tests
 
-If the grep surfaces unexpected hits, either fold them into the plan or explicitly call them out in Assumptions as intentionally out of scope.
+If grep surfaces unexpected hits, fold them into the plan or note them as out of scope in Assumptions.
 
 ## Next Step
 

@@ -5,10 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.7.0] - 2026-05-03
+
+### Added
+- **Contract blocks** at the top of every reference file (first 5-10 rules). A low-thinking agent reading only the first 20-30 lines of any reference now gets every critical gate.
+- **Design Decisions table** in the plan template. UX, schema, component, and API contract choices must be surfaced for user confirmation during planning — not assumed silently.
+- **Design confirmation gate** in execute-step. Design-sensitive steps verify approach matches existing conventions or the Design Decisions table before implementing.
+- **Design convention discovery** in create-plan. When a task touches UI, schema, or API, the agent searches for existing patterns, shared components, and reusable code before planning.
+- **Reuse-before-create behavioral guard** (§4 in SKILL.md). Agents must search for existing equivalents before creating new components, utilities, or schema patterns; evidence of the search goes in Verified Facts.
+- **Design discipline behavioral guard** (§5 in SKILL.md). Silent design choices are prohibited; design decisions must be confirmed by the user.
+- **Bullet quality standard** in create-plan. Every plan bullet must name a tool (`edit`/`write`/`bash`), a file path, and the specific change.
+- **Concrete example placeholders** in plan-template.md. Step fields now show realistic examples (tool-prefixed plan bullets, exact validation commands, explicit step dependencies, outcome sentences).
+- **`references/plan-example.md`** — a complete, realistic 3-step filled-in plan example for low-thinking agents to copy from.
+- **Append-only rule** for Context & Learnings in the plan template.
+- **Silent design assumptions** anti-pattern added to SKILL.md.
 
 ### Changed
-- Strengthened the Full workflow clarification gate: plans must use `Open Questions: None.`, unresolved questions must be asked in chat before plan creation/finalization or execution, `DRAFT` is not a loophole for unresolved requirements, and clarification must not be turned into an implementation step.
+- All 11 reference files restructured with Contract blocks front-loaded as first section.
+- Total reference file lines compressed from 1833 to 1086 (−41%) while adding new design discipline content. Verbose sections (examples, tables, repeated checklists) tightened without losing critical rules.
+- Behavioral guard §4 "Code quality" split into §4 "Reuse before create" + §5 "Design discipline"; original code quality aspects covered by existing guards §1/§3/§6.
+- Plan template `Deliverables` now includes "After this step: [observable outcome]" guidance.
+- Plan template `Prerequisites` now includes "Files to modify:" and explicit step dependency examples.
+- Plan file format contract rule updated to mention Design Decisions table.
+- Clarification phase now includes design decision identification (require-clarification.md).
+- Strengthened the Full workflow clarification gate (from pre-v1.7.0 commit): plans must use `Open Questions: None.`, unresolved questions must be asked in chat before plan creation/finalization or execution.
 
 ## [1.6.1] - 2026-04-30
 
@@ -142,7 +162,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.6.1...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/ex-git/swe-workflow/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/ex-git/swe-workflow/compare/v1.6.0...v1.6.1
 [1.6.0]: https://github.com/ex-git/swe-workflow/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/ex-git/swe-workflow/compare/v1.5.0...v1.5.1

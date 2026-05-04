@@ -15,7 +15,7 @@ description: >-
   edits, writes, and bash — triage comes first.
 license: MIT
 metadata:
-  version: "1.6.1"
+  version: "1.7.0"
   author: "Evan Xu"
 ---
 
@@ -37,7 +37,7 @@ This block is the minimum every agent must follow. If you skim only this section
    ```
 2. **Full workflow is mandatory for:** repo-wide scans/migrations/cleanup, lint/type/build/test cleanup, broad refactors touching multiple files, deleting/moving/renaming files, backend + frontend changes in one task, API/schema/route/config contract changes, source-of-truth doc updates, tasks touching >3 files, or ambiguous scope. Lightweight work that hits any trigger MUST escalate: stop, declare Full, create a plan, then resume.
 3. **Pre-edit gate (Full mode).** Before any `write`/`edit`/`bash` on task target files: a `plans/<task>.md` file must exist, exactly one step must have `**Status:** IN_PROGRESS`, and the edit must map to that step. Only `plans/*.md` files may be written before this gate is satisfied.
-4. **Plan file format.** Every `plans/<task>.md` copies [`references/plan-template.md`](references/plan-template.md) verbatim. Every step has all seven fields: `Status`, `Prerequisites`, `Deliverables`, `Plan`, `Validation Checklist`, `Test Checklist`, `Files Changed`. The file has a top-level `Implementation Log` table appended as steps complete.
+4. **Plan file format.** Every `plans/<task>.md` copies [`references/plan-template.md`](references/plan-template.md) verbatim. Every step has all seven fields: `Status`, `Prerequisites`, `Deliverables`, `Plan`, `Validation Checklist`, `Test Checklist`, `Files Changed`. The plan includes a `Design Decisions` table and a top-level `Implementation Log`.
 5. **Clarification gate (Full mode).** If any requirement question is known, ask it in chat before writing or finalizing `plans/<task>.md`. A valid plan has no unresolved questions; `DRAFT` means awaiting plan approval, not awaiting requirement answers, and clarification must not be turned into an implementation step.
 6. **One step at a time.** Never batch. Never mark `COMPLETED` with known failures — fix or mark `BLOCKED`.
 
@@ -81,6 +81,15 @@ RIGHT:  Ask the question in chat before creating/finalizing the plan,
         then write ## Open Questions as `None.`
 ```
 
+**Silent design assumptions:**
+```
+WRONG:  Agent picks modal vs page, dropdown vs radio, join table vs JSON column
+        without asking — implements whatever seems reasonable
+
+RIGHT:  Surface the choice in Design Decisions table during planning,
+        confirm with user, then implement the confirmed approach
+```
+
 Status values: `PENDING` | `IN_PROGRESS` | `COMPLETED` | `BLOCKED`
 
 ## Behavioral Guards — All Code Tasks
@@ -90,8 +99,9 @@ These guards are active for the **entire session**, not just the first response.
 1. **Evidence first** — read relevant files before editing; verify paths/imports/dependencies; search callers/usages before changing shared behavior.
 2. **Simplicity** — minimum code for the problem; no unrequested features, abstractions, dependencies, or defensive handling.
 3. **Surgical changes** — touch only needed files/lines; match formatting, naming, and import conventions; do not copy degraded correctness patterns.
-4. **Code quality** — write clear, cohesive code with good names; avoid duplication in touched code without broad refactors; mention unrelated issues but don't fix them.
-5. **Goal-driven** — define success before coding; verify via tests/lint/format/build/typecheck; add focused tests for new code and bug fixes when a test framework exists; run quality gates including pre-commit hooks; fix introduced issues or report blockers.
+4. **Reuse before create** — before writing a new component, utility, hook, type, or schema pattern, search for existing equivalents; evidence of the search must appear in Verified Facts. Extract duplication when extraction is small and in scope; mention unrelated issues but don't fix them.
+5. **Design discipline** — do not make silent design choices about UI layout, schema shape, component structure, or API contracts. Surface design decisions for user confirmation during clarification. During execution, verify approach matches existing conventions or the Design Decisions table.
+6. **Goal-driven** — define success before coding; verify via tests/lint/format/build/typecheck; add focused tests for new code and bug fixes when a test framework exists; run quality gates including pre-commit hooks; fix introduced issues or report blockers.
 
 ## Full Workflow
 

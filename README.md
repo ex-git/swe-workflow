@@ -9,11 +9,13 @@ A lightweight, structured development workflow for AI coding agents. Compatible 
 Enforces visible workflow selection plus a disciplined process for any coding task complex enough to warrant it:
 
 1. **Triage** — declare `Lightweight` or `Full` mode before edits
-2. **Clarify** — understand the request before acting
-3. **Plan** — break Full workflow work into small, ordered steps
-4. **Execute** — one step at a time, documented as you go
+2. **Clarify** — understand the request before acting; surface design decisions
+3. **Plan** — break Full workflow work into small, ordered steps with a Design Decisions table
+4. **Execute** — one step at a time, documented as you go; verify design against conventions
 5. **Verify** — re-read, test, review diff (single gate)
 6. **Reflect** — catch complexity before it compounds
+
+Every reference file front-loads a **Contract block** (first 5-10 rules) so even low-thinking agents absorb the critical gates.
 
 In Full workflow mode, task state lives in `plans/<task>.md` plus `plans/context.md`; optional `plans/repo-map.md` stores advisory project memory that must be verified against the current workspace.
 
@@ -41,7 +43,7 @@ Plan needed: yes | no
 
 Full workflow mode is mandatory for broad cleanup/refactor/lint tasks, deletes/moves, backend + UI changes, API/schema/route/tooling/config changes, source-of-truth docs, ambiguous work, or anything expected to touch more than 3 files.
 
-In Full workflow mode, unresolved questions must be asked in chat before plan creation/finalization; valid plans record `Open Questions` as `None.`. Implementation edits must wait until a valid plan exists, the current step is marked `IN_PROGRESS`, and the edit maps to that step.
+In Full workflow mode, unresolved questions must be asked in chat before plan creation/finalization; valid plans record `Open Questions` as `None.` and surface design choices in a `Design Decisions` table for user confirmation. Implementation edits must wait until a valid plan exists, the current step is marked `IN_PROGRESS`, and the edit maps to that step.
 
 ## Installation
 
@@ -86,6 +88,8 @@ cp -r swe-workflow ~/.gemini/skills/
 swe-workflow/
 ├── SKILL.md                     # Agent-facing entry point (plan format inlined)
 ├── references/                  # Supplementary detail for each workflow phase
+│   ├── plan-template.md         # Canonical plan skeleton — copy verbatim
+│   ├── plan-example.md          # Filled-in 3-step example plan
 │   ├── require-clarification.md
 │   ├── create-plan.md
 │   ├── resume-workflow.md

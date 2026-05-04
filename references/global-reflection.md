@@ -1,200 +1,61 @@
 # Global Reflection
 
-## Overview
+## Contract — Read This First
 
-Full feature-level review before declaring done. Step back and see the whole picture. This is the last gate before delivery.
-
-## When to Use
-
-When ALL steps in the plan are marked COMPLETED. This runs once at the end.
+1. Run once when ALL steps are COMPLETED — this is the last gate before delivery.
+2. Re-read the entire plan file AND every modified/created file with `read`.
+3. Verify goal achieved, evidence accurate, architecture clean, no artifacts.
+4. Fix issues found. Minor → fix directly. Major → create new steps. Critical → STOP and flag.
+5. Would you hand this to another developer to maintain? If not, fix the uncomfortable parts.
 
 ## Instructions
 
-1. **Re-read the entire plan file:**
-   - Use `read` tool on `plans/<name>.md`
-   - Verify all steps are COMPLETED
-   - Check Implementation Log for context
-   - Note any Deviations from Original Plan
-   - Review Working Set and Verified Facts for evidence gaps
-   - Review advisory repo map only for durable discoveries that should survive this task
-   - **Review Context & Learnings for completeness** — are all decisions documented?
+1. **Re-read the plan file** — verify all steps COMPLETED, review Implementation Log, check deviations, review Working Set/Verified Facts for evidence gaps, review Context & Learnings for completeness.
 
-2. **Re-read ALL files created or modified:**
-   - Use `read` tool for each file
-   - Don't skip "small" changes
-   - Read in the order changes were made
+2. **Re-read ALL modified/created files** with `read` — in the order changes were made.
 
-3. **Evaluate the implementation:**
+3. **Evaluate:**
 
-   **Goal alignment:**
-   - [ ] Does this achieve the stated Goal?
-   - [ ] Are all requirements met?
-   - [ ] Is the solution complete?
+   | Area | Check |
+   |------|-------|
+   | **Goal** | Achieved? All requirements met? Solution complete? |
+   | **Evidence** | Working Set accurate? Verified Facts still true? Files Changed complete? |
+   | **Architecture** | Clean design? Could be simpler? Appropriate abstractions? Sensible file organization? |
+   | **Code quality** | Technical debt? Error handling sufficient? Edge cases covered? Clear naming? |
+   | **Tests** | All passing? Adequate coverage? Edge cases covered? |
+   | **Artifacts** | Commented-out code? TODO/FIXME? Debug statements? Hardcoded values? |
+   | **Security** | Input validation? Auth checks? Injection risks? |
+   | **Performance** | N+1 queries? Unnecessary loops? Memory leaks? |
 
-   **Context & Learnings:**
-   - [ ] Are all key decisions documented?
-   - [ ] Are warnings/gotchas captured for future reference?
-   - [ ] Are patterns and conventions noted?
+4. **Fix what you find:**
 
-   **Evidence & handoff:**
-   - [ ] Are Working Set entries accurate and evidence-backed?
-   - [ ] Are Verified Facts still true in the current workspace?
-   - [ ] Are Files Changed complete for every step?
-   - [ ] Are durable project conventions/gotchas captured in the advisory repo map if useful?
-   
-   **Architecture:**
-   - [ ] Is the overall design clean?
-   - [ ] Could it be simpler?
-   - [ ] Are abstractions appropriate? (not too abstract, not too concrete)
-   - [ ] Is the file/module organization sensible?
-   
-   **Code quality:**
-   - [ ] Is there technical debt that should be addressed now?
-   - [ ] Is error handling sufficient?
-   - [ ] Are edge cases covered?
-   - [ ] Is naming clear throughout?
-   
-   **Tests:**
-   - [ ] Are all tests passing?
-   - [ ] Is test coverage adequate?
-   - [ ] Do tests cover edge cases?
-   - [ ] Would another developer understand the tests?
-
-4. **Check for overlooked issues:**
-   - [ ] Any commented-out code?
-   - [ ] Any TODO/FIXME comments remaining?
-   - [ ] Any debugging statements left?
-   - [ ] Any hardcoded values that should be configurable?
-   - [ ] Any security concerns?
-   - [ ] Any performance concerns?
-
-5. **Final question:**
-   > Would you be comfortable handing this to another developer to maintain?
-   
-   If not, fix the uncomfortable parts.
-
-## Evaluation Template
-
-```markdown
-## Global Reflection
-
-### Goal Achievement
-- Goal: [restated goal]
-- Status: [ACHIEVED / PARTIAL / FAILED]
-- Evidence: [how we know]
-
-### Files Reviewed
-- [x] path/to/file1.ts
-- [x] path/to/file2.ts
-- [x] ...
-
-### Architecture Assessment
-- Design: [clean / needs work]
-- Concerns: [any issues]
-
-### Code Quality Assessment
-- [ ] No commented-out code
-- [ ] No TODO/FIXME remaining
-- [ ] No debugging statements
-- [ ] Error handling sufficient
-- [ ] Edge cases covered
-
-### Test Assessment
-- Coverage: [adequate / needs more]
-- All passing: [yes / no]
-- Edge cases: [covered / missing X]
-
-### Issues Found
-1. [Issue]: [Sev: high/medium/low] - [Action taken]
-
-### Final Assessment
-- Ready for delivery: [YES / NO]
-- Developer comfort level: [HIGH / MEDIUM / LOW]
-- Notes: [any additional context]
-```
-
-## If Issues Found
-
-**Minor issues** (typos, small improvements):
-- Fix directly
-- Update plan notes with what was fixed
-- Continue to completion
-
-**Major issues** (architecture, missing features):
-- Create new plan steps
-- Execute them through the full workflow
-- Don't declare done until resolved
-
-**Critical issues** (security, data loss risk):
-- STOP
-- Flag clearly to user
-- Don't proceed until resolved
-
-## Constraints
-
-- **Do not introduce regressions** during final refactoring — run all tests after changes
-- **Do not add features** that weren't in the plan — scope creep is real
-- **If major issues found**: flag them clearly to the user rather than silently patching
-- **This is the last gate before delivery** — take it seriously
-- **Do not rely on memory** — re-read actual files
-- **Do not skip because "it's a small feature"** — bugs hide in small features
-
-## Common Issues to Check
-
-| Category | Check |
-|----------|-------|
-| Security | Input validation, auth checks, SQL injection, XSS |
-| Performance | N+1 queries, unnecessary loops, memory leaks |
-| Edge cases | Empty inputs, null values, max sizes, concurrent access |
-| Error handling | Try/catch, error messages, fallbacks |
-| Documentation | README updates, inline comments, API docs |
-| Config | Environment variables, defaults, feature flags |
-
-## After Global Reflection
-
-If all checks pass:
-
-1. Consider the feature **DONE**
-2. Consider creating a commit:
-   ```bash
-   git add -A
-   git commit -m "feat: [feature description]"
-   ```
-3. Archive or close the plan if desired
-
-If issues were found and fixed:
-
-1. Update Implementation Log with final fixes
-2. Re-run any affected tests
-3. Consider another quick reflection pass
+   | Severity | Action |
+   |----------|--------|
+   | Minor (typos, small improvements) | Fix directly, update plan notes |
+   | Major (architecture, missing features) | Create new plan steps, execute through full workflow |
+   | Critical (security, data loss risk) | STOP, flag to user, do not proceed |
 
 ## Mandatory Checklist
 
-Before declaring feature done:
-
 - [ ] Re-read entire plan file
 - [ ] Re-read ALL modified/created files
-- [ ] Verified Goal is achieved
-- [ ] Context & Learnings is complete (decisions, gotchas, patterns)
-- [ ] Working Set, Verified Facts, and Files Changed are accurate
-- [ ] Advisory repo map updated only for durable project discoveries
-- [ ] Architecture is clean
-- [ ] No critical technical debt remaining
+- [ ] Goal achieved with evidence
+- [ ] Context & Learnings complete (decisions, gotchas, patterns)
+- [ ] Working Set, Verified Facts, Files Changed accurate
+- [ ] Architecture clean, no unnecessary complexity
+- [ ] No artifacts (debug statements, commented code, stale TODOs)
 - [ ] All tests passing
 - [ ] Error handling sufficient
-- [ ] No debugging artifacts remaining
 - [ ] Comfortable handing to another developer
+
+## After Reflection
+
+If all checks pass:
+1. Feature is **DONE**.
+2. Consider: `git add -A && git commit -m "feat: [description]"`
+
+If issues found and fixed: update Implementation Log, re-run affected tests.
 
 ## This is the End
 
-After global reflection passes:
-
-**Feature is COMPLETE.**
-
 No more references to load. The workflow is finished.
-
-Optional next steps (not part of workflow):
-- Create a pull request
-- Update documentation
-- Communicate completion to stakeholders
-- Archive the plan file

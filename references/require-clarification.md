@@ -1,146 +1,105 @@
 # Require Clarification
 
-## Overview
+## Contract — Read This First
 
-Ensure the request is fully understood before any planning or coding begins. Ambiguity caught here saves hours of wasted work later.
+1. Check for existing plans first — if an active plan exists, ask user before starting new work.
+2. Read the codebase before asking — don't ask questions you can answer by exploring code.
+3. If ANY ambiguity exists, ask — one question at a time, with your recommended answer.
+4. Analyze every answer — does it resolve fully? Does it introduce new requirements? New ambiguity?
+5. Do NOT proceed with unanswered questions — re-ask explicitly.
+6. Summarize and get explicit confirmation before moving to create-plan.
+7. Surface design decisions — if the task involves UI, schema, or API choices, identify them now.
 
 ## When to Use
 
-Load this reference when:
-- Receiving any new task or feature request
-- The request seems vague or underspecified
-- You're tempted to start coding immediately
-- Multiple interpretations are possible
+- New task or feature request
+- Vague or underspecified request
+- Multiple interpretations possible
+- Tempted to start coding immediately
 
-## Before Starting: Check for Active Plans
+## Check for Active Plans
 
-Before clarifying a new request, check if there's an existing plan in progress:
+```bash
+ls plans/*.md 2>/dev/null
+```
 
-1. **Check for existing plans:**
-   ```bash
-   ls plans/*.md 2>/dev/null
-   ```
-
-2. **If a plan exists:**
-   - Read the plan to check status
-   - If IN_PROGRESS steps exist: **remind user of active plan**
-   - Ask: "You have an active plan for [goal] with [N] steps remaining. Should I continue that, or switch to this new request?"
-   - Do NOT assume user wants to abandon existing work
-
-3. **If plan exists but user wants to switch:**
-   - Ask if they want to pause or close the current plan
-   - Document the status of incomplete work
-   - Then proceed with new request clarification
-
-4. **If no plan exists:**
-   - Proceed with clarification as normal
+If a plan exists with IN_PROGRESS steps: remind user, ask whether to continue existing or switch. Do NOT assume abandonment.
 
 ## Instructions
 
 1. **Analyze the request** for completeness:
-   - Is the scope defined? (what's included, what's NOT included)
-   - Are inputs and outputs clear?
-   - Are constraints specified? (performance, compatibility, dependencies)
-   - Is success criteria stated? (how do we know it's done?)
+   - Scope defined? (included and excluded)
+   - Inputs, outputs clear?
+   - Constraints specified? (performance, compatibility, dependencies)
+   - Success criteria stated?
 
 2. **Read the codebase first:**
    - Check existing patterns and conventions
-   - Look for related functionality
-   - Understand the architecture context
+   - Look for related functionality and reusable code
+   - Understand architecture context
    - Only ask questions you CAN'T answer by reading
-   - If a question can be answered by exploring code, explore instead of asking
 
-3. **If ANY ambiguity exists, grill relentlessly:**
-   - Walk down each branch of the design tree, resolving dependencies between decisions one by one
-   - Ask specific, targeted questions — prefer multiple-choice when possible
-   - Ask ONE question at a time — do not overwhelm
-   - For each question, provide your recommended answer
+3. **Identify design decisions** (when task involves UI, schema, or API):
+   - What UX/layout/component choices need to be made?
+   - What schema shape, naming, or relationship decisions exist?
+   - What API contract choices exist?
+   - Present options with your recommendation for each
+
+4. **If ANY ambiguity exists, grill relentlessly:**
+   - Walk down each branch of the design tree, resolving dependencies one by one
+   - Ask specific, targeted questions — prefer multiple-choice
+   - Ask ONE question at a time with your recommended answer
    - WAIT for response before proceeding
-   - Do not stop after one round — keep probing until every branch is resolved
+   - Keep probing until every branch is resolved
 
-4. **After receiving an answer, ANALYZE it:**
-   - Does this answer fully resolve the question?
+5. **Analyze every answer:**
+   - Does it fully resolve the question?
    - Did it introduce new requirements or change scope?
    - Did it add details that need clarification themselves?
-   - If the answer changes understanding → update your mental model and check if previous assumptions are still valid
-   - If new ambiguity introduced → ask follow-up question
-   - Only proceed to step 5 when answers are complete and don't generate new questions
+   - If new ambiguity → ask follow-up. Only proceed to step 6 when complete.
 
-5. **Summarize and confirm understanding:**
-   - Summarize your complete understanding back to the user
-   - Include: scope, inputs/outputs, success criteria, key decisions
-   - Explicitly state any assumptions you're making
+6. **Summarize and confirm:**
+   - State your complete understanding: scope, inputs/outputs, success criteria, key decisions
+   - Explicitly state assumptions
+   - Include identified design decisions and chosen approaches
    - Ask: "Is this understanding correct? Ready to proceed to planning?"
-   - WAIT for explicit user confirmation before moving to create-plan
-
-## Mandatory Checklist
-
-Before marking this reference complete, verify:
-
-- [ ] All scope boundaries are defined
-- [ ] Inputs and outputs are specified
-- [ ] Success criteria are clear and testable
-- [ ] No assumptions are being made about unclear requirements
-- [ ] All answers analyzed for scope changes and new requirements
-- [ ] User has confirmed your understanding explicitly
+   - WAIT for explicit confirmation
 
 ## Handling Partial Answers
 
-When you ask multiple questions and the user only answers some of them:
-
-| Situation | Wrong Response | Correct Response |
-|-----------|----------------|------------------|
-| User answered 2 of 4 questions | Assume answers for unanswered questions | Re-ask the unanswered questions |
-| User gave vague answer | Interpret what they meant | Ask for clarification |
-| User said "figure it out" | Make assumptions | Provide options and ask which to use |
-| User skipped a question entirely | Proceed without that answer | Explicitly ask that question again |
-
-**Example:**
+When you ask multiple questions and the user only answers some:
 
 ```
-Agent: "I need to clarify a few things:
-       1. What should happen to Channel Digest?
-       2. Should auto-replier work the same for Slack and Google Chat?
-       3. What about Task Listener?"
+Agent: "1. What happens to Channel Digest? 2. Same behavior for Slack and Chat? 3. Task Listener?"
+User:  "Channel Digest removed. Auto-replier same behavior."
 
-User: "Channel Digest should be removed. Auto-replier same behavior."
-
-Agent: "Got it. Two clarifications:
-       1. Channel Digest → remove ✓
-       2. Auto-replier → same behavior ✓
-       
-       You didn't mention Task Listener - what should happen to it?
-       a) Remove entirely
-       b) Move somewhere else
-       c) Keep as-is"
+Agent: "Got it — 1. remove ✓  2. same ✓
+        You didn't mention Task Listener — what should happen?
+        a) Remove  b) Move  c) Keep as-is"
 ```
 
-**DO NOT proceed until ALL questions are answered.**
+**Do NOT proceed until ALL questions are answered.** Do NOT assume answers for skipped questions.
+
+## Mandatory Checklist
+
+- [ ] All scope boundaries defined
+- [ ] Inputs and outputs specified
+- [ ] Success criteria clear and testable
+- [ ] Design decisions identified and options presented (if applicable)
+- [ ] No assumptions about unclear requirements
+- [ ] All answers analyzed for scope changes
+- [ ] User confirmed understanding explicitly
 
 ## Constraints
 
-- **Never assume missing requirements** — ask instead
+- **Never assume missing requirements** — ask
 - **Never skip to planning with open questions**
-- **Analyze every answer** — check if it introduces new requirements or changes scope
-- **Read the codebase first** — don't ask questions you can answer yourself
-- If user says "just do it": acknowledge urgency but still flag the top 1-2 risks of ambiguity
-- One question at a time — don't overwhelm the user
+- **Read the codebase first** — don't ask what you can discover
+- **Analyze every answer** for new requirements or scope changes
 - **Must get explicit confirmation** — no confirmation = no plan
-
-## Red Flags — You're Skipping This Phase
-
-- Starting to write a plan without understanding the full scope
-- Saying "I'll assume X" for anything non-trivial
-- Jumping straight to code after reading a one-line request
-- Not reading the codebase before asking clarifying questions
-- Treating "user answered my question" as "all questions resolved"
-- Not analyzing whether an answer introduces new requirements or changes scope
-- Proceeding to create-plan without explicit user confirmation
-- **Assuming answers for questions the user didn't answer**
-- **Crossing out questions because user didn't mention them**
+- If user says "just do it": acknowledge urgency, flag top 1-2 ambiguity risks
+- One question at a time — don't overwhelm
 
 ## Next Step
 
-→ Proceed to: **create-plan** (break down into structured steps)
-
-**Only proceed when:** All questions are resolved and user has confirmed your understanding.
+→ **create-plan** — only when all questions resolved and user confirmed.
