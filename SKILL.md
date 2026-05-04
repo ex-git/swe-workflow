@@ -38,7 +38,8 @@ This block is the minimum every agent must follow. If you skim only this section
 2. **Full workflow is mandatory for:** repo-wide scans/migrations/cleanup, lint/type/build/test cleanup, broad refactors touching multiple files, deleting/moving/renaming files, backend + frontend changes in one task, API/schema/route/config contract changes, source-of-truth doc updates, tasks touching >3 files, or ambiguous scope. Lightweight work that hits any trigger MUST escalate: stop, declare Full, create a plan, then resume.
 3. **Pre-edit gate (Full mode).** Before any `write`/`edit`/`bash` on task target files: a `plans/<task>.md` file must exist, exactly one step must have `**Status:** IN_PROGRESS`, and the edit must map to that step. Only `plans/*.md` files may be written before this gate is satisfied.
 4. **Plan file format.** Every `plans/<task>.md` copies [`references/plan-template.md`](references/plan-template.md) verbatim. Every step has all seven fields: `Status`, `Prerequisites`, `Deliverables`, `Plan`, `Validation Checklist`, `Test Checklist`, `Files Changed`. The file has a top-level `Implementation Log` table appended as steps complete.
-5. **One step at a time.** Never batch. Never mark `COMPLETED` with known failures — fix or mark `BLOCKED`.
+5. **Clarification gate (Full mode).** If any requirement question is known, ask it in chat before writing or finalizing `plans/<task>.md`. A valid plan has no unresolved questions; `DRAFT` means awaiting plan approval, not awaiting requirement answers, and clarification must not be turned into an implementation step.
+6. **One step at a time.** Never batch. Never mark `COMPLETED` with known failures — fix or mark `BLOCKED`.
 
 ## Plan Template
 
@@ -69,6 +70,16 @@ WRONG (horizontal):              RIGHT (vertical):
 Each step is a thin vertical slice through all layers (types, logic, tests) — independently verifiable.
 
 **Triage skipped because "the task seemed simple":** the triage block decides what is simple. Emit it even for one-line changes; Lightweight is a valid outcome, but the declaration is not optional.
+
+**Open questions parked in the plan:**
+```
+WRONG:  ## Open Questions
+        - Which UI should change?
+        ### Step 1: Resolve open questions
+
+RIGHT:  Ask the question in chat before creating/finalizing the plan,
+        then write ## Open Questions as `None.`
+```
 
 Status values: `PENDING` | `IN_PROGRESS` | `COMPLETED` | `BLOCKED`
 

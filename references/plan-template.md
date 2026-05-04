@@ -18,7 +18,7 @@
 - [What we're taking for granted — verify or make explicit.]
 
 ## Open Questions
-> Must be empty before implementation begins.
+None.
 
 ## Context & Learnings
 ### Key Decisions
@@ -60,6 +60,8 @@
 
 ## Required fields checklist
 
+For `## Open Questions`, the valid content is exactly `None.`. If any known question would be listed there, do not create or finalize the plan; ask the user in chat first. `DRAFT` means plan review/approval after clarification is complete, not unresolved requirements.
+
 Before marking any step `COMPLETED`, confirm the step has all seven fields populated:
 
 - [ ] `Status` — one of `PENDING`, `IN_PROGRESS`, `COMPLETED`, `BLOCKED`
@@ -73,7 +75,7 @@ Before marking any step `COMPLETED`, confirm the step has all seven fields popul
 The top-level plan file must also have:
 
 - [ ] Header block with `Status`, `Created`, `Last Updated`
-- [ ] `Goal`, `Assumptions`, `Open Questions` (empty before execution)
+- [ ] `Goal`, `Assumptions`, `Open Questions` (exactly `None.` before plan creation/finalization and execution)
 - [ ] `Context & Learnings`, including `Working Set` and `Verified Facts`
 - [ ] `Implementation Log` table (appended to as steps complete)
 
@@ -84,4 +86,7 @@ The top-level plan file must also have:
 - Horizontal slicing (Step 1 = all types, Step 2 = all logic, Step 3 = all tests). Each step must be a thin vertical slice through the necessary layers — independently verifiable.
 - Marking a step `COMPLETED` with known validation or test failures. Either fix them or mark `BLOCKED`.
 - Recording guessed paths, APIs, dependencies, or conventions as facts without read/search/tool evidence.
+- Listing unresolved requirement/design questions under `## Open Questions` instead of asking them in chat before planning.
+- Adding a step whose purpose is to resolve open questions. Clarification is a pre-plan gate, not implementation work.
+- Treating `DRAFT` as permission to leave requirements unresolved. `DRAFT` is only for plan review/approval after clarification is complete.
 - Batching multiple steps in a single execution pass.

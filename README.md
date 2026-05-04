@@ -41,7 +41,7 @@ Plan needed: yes | no
 
 Full workflow mode is mandatory for broad cleanup/refactor/lint tasks, deletes/moves, backend + UI changes, API/schema/route/tooling/config changes, source-of-truth docs, ambiguous work, or anything expected to touch more than 3 files.
 
-In Full workflow mode, implementation edits must wait until a plan exists, the current step is marked `IN_PROGRESS`, and the edit maps to that step.
+In Full workflow mode, unresolved questions must be asked in chat before plan creation/finalization; valid plans record `Open Questions` as `None.`. Implementation edits must wait until a valid plan exists, the current step is marked `IN_PROGRESS`, and the edit maps to that step.
 
 ## Installation
 

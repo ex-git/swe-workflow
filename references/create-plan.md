@@ -8,17 +8,17 @@ Transform a clarified request into a structured, step-by-step plan. The plan is 
 
 Before starting:
 - [ ] Clarification is complete (require-clarification finished)
-- [ ] No open questions remain
+- [ ] No known requirement/design questions remain; if any exist, stop and ask in chat
 - [ ] You understand the scope, inputs, outputs, and success criteria
 
 ## Instructions
 
-1. **Verify clarification is complete** — if any open questions remain, go back to require-clarification
+1. **Verify clarification is complete before writing a plan** — if any open questions remain, go back to require-clarification and ask them in chat. Do not create, finalize, or present a plan with unresolved questions.
 
 2. **Define the plan header:**
    - **Goal:** one sentence describing what we're building
    - **Assumptions:** what we're taking for granted
-   - **Open Questions:** must be empty (otherwise stop here)
+   - **Open Questions:** write exactly `None.`. If anything else would go here, stop before writing/finalizing the plan and ask the user. `DRAFT` means awaiting plan approval after clarification, not awaiting requirement answers.
 
 3. **Explore the codebase narrowly:**
    - Search for relevant files and directories with targeted `rg`/`find`/`git` commands
@@ -31,6 +31,7 @@ Before starting:
    - Steps must be ordered by dependency
    - Each step includes: title, prerequisites, deliverables, plan bullets, validation checklist, test checklist
    - All steps start as **PENDING**
+   - Do not add a step whose purpose is to resolve open questions; clarification is a pre-plan gate
 
 5. **Define prerequisites and deliverables for each step:**
    - **Prerequisites:** What must be true before starting (files exist, previous steps done, dependencies installed)
@@ -66,8 +67,13 @@ Before starting:
 
 11. **Verify the plan was created:**
    - Use `read` tool to confirm the file exists and has correct structure
-   - Ensure all sections are present: Goal, Assumptions, Context & Learnings, Working Set, Verified Facts, Steps
+   - Ensure all sections are present: Goal, Assumptions, Open Questions, Context & Learnings, Working Set, Verified Facts, Steps
+   - Verify `## Open Questions` contains exactly `None.`
    - Verify every non-trivial assumption is either answered, recorded as an assumption, or backed by evidence
+
+12. **Report the clean clarification state:**
+   - Tell the user: `Plan created. Open questions: none. Ready to proceed with Step 1?`
+   - If you cannot truthfully say this, the plan is invalid; go back to require-clarification.
 
 ## Step Sizing Guide
 
@@ -91,7 +97,7 @@ A completed step should be demoable or verifiable on its own.
 Before marking complete, verify ALL of the following:
 
 - [ ] Plan file exists at `plans/<feature-name>.md`
-- [ ] File contains: Goal (one sentence), Assumptions (list), Open Questions (empty)
+- [ ] File contains: Goal (one sentence), Assumptions (list), Open Questions (exactly `None.`)
 - [ ] Context & Learnings section initialized, including Working Set and Verified Facts
 - [ ] Working Set lists key files for the task with evidence, not guesses
 - [ ] Verified Facts records implementation-relevant facts with read/search/tool evidence
@@ -118,6 +124,8 @@ plans/
 
 - **Do NOT write any code** in this phase — plans only
 - **Do NOT skip directly to implementation** — the plan must exist first
+- **Do NOT write a plan with unresolved questions** — ask those questions in chat before creating/finalizing the plan
+- **Do NOT use `DRAFT` as a loophole** — DRAFT plans still require completed clarification; DRAFT only means plan structure awaits approval
 - **Do NOT write a partial plan** — the plan file must contain ALL steps for ALL phases of the task; never write only the current or next phase
 - **Do NOT invent your own plan format** — copy `references/plan-template.md` verbatim
 - **Do NOT create an exhaustive repo inventory** — keep Working Set limited to files/facts needed for this task

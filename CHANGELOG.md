@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- Strengthened the Full workflow clarification gate: plans must use `Open Questions: None.`, unresolved questions must be asked in chat before plan creation/finalization or execution, `DRAFT` is not a loophole for unresolved requirements, and clarification must not be turned into an implementation step.
+
 ## [1.6.1] - 2026-04-30
 
 ### Changed

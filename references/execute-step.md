@@ -17,21 +17,27 @@ Before starting:
    - Use `read` tool on `plans/<name>.md`
    - Confirm you have the correct plan
 
-2. **Select the first PENDING step:**
+2. **Check the Open Questions gate:**
+   - Confirm `## Open Questions` contains exactly `None.`
+   - If it lists any unresolved requirement/design question, STOP and ask the user in chat before execution
+   - Do not mark any step `IN_PROGRESS` while Open Questions are unresolved
+   - Do not execute a step whose purpose is to resolve open questions; clarification is not implementation work
+
+3. **Select the first PENDING step:**
    - Skip any COMPLETED steps
    - Note any BLOCKED steps and why
 
-3. **Mark it IN_PROGRESS:**
+4. **Mark it IN_PROGRESS:**
    - Use `edit` tool to update the step status
    - Update "Last Updated" date in plan header
    - Use persist-plan to save status
 
-4. **Read the step's Plan section carefully:**
+5. **Read the step's Plan section carefully:**
    - Understand every bullet point
    - Identify files that will be affected
    - Note any dependencies on previous steps
 
-5. **Verify the Working Set before editing:**
+6. **Verify the Working Set before editing:**
    - Re-read target files or targeted sections; do not rely on memory
    - Check imports/exports and nearby code to understand local conventions
    - Search callers/usages before changing shared functions, types, routes, schemas, or config contracts
@@ -39,7 +45,7 @@ Before starting:
    - Verify dependencies/packages/APIs exist before importing or using them
    - Record new evidence in the plan's Working Set and Verified Facts
 
-6. **Protect code before changes** (safety net against accidental overwrites):
+7. **Protect code before changes** (safety net against accidental overwrites):
 
    Choose one strategy, in order of preference:
 
@@ -63,20 +69,20 @@ Before starting:
 
    **Never use `write` to "edit" an existing file** — you'll lose anything not in your new version. Prefer surgical edits.
 
-7. **Implement ONLY what this step requires:**
+8. **Implement ONLY what this step requires:**
    - Write the code/config/docs specified
    - Stay within scope — do not touch unrelated files
    - Do not "while I'm here" refactor other code
    - Use `edit` tool for surgical changes, `write` for new files
    - If you need to access a file outside the Working Set, verify it first and add the evidence to the plan
 
-8. **Update task-local evidence as you discover facts:**
+9. **Update task-local evidence as you discover facts:**
    - Add modified files to the Working Set with their role and evidence
    - Record implementation-relevant facts in Verified Facts with the tool/read/search used to prove them
    - Update advisory repo map only for durable project discoveries (see [maintain-repo-map](maintain-repo-map.md))
    - Do not record guesses as facts
 
-9. **Document what you did:**
+10. **Document what you did:**
    - Fill in **Implementation Notes** — what was done, why, any decisions
    - List all **Files Changed** with exact paths
    - Note any **deviations** from the original plan
@@ -253,4 +259,4 @@ After implementation:
 2. → Then: **persist-plan** (mark COMPLETED)
 3. → Then: **execute-step** (next PENDING step) or **global-reflection** (if all done)
 
-After `verify-step` passes, compare final diff against the snapshot from step 6. If unrelated code was modified or deleted, restore from the snapshot and re-implement with smaller edits.
+After `verify-step` passes, compare final diff against the snapshot from step 7. If unrelated code was modified or deleted, restore from the snapshot and re-implement with smaller edits.

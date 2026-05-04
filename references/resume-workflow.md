@@ -65,6 +65,8 @@ Read:
 - Implementation Log
 - Files Changed and Implementation Notes
 
+If `## Open Questions` contains anything other than `None.`, stop and ask those questions in chat before resuming execution. Do not treat clarification as an implementation step.
+
 If multiple plan files could apply, ask the user which one to resume.
 
 ### Step 4: Optionally Read Repo Map
@@ -140,6 +142,7 @@ Before proceeding with edits:
 |-------|----------------|
 | Context file read or confirmed absent | Knows where work stopped |
 | Plan file read completely | Knows full task scope |
+| Open Questions is exactly `None.` | Prevents executing with unresolved requirements |
 | Resume point identified | Knows what to do next |
 | Working Set and Verified Facts reviewed | Avoids hallucinated paths/APIs/conventions |
 | Prerequisites verified | Won't fail due to missing deps |
