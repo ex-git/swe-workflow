@@ -56,11 +56,28 @@ After finishing implementation in `execute-step`, before `persist-plan`.
    | Quality | Magic numbers, poor names, deep nesting (>3), long functions (>30 lines) |
    | Duplication | Copy-pasted blocks, similar logic in multiple places |
    | Missing handling | No error handling on fallible ops, missing null/empty checks |
+   | Contract compatibility | Changed public function/API/schema/route behavior without caller updates |
+   | Security | Leaked secrets/PII, missing auth check, unsafe input handling, injection risk |
+   | Data safety | Migration missing, destructive change, no rollback path, unsafe default |
+   | Performance | N+1 query, full scan, repeated network call, unnecessary sync work |
+   | Project fit | New pattern when existing pattern exists, inconsistent error/logging style |
    | Style | Doesn't match existing formatting, naming, imports |
 
 3. **Scope audit:** every changed file explainable by the step's Plan. If not → dependency (document) or scope creep (revert).
+4. **Quality standard:** apply [`references/code-quality.md`](code-quality.md) to the diff and fix violations now.
 
-**Checklist:** diff reviewed ✓ | no artifacts ✓ | no formatting-only changes ✓ | only planned files ✓ | no duplication ✓ | error handling present ✓ | no unverified imports ✓ | style matches ✓
+**Checklist:** diff reviewed ✓ | no artifacts ✓ | no formatting-only changes ✓ | only planned files ✓ | no duplication ✓ | error handling present ✓ | contract compatible ✓ | security/data/performance reviewed ✓ | no unverified imports ✓ | project fit ✓ | style matches ✓
+
+## Quality Review
+
+Before marking `COMPLETED`, answer:
+
+- Does the change preserve existing contracts unless explicitly changed?
+- Does it follow the closest existing project pattern?
+- Is every new abstraction or dependency justified?
+- Are failure modes handled consistently?
+- Are tests meaningful, not just snapshots or smoke tests?
+- Is security, data, and performance risk either addressed or documented as not applicable?
 
 ## If Any Pass Fails
 
@@ -77,6 +94,7 @@ All three passes must be clean before `persist-plan`:
 - [ ] **Validate:** re-read, checks pass, hooks pass, evidence accurate
 - [ ] **Test:** written, running, passing (or manual verification documented)
 - [ ] **Review:** diff clean, scope intact, no artifacts
+- [ ] **Quality Review:** contract, project fit, abstractions/dependencies, failure modes, test value, and security/data/performance risks reviewed
 
 ## Next Step
 

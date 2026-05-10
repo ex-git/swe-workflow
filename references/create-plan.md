@@ -38,7 +38,7 @@
    - Each step is ONE discrete action (5-15 minutes of work)
    - Each step is a thin slice through all layers (types, logic, tests) — independently verifiable
    - Steps must be ordered by dependency
-   - Each step includes: title, prerequisites, deliverables, plan bullets, validation checklist, test checklist
+   - Each step includes: title, prerequisites, deliverables, plan bullets, quality checklist, validation checklist, test checklist
    - All steps start as **PENDING**
    - Do not add a step whose purpose is to resolve open questions
 
@@ -73,7 +73,7 @@
 - [ ] Plan file at `plans/<feature-name>.md`
 - [ ] Goal, Assumptions, Open Questions (`None.`), Design Decisions (filled or `None`)
 - [ ] Working Set with evidence, Verified Facts with tool citations
-- [ ] Each step has all 7 fields: Status, Prerequisites, Deliverables, Plan, Validation, Test, Files Changed
+- [ ] Each step has all 8 fields: Status, Prerequisites, Deliverables, Plan, Quality Checklist, Validation Checklist, Test Checklist, Files Changed
 - [ ] ALL steps for ALL phases present; steps ordered by dependency
 - [ ] Every plan bullet names a tool + file path + specific change
 - [ ] No code written yet

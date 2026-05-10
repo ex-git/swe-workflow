@@ -90,6 +90,7 @@ swe-workflow/
 ├── references/                  # Supplementary detail for each workflow phase
 │   ├── plan-template.md         # Canonical plan skeleton — copy verbatim
 │   ├── plan-example.md          # Filled-in 3-step example plan
+│   ├── code-quality.md          # Reusable code quality bar
 │   ├── require-clarification.md
 │   ├── create-plan.md
 │   ├── resume-workflow.md
