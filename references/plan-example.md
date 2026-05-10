@@ -66,6 +66,12 @@ None.
 - [x] `edit` src/components/RegistrationForm.tsx — add `<span className="field-error">` below email input (matches LoginForm pattern)
 - [x] `edit` src/components/__tests__/RegistrationForm.test.tsx — add tests: valid email submits, invalid email shows error, error clears on valid input
 - [x] `bash` npx vitest run --filter=RegistrationForm — expect 0 failures
+**Quality Checklist:**
+- [x] Existing pattern identified — `LoginForm.tsx` inline `field-error` display
+- [x] Contract understood — registration form validates email before submit
+- [x] Reuse checked — zod already used for validation schemas
+- [x] Error/edge cases handled — invalid format and error clearing covered
+- [x] Security/data/performance risk reviewed — client validation only; server validation remains Step 2
 **Validation Checklist:**
 - [x] `npx tsc --noEmit` exits 0
 - [x] `npx eslint src/components/RegistrationForm.tsx` exits 0
@@ -90,6 +96,12 @@ Added zod email validation with blur + submit triggers. Used same `field-error` 
 - [ ] `edit` src/api/routes/auth.ts — import `registerSchema`, add `.safeParse(req.body)` at top of POST /register handler
 - [ ] `edit` src/api/__tests__/auth.test.ts — add tests: valid registration, invalid email returns 400, missing email returns 400
 - [ ] `bash` npx vitest run --filter=auth — expect 0 failures
+**Quality Checklist:**
+- [ ] Existing pattern identified
+- [ ] Contract understood
+- [ ] Reuse checked
+- [ ] Error/edge cases handled
+- [ ] Security/data/performance risk reviewed
 **Validation Checklist:**
 - [ ] `npx tsc --noEmit` exits 0
 - [ ] `npx eslint src/api/` exits 0
@@ -115,6 +127,12 @@ Added zod email validation with blur + submit triggers. Used same `field-error` 
 - [ ] `edit` src/components/RegistrationForm.tsx — import `EMAIL_INVALID`, replace hardcoded string
 - [ ] `edit` src/api/routes/auth.ts — import `EMAIL_INVALID`, replace hardcoded string
 - [ ] `bash` npx vitest run — expect 0 failures (full suite)
+**Quality Checklist:**
+- [ ] Existing pattern identified
+- [ ] Contract understood
+- [ ] Reuse checked
+- [ ] Error/edge cases handled
+- [ ] Security/data/performance risk reviewed
 **Validation Checklist:**
 - [ ] `npx tsc --noEmit` exits 0
 - [ ] `rg "invalid email\|Invalid email" src/ --ignore-case` — no hardcoded duplicates remain
