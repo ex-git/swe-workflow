@@ -8,14 +8,14 @@ description: >-
   criteria:`, `Plan needed: yes|no`. Step 3 for Full-mode work, write
   `plans/<task>.md` using the template at `references/plan-template.md`
   (required per-step fields `Status`, `Prerequisites`, `Deliverables`, `Plan`,
-  `Validation Checklist`, `Test Checklist`, `Files Changed`, plus a top-level
-  `Implementation Log`). Violations include freeform plans, inline
+  `Quality Checklist`, `Validation Checklist`, `Test Checklist`, `Implementation
+  Notes`, `Files Changed`, plus top-level `Validation Commands` and `Implementation Log`). Violations include freeform plans, inline
   `### Step N — title [STATUS]` headers, skipping the triage block, and
   deciding a task is "simple" without emitting triage. Applies to reads,
   edits, writes, and bash — triage comes first.
 license: MIT
 metadata:
-  version: "1.7.0"
+  version: "1.9.1"
   author: "Evan Xu"
 ---
 
@@ -37,7 +37,7 @@ This block is the minimum every agent must follow. If you skim only this section
    ```
 2. **Full workflow is mandatory for:** repo-wide scans/migrations/cleanup, lint/type/build/test cleanup, broad refactors touching multiple files, deleting/moving/renaming files, backend + frontend changes in one task, API/schema/route/config contract changes, source-of-truth doc updates, tasks touching >3 files, or ambiguous scope. Lightweight work that hits any trigger MUST escalate: stop, declare Full, create a plan, then resume.
 3. **Pre-edit gate (Full mode).** Before any `write`/`edit`/`bash` on task target files: a `plans/<task>.md` file must exist, exactly one step must have `**Status:** IN_PROGRESS`, and the edit must map to that step. Only `plans/*.md` files may be written before this gate is satisfied.
-4. **Plan file format.** Every `plans/<task>.md` copies [`references/plan-template.md`](references/plan-template.md) verbatim. Every step has all seven fields: `Status`, `Prerequisites`, `Deliverables`, `Plan`, `Validation Checklist`, `Test Checklist`, `Files Changed`. The plan includes a `Design Decisions` table and a top-level `Implementation Log`.
+4. **Plan file format.** Every `plans/<task>.md` copies [`references/plan-template.md`](references/plan-template.md) verbatim. Every step has all nine fields: `Status`, `Prerequisites`, `Deliverables`, `Plan`, `Quality Checklist`, `Validation Checklist`, `Test Checklist`, `Implementation Notes`, `Files Changed`. The plan includes `Design Decisions`, `Validation Commands`, and a top-level `Implementation Log`.
 5. **Clarification gate (Full mode).** If any requirement question is known, ask it in chat before writing or finalizing `plans/<task>.md`. A valid plan has no unresolved questions; `DRAFT` means awaiting plan approval, not awaiting requirement answers, and clarification must not be turned into an implementation step.
 6. **One step at a time.** Never batch. Never mark `COMPLETED` with known failures — fix or mark `BLOCKED`.
 
@@ -45,17 +45,30 @@ This block is the minimum every agent must follow. If you skim only this section
 
 Use [`references/plan-template.md`](references/plan-template.md) as the source of truth for `plans/<task>.md`. Copy it verbatim for every new plan. Do not reconstruct the structure from memory; do not invent alternative formats. Full plans capture a task-local Working Set and Verified Facts so agents use evidence instead of guessed paths, APIs, or conventions.
 
+
+## Reference Loading Rules
+
+Load reference files only when the current phase needs them.
+
+- Planning: read [`references/create-plan.md`](references/create-plan.md) and [`references/plan-template.md`](references/plan-template.md).
+- Implementation: read [`references/execute-step.md`](references/execute-step.md) and [`references/code-quality.md`](references/code-quality.md).
+- Verification: read [`references/verify-step.md`](references/verify-step.md) and [`references/definition-of-done.md`](references/definition-of-done.md).
+- Command discovery: read [`references/command-discovery.md`](references/command-discovery.md) before deciding validation commands.
+- Risk review: read [`references/risk-classification.md`](references/risk-classification.md) for API, data, security, performance, or observability risk.
+- Project setup: use [`references/project-agents-template.md`](references/project-agents-template.md) only when creating or improving a target repo's `AGENTS.md`.
+
 ## Anti-Patterns — Wrong vs Right
 
 **Plan format — missing required fields:**
 ```
 WRONG:  ### Step 1 — Add dependency [COMPLETED]     ← no Status field, no Prerequisites,
-        ### Step 2 — Create module [COMPLETED]         no Deliverables, no Validation, no Files Changed
+        ### Step 2 — Create module [COMPLETED]         no Deliverables, no Quality, no Files Changed
 
 RIGHT:  ### Step 1: Add dependency
         **Status:** COMPLETED
         **Prerequisites:** ...
         **Deliverables:** ...
+        **Quality Checklist:** ...
         **Validation Checklist:** ...
         **Files Changed:** ...
 ```

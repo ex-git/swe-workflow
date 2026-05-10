@@ -7,11 +7,13 @@
 3. Explore narrowly — read only files needed to plan; record evidence in Working Set and Verified Facts.
 4. Discover design conventions — if the task touches UI, schema, or API, search for existing patterns, shared components, and reusable code before planning. Record in Verified Facts.
 5. Fill the Design Decisions table — surface every UX, schema, or API choice for user confirmation. Write `None — no design-sensitive changes.` if N/A.
-6. Break into vertical slices — each step is one thin slice through all layers (types, logic, tests), independently verifiable. Never horizontal.
-7. Bullet quality — every plan bullet must name a tool (`edit`/`write`/`bash`), a file path, and the specific change. If a bullet doesn't reference a concrete location, it's too vague.
-8. Reuse before create — search for existing shared code before planning to create new components, utilities, or patterns. Evidence in Verified Facts.
-9. Write ALL steps — the plan file must contain every step for every phase. Partial plans block execution.
-10. Copy [`plan-template.md`](plan-template.md) verbatim — do not invent your own format.
+6. Discover validation commands with [`command-discovery.md`](command-discovery.md) before choosing checks.
+7. Classify risk with [`risk-classification.md`](risk-classification.md); every non-none risk needs a mitigation.
+8. Break into vertical slices — each step is one thin slice through all layers (types, logic, tests), independently verifiable. Never horizontal.
+9. Bullet quality — every plan bullet must name a tool (`edit`/`write`/`bash`), a file path, and the specific change. If a bullet doesn't reference a concrete location, it's too vague.
+10. Reuse before create — search for existing shared code before planning to create new components, utilities, or patterns. Evidence in Verified Facts.
+11. Write ALL steps — the plan file must contain every step for every phase. Partial plans block execution.
+12. Copy [`plan-template.md`](plan-template.md) verbatim — do not invent your own format.
 
 ## Instructions
 
@@ -31,6 +33,8 @@
      - Schema: search for naming conventions, relationship patterns, migration style
      - API: search for route naming, response shape, error format
    - **Reuse check:** before planning to create anything new, search for existing equivalents. Record evidence ("no match found" or "existing X can be extended").
+   - **Command discovery:** use [`command-discovery.md`](command-discovery.md) and fill the plan's Validation Commands table from repo evidence.
+   - **Risk classification:** use [`risk-classification.md`](risk-classification.md) and record risk + mitigation in each step's Quality Checklist.
    - Record all evidence in the plan's Working Set and Verified Facts
    - If `plans/repo-map.md` exists, treat it as advisory; verify entries before relying on them
 
@@ -38,7 +42,7 @@
    - Each step is ONE discrete action (5-15 minutes of work)
    - Each step is a thin slice through all layers (types, logic, tests) — independently verifiable
    - Steps must be ordered by dependency
-   - Each step includes: title, prerequisites, deliverables, plan bullets, validation checklist, test checklist
+   - Each step includes: title, prerequisites, deliverables, plan bullets, quality checklist, validation checklist, test checklist
    - All steps start as **PENDING**
    - Do not add a step whose purpose is to resolve open questions
 
@@ -72,8 +76,9 @@
 
 - [ ] Plan file at `plans/<feature-name>.md`
 - [ ] Goal, Assumptions, Open Questions (`None.`), Design Decisions (filled or `None`)
+- [ ] Validation Commands table populated from repo evidence
 - [ ] Working Set with evidence, Verified Facts with tool citations
-- [ ] Each step has all 7 fields: Status, Prerequisites, Deliverables, Plan, Validation, Test, Files Changed
+- [ ] Each step has all 9 fields: Status, Prerequisites, Deliverables, Plan, Quality Checklist, Validation Checklist, Test Checklist, Implementation Notes, Files Changed
 - [ ] ALL steps for ALL phases present; steps ordered by dependency
 - [ ] Every plan bullet names a tool + file path + specific change
 - [ ] No code written yet

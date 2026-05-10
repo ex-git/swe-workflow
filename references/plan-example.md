@@ -29,6 +29,15 @@ None.
 | Error display style | Inline under field vs toast | Inline — matches existing form patterns in `src/components/LoginForm.tsx` | yes |
 | Validation library | regex vs zod vs validator.js | zod — already a project dependency for API schemas | yes |
 
+## Validation Commands
+
+| Purpose | Command | Source | Required? |
+|---|---|---|---|
+| Typecheck | `npx tsc --noEmit` | `package.json` scripts | Yes |
+| Lint | `npx eslint <path>` | `package.json` scripts | Yes |
+| Test | `npx vitest run --filter=<target>` | `package.json` scripts and existing tests | Yes |
+| Build | `npm run build` | `package.json` scripts | Before final task completion |
+
 ## Context & Learnings
 ### Key Decisions
 - Use zod for email validation since it is already a dependency for API schema validation.
@@ -66,6 +75,12 @@ None.
 - [x] `edit` src/components/RegistrationForm.tsx — add `<span className="field-error">` below email input (matches LoginForm pattern)
 - [x] `edit` src/components/__tests__/RegistrationForm.test.tsx — add tests: valid email submits, invalid email shows error, error clears on valid input
 - [x] `bash` npx vitest run --filter=RegistrationForm — expect 0 failures
+**Quality Checklist:**
+- [x] Existing pattern identified: `LoginForm.tsx` inline `field-error` display
+- [x] Contract understood: registration form validates email before submit
+- [x] Reuse checked: zod already used for validation schemas
+- [x] Risk reviewed: correctness, project-fit; server-side security/data risk remains Step 2
+- [x] Mitigation recorded: tests cover invalid format and error clearing; server validation planned next
 **Validation Checklist:**
 - [x] `npx tsc --noEmit` exits 0
 - [x] `npx eslint src/components/RegistrationForm.tsx` exits 0
@@ -90,6 +105,12 @@ Added zod email validation with blur + submit triggers. Used same `field-error` 
 - [ ] `edit` src/api/routes/auth.ts — import `registerSchema`, add `.safeParse(req.body)` at top of POST /register handler
 - [ ] `edit` src/api/__tests__/auth.test.ts — add tests: valid registration, invalid email returns 400, missing email returns 400
 - [ ] `bash` npx vitest run --filter=auth — expect 0 failures
+**Quality Checklist:**
+- [ ] Existing pattern identified:
+- [ ] Contract understood:
+- [ ] Reuse checked:
+- [ ] Risk reviewed:
+- [ ] Mitigation recorded:
 **Validation Checklist:**
 - [ ] `npx tsc --noEmit` exits 0
 - [ ] `npx eslint src/api/` exits 0
@@ -115,6 +136,12 @@ Added zod email validation with blur + submit triggers. Used same `field-error` 
 - [ ] `edit` src/components/RegistrationForm.tsx — import `EMAIL_INVALID`, replace hardcoded string
 - [ ] `edit` src/api/routes/auth.ts — import `EMAIL_INVALID`, replace hardcoded string
 - [ ] `bash` npx vitest run — expect 0 failures (full suite)
+**Quality Checklist:**
+- [ ] Existing pattern identified:
+- [ ] Contract understood:
+- [ ] Reuse checked:
+- [ ] Risk reviewed:
+- [ ] Mitigation recorded:
 **Validation Checklist:**
 - [ ] `npx tsc --noEmit` exits 0
 - [ ] `rg "invalid email\|Invalid email" src/ --ignore-case` — no hardcoded duplicates remain

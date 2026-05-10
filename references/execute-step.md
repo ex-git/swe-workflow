@@ -6,7 +6,7 @@
 2. Select the first PENDING step. Mark it `IN_PROGRESS`. Update `Last Updated`.
 3. Re-read target files before editing — do not rely on memory. Verify imports, callers, dependencies.
 4. If step is design-sensitive (UI, schema, API shape): confirm the approach matches existing conventions or the Design Decisions table. If ambiguous, ask the user before implementing.
-5. Protect code: `git commit` or `git stash` before changes.
+5. Protect user work before changes: inspect current git status/diff, preserve unrelated user edits, and do not create WIP commits unless explicitly requested.
 6. Use `edit` for existing files, `write` for new files. Never `write` over an existing file.
 7. Implement ONLY what this step requires. Do not touch unrelated files.
 8. Reuse before create: if about to create a new component/utility/pattern, search for existing equivalents first. Record evidence.
@@ -32,36 +32,60 @@
    - Verify dependencies/packages/APIs exist before importing
    - Record new evidence in Working Set and Verified Facts
 
-7. **Design confirmation gate** (when step touches UI, schema, or API surface):
+7. **Quality Gate Before Editing:**
+   - Identify and record the local pattern this change should follow
+   - Identify the contract: inputs, outputs, errors, side effects
+   - Identify the reuse target, or record evidence that none exists
+   - Classify risk with [`references/risk-classification.md`](risk-classification.md) and record mitigation for every non-none risk
+   - Before implementation, discover validation commands with [`references/command-discovery.md`](command-discovery.md) when the task will require tests, build, lint, typecheck, or CI-equivalent validation
+   - Identify the exact behavior this step will prove with tests or manual verification
+   - If any item is unknown, inspect the repo before editing. Do not guess.
+
+8. **Design confirmation gate** (when step touches UI, schema, or API surface):
    - Verify approach matches existing patterns (component library, naming, spacing, response shape)
    - Check the Design Decisions table — is this choice already confirmed?
    - If no pattern exists or two reasonable approaches exist, ask the user before implementing
    - Before creating new: search for existing reusable code, record evidence
 
-8. **Protect code before changes:**
-   - **Git (preferred):** `git add -A && git commit -m "WIP: before step N"`
-   - **Copy snapshot:** if no git, copy files to `snapshots/step-N/`
-   - **Tool rules:** 1-20 lines → `edit`; 21+ lines → `edit` with multiple entries; new file → `write`; delete → verify in plan first
+9. **Protect user work before changes:**
+   - Inspect `git status --short` and relevant `git diff` before editing.
+   - Treat pre-existing user changes as off-limits unless the current step explicitly includes them.
+   - If the worktree is dirty, record the baseline and edit only planned hunks; do not overwrite or format unrelated changes.
+   - Do not create WIP commits or stashes unless the user or repo instructions explicitly request them.
+   - **Tool rules:** 1-20 lines → `edit`; 21+ lines → `edit` with multiple entries; new file → `write`; delete → verify in plan first.
    - **Never `write` to "edit" an existing file** — you'll lose content
 
-9. **Implement ONLY what this step requires:**
+10. **Implement ONLY what this step requires:**
    - Stay within scope — do not touch unrelated files
    - Use `edit` for surgical changes, `write` for new files
    - Follow existing formatting, naming, import, and comment conventions
    - Handle edge cases and errors consistently with the project
    - If you need a file outside the Working Set, verify it first and add evidence
 
-10. **Update evidence:**
+11. **During Implementation:**
+   - Apply [`references/code-quality.md`](code-quality.md)
+   - Do not complete the step with unverified imports, packages, or APIs
+   - Do not duplicate business logic
+   - Do not add a new dependency without approval
+   - Do not make a silent contract change
+   - Do not perform broad refactors unrelated to the step
+   - Do not omit error handling for fallible operations
+   - Do not rely on tests that cover only the happy path
+   - Reclassify risk if implementation touches new files or contracts
+
+12. **Update evidence:**
     - Add modified files to Working Set with role and evidence
     - Record facts in Verified Facts with tool/read/search proof
     - Do not record guesses as facts
 
-11. **Document:**
+13. **Document:**
     - **Implementation Notes** — what, why, decisions, deviations
     - **Files Changed** — exact paths
     - Persist plan
 
 ## Implementation Guidelines
+
+Apply [`references/code-quality.md`](code-quality.md) throughout implementation.
 
 **DO:** surgical changes, follow existing conventions, clear names, avoid duplication when extraction is small and in scope, handle errors consistently, update docs when contracts change.
 
@@ -92,6 +116,7 @@ Mark step `BLOCKED`, document reason + unblock path, proceed to next safe PENDIN
 
 - [ ] Code changes complete
 - [ ] Only files in scope modified
+- [ ] Quality Gate Before Editing recorded in plan evidence or notes
 - [ ] Working Set and Verified Facts updated with evidence
 - [ ] Implementation Notes filled in
 - [ ] Files Changed list complete
@@ -104,4 +129,4 @@ Mark step `BLOCKED`, document reason + unblock path, proceed to next safe PENDIN
 2. → **persist-plan** (mark COMPLETED)
 3. → **execute-step** (next PENDING) or **global-reflection** (all done)
 
-After `verify-step` passes, compare diff against snapshot from step 8. If unrelated code was modified or deleted, restore and re-implement with smaller edits.
+After `verify-step` passes, compare the final diff against the pre-edit baseline from step 9. If unrelated code was modified or deleted, restore and re-implement with smaller edits.

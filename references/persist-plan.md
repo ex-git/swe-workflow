@@ -4,7 +4,7 @@
 
 1. The plan file is the source of truth — update it as soon as reality changes.
 2. Never mark COMPLETED with known introduced issues — fix or mark BLOCKED.
-3. Every COMPLETED step must have all 7 fields populated with evidence-backed entries.
+3. Every COMPLETED step must have all 9 fields populated with evidence-backed entries, including Implementation Notes and Files Changed.
 4. Never leave IN_PROGRESS across sessions — complete, block, or dump context.
 5. Use `edit` for status changes — don't rewrite the entire plan file.
 6. After persisting, orient the user with progress summary.
@@ -27,8 +27,8 @@ Update the current step with:
 
 ## After Verification Passes
 
-1. Confirm all 7 fields populated.
-2. Check off Validation and Test Checklist items.
+1. Confirm all 9 fields populated.
+2. Check off Quality, Validation, and Test Checklist items.
 3. Confirm introduced issues fixed, or mark BLOCKED.
 4. Update Context & Learnings with durable decisions/gotchas.
 5. Update advisory `plans/repo-map.md` only for durable project discoveries.
@@ -63,7 +63,7 @@ Update the current step with:
 - [ ] Files Changed lists exact paths
 - [ ] Working Set and Verified Facts accurate and evidence-backed
 - [ ] Context & Learnings updated
-- [ ] Validation + Test Checklists checked or documented
+- [ ] Quality, Validation, and Test Checklists checked or documented
 - [ ] Introduced failures fixed or blocker documented
 - [ ] Last Updated changed
 - [ ] Implementation Log entry added
