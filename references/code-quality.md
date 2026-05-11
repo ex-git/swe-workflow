@@ -2,6 +2,17 @@
 
 Use this standard when planning, implementing, and verifying code changes. Apply the closest existing project convention first; this bar fills gaps and prevents avoidable regressions.
 
+This file defines general quality standards. Do not add framework-specific or project-specific rules here. Put project-specific rules in the target repo's `AGENTS.md`.
+
+## Contract
+
+1. Preserve existing behavior unless explicitly changed.
+2. Prefer the smallest complete change.
+3. Follow local project patterns.
+4. Reuse before creating.
+5. Handle failure modes consistently.
+6. Do not introduce security, data, or performance risk without mitigation.
+
 ## Correctness
 - Preserve existing behavior unless the task explicitly changes it.
 - Identify input/output contracts before editing.

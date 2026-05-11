@@ -45,6 +45,17 @@ This block is the minimum every agent must follow. If you skim only this section
 
 Use [`references/plan-template.md`](references/plan-template.md) as the source of truth for `plans/<task>.md`. Copy it verbatim for every new plan. Do not reconstruct the structure from memory; do not invent alternative formats. Full plans capture a task-local Working Set and Verified Facts so agents use evidence instead of guessed paths, APIs, or conventions.
 
+## Reference Loading Rules
+
+Load reference files only when the current phase needs them.
+
+- Planning: read [`references/create-plan.md`](references/create-plan.md) and [`references/plan-template.md`](references/plan-template.md).
+- Implementation: read [`references/execute-step.md`](references/execute-step.md) and [`references/code-quality.md`](references/code-quality.md).
+- Verification: read [`references/verify-step.md`](references/verify-step.md) and [`references/definition-of-done.md`](references/definition-of-done.md).
+- Command discovery: read [`references/command-discovery.md`](references/command-discovery.md) before deciding validation commands.
+- Risk review: read [`references/risk-classification.md`](references/risk-classification.md) for API, data, security, performance, or observability risk.
+- Project setup: use [`references/project-agents-template.md`](references/project-agents-template.md) only when creating or improving a target repo's `AGENTS.md`.
+
 ## Anti-Patterns — Wrong vs Right
 
 **Plan format — missing required fields:**
