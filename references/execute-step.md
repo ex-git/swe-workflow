@@ -36,7 +36,8 @@
    - Identify and record the local pattern this change should follow
    - Identify the contract: inputs, outputs, errors, side effects
    - Identify the reuse target, or record evidence that none exists
-   - Identify risk area: correctness, API compatibility, security, performance, data migration, or none
+   - Classify risk with [`references/risk-classification.md`](risk-classification.md) and record mitigation for every non-none risk
+   - Before implementation, discover validation commands with [`references/command-discovery.md`](command-discovery.md) when the task will require tests, build, lint, typecheck, or CI-equivalent validation
    - Identify the exact behavior this step will prove with tests or manual verification
    - If any item is unknown, inspect the repo before editing. Do not guess.
 
@@ -68,6 +69,7 @@
    - Do not perform broad refactors unrelated to the step
    - Do not omit error handling for fallible operations
    - Do not rely on tests that cover only the happy path
+   - Reclassify risk if implementation touches new files or contracts
 
 12. **Update evidence:**
     - Add modified files to Working Set with role and evidence

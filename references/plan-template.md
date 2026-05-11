@@ -29,6 +29,15 @@ None.
 |----------|--------------------|--------|-----------|
 | [e.g. User list layout] | [Table vs Card grid] | [Table — matches /admin pages] | [yes/no] |
 
+## Validation Commands
+
+| Purpose | Command | Source | Required? |
+|---|---|---|---|
+| Typecheck |  |  |  |
+| Lint |  |  |  |
+| Test |  |  |  |
+| Build |  |  |  |
+
 ## Context & Learnings
 ### Key Decisions
 - [Decision]: [Rationale]
@@ -59,11 +68,11 @@ None.
 - [ ] `write` src/auth/__tests__/validate.test.ts — new test covering happy path + invalid email
 - [ ] `bash` npm test -- --filter=validate — expect 0 failures
 **Quality Checklist:**
-- [ ] Existing pattern identified
-- [ ] Contract understood
-- [ ] Reuse checked
-- [ ] Error/edge cases handled
-- [ ] Security/data/performance risk reviewed
+- [ ] Existing pattern identified:
+- [ ] Contract understood:
+- [ ] Reuse checked:
+- [ ] Risk reviewed:
+- [ ] Mitigation recorded:
 **Validation Checklist:**
 - [ ] `npm run build` exits 0
 - [ ] `npm run lint` exits 0
@@ -100,6 +109,7 @@ The top-level plan file must also have:
 
 - [ ] Header block with `Status`, `Created`, `Last Updated`
 - [ ] `Goal`, `Assumptions`, `Open Questions` (exactly `None.`), `Design Decisions` (filled or `None — no design-sensitive changes.`)
+- [ ] `Validation Commands` table populated from repo evidence or marked unavailable with reason
 - [ ] `Context & Learnings`, including `Working Set` and `Verified Facts`
 - [ ] `Implementation Log` table (appended to as steps complete)
 

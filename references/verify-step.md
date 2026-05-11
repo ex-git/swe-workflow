@@ -4,7 +4,7 @@
 
 1. Run all three passes — Validate, Test, Review Diff — before marking any step COMPLETED.
 2. Re-read every modified file with `read`. Do not trust memory.
-3. Run automated checks: lint, typecheck, format, pre-commit hooks (when configured).
+3. Run discovered commands from the plan; do not replace them with guessed generic commands unless no repo-specific command exists.
 4. Tests must cover happy path, edge cases, and error paths. All must pass.
 5. Review the actual `git diff` — no artifacts, no scope creep, no unverified imports.
 6. Every changed file must be in the step's Files Changed; every fact in Verified Facts must have tool evidence.
@@ -17,13 +17,7 @@ After finishing implementation in `execute-step`, before `persist-plan`.
 ## Pass 1 — Validate
 
 1. **Re-read every modified file** with `read`. Not from memory.
-2. **Run automated checks:**
-   ```bash
-   # JS/TS:     npm run lint && npm run typecheck && npm test
-   # Python:    ruff check . && mypy . && pytest
-   # Rust:      cargo fmt --check && cargo clippy && cargo test
-   # Go:        gofmt -w <changed-files> && go vet ./... && go test ./...
-   ```
+2. **Run discovered commands from the plan:** use the Validation Commands table populated via [`command-discovery.md`](command-discovery.md). Do not replace repo-specific commands with guessed generic commands unless no repo-specific command exists.
 3. **Run pre-commit hooks** when configured (lefthook, husky, pre-commit). If hooks can't run, document why and the closest equivalent checks run.
 4. **Verify evidence:** every changed file in Files Changed, every fact in Working Set/Verified Facts backed by read/search/tool output.
 
@@ -89,12 +83,15 @@ Before marking `COMPLETED`, answer:
 
 ## Final Gate
 
+Before marking a step or task complete, apply [`references/definition-of-done.md`](definition-of-done.md).
+
 All three passes must be clean before `persist-plan`:
 
 - [ ] **Validate:** re-read, checks pass, hooks pass, evidence accurate
 - [ ] **Test:** written, running, passing (or manual verification documented)
 - [ ] **Review:** diff clean, scope intact, no artifacts
 - [ ] **Quality Review:** contract, project fit, abstractions/dependencies, failure modes, test value, and security/data/performance risks reviewed
+- [ ] **Definition of Done:** final scope, validation, response, and residual-risk gate applied
 
 ## Next Step
 

@@ -86,11 +86,15 @@ cp -r swe-workflow ~/.gemini/skills/
 
 ```
 swe-workflow/
-├── SKILL.md                     # Agent-facing entry point (plan format inlined)
+├── SKILL.md                     # Agent-facing entry point (mandatory router/contract)
 ├── references/                  # Supplementary detail for each workflow phase
 │   ├── plan-template.md         # Canonical plan skeleton — copy verbatim
 │   ├── plan-example.md          # Filled-in 3-step example plan
 │   ├── code-quality.md          # Reusable code quality bar
+│   ├── definition-of-done.md     # Final completion gate
+│   ├── command-discovery.md      # Validation command discovery
+│   ├── risk-classification.md    # Compact risk routing rules
+│   ├── project-agents-template.md # Template for target repo AGENTS.md
 │   ├── require-clarification.md
 │   ├── create-plan.md
 │   ├── resume-workflow.md
@@ -101,13 +105,27 @@ swe-workflow/
 │   ├── dump-context.md
 │   ├── reflect-after-changes.md
 │   └── global-reflection.md
-├── examples/                    # Worked examples (optional reading)
+├── examples/                    # Worked examples and optional evaluation aids
+│   └── evaluation-prompts.md     # Prompts for workflow evaluation
 ├── AGENTS.md                    # Repo-level agent instructions / template
 ├── CHANGELOG.md
 ├── LICENSE
 ├── package.json
 └── README.md
 ```
+
+## Production Code Quality Setup
+
+This skill provides the workflow contract. For production codebases, pair it with a project-level `AGENTS.md`.
+
+Recommended setup:
+
+1. Install `swe-workflow`.
+2. Copy [`references/project-agents-template.md`](references/project-agents-template.md) into the target repo as `AGENTS.md`.
+3. Fill in required commands, architecture rules, API rules, data rules, security rules, testing rules, and do-not-touch areas.
+4. Test the setup with [`examples/evaluation-prompts.md`](examples/evaluation-prompts.md).
+
+Keep `SKILL.md` small. Put project-specific rules in the target repo's `AGENTS.md`, not in this skill.
 
 ## Verification
 

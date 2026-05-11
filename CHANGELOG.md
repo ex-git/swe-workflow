@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [1.9.0] - 2026-05-11
+
+### Added
+- `references/definition-of-done.md` as a final completion gate for scope, correctness, project fit, validation, and final response requirements.
+- `references/command-discovery.md` so agents discover validation commands from repo evidence instead of guessing.
+- `references/risk-classification.md` for compact step-level risk review and mitigation.
+- `references/project-agents-template.md` for optional target-repo `AGENTS.md` setup.
+- `examples/evaluation-prompts.md` for optional workflow evaluation prompts.
+
+### Changed
+- Added concise `SKILL.md` reference-loading rules while keeping detailed quality guidance in reference files.
+- Added a compact Validation Commands section and risk/mitigation quality prompts to the plan template.
+- Documented production code-quality setup and repository bloat-control rules.
+
 ## [1.8.0] - 2026-05-10
 
 ### Added
@@ -173,6 +189,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.9.0...HEAD
+[1.9.0]: https://github.com/ex-git/swe-workflow/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/ex-git/swe-workflow/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/ex-git/swe-workflow/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/ex-git/swe-workflow/compare/v1.6.0...v1.6.1
