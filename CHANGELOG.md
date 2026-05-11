@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-05-11
+
 ### Added
 - `references/definition-of-done.md` as a final completion gate for scope, correctness, project fit, validation, and final response requirements.
 - `references/command-discovery.md` so agents discover validation commands from repo evidence instead of guessing.
@@ -187,7 +189,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.8.0...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.9.0...HEAD
+[1.9.0]: https://github.com/ex-git/swe-workflow/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/ex-git/swe-workflow/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/ex-git/swe-workflow/compare/v1.6.1...v1.7.0
 [1.6.1]: https://github.com/ex-git/swe-workflow/compare/v1.6.0...v1.6.1

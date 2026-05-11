@@ -15,7 +15,7 @@ description: >-
   edits, writes, and bash — triage comes first.
 license: MIT
 metadata:
-  version: "1.8.0"
+  version: "1.9.0"
   author: "Evan Xu"
 ---
 
