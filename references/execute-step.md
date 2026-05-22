@@ -40,6 +40,7 @@
    - Identify and record the local pattern this change should follow
    - Identify the contract: inputs, outputs, errors, side effects
    - Identify the reuse target, or record evidence that none exists
+   - Check applicable `references/code-quality.md` code-smell, test-first, and design-quality prompts for this change path
    - Classify risk with [`references/risk-classification.md`](risk-classification.md) and record mitigation for every non-none risk
    - Before implementation, discover validation commands with [`references/command-discovery.md`](command-discovery.md) when the task will require tests, build, lint, typecheck, or CI-equivalent validation
    - Identify the exact behavior this step will prove with tests or manual verification

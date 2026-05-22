@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.2] - 2026-05-21
+
+### Added
+- Added optional SOLID-inspired code smell, test-first/TDD, design-quality, and architecture-fit prompts to `references/code-quality.md`.
+- Added planning/execution hooks so architecture and design-quality guidance is applied only for broad refactors, domain logic, or boundary changes.
+
 ## [1.9.1] - 2026-05-21
 
 ### Added
@@ -198,7 +204,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.9.1...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.9.2...HEAD
+[1.9.2]: https://github.com/ex-git/swe-workflow/compare/v1.9.1...v1.9.2
 [1.9.1]: https://github.com/ex-git/swe-workflow/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/ex-git/swe-workflow/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/ex-git/swe-workflow/compare/v1.7.0...v1.8.0

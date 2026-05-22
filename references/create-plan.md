@@ -6,13 +6,14 @@
 2. Open Questions must be exactly `None.` — do not create a plan with unresolved questions.
 3. Explore narrowly — read only files needed to plan; record evidence in Working Set and Verified Facts.
 4. Discover design conventions — if the task touches UI, schema, or API, search for existing patterns, shared components, and reusable code before planning. Record in Verified Facts.
-5. Fill the Design Decisions table — surface every UX, schema, or API choice for user confirmation. Write `None — no design-sensitive changes.` if N/A.
-6. Break into vertical slices — each step is one thin slice through all layers (types, logic, tests), independently verifiable. Never horizontal.
-7. Bullet quality — every plan bullet must name a tool (`edit`/`write`/`bash`), a file path, and the specific change. If a bullet doesn't reference a concrete location, it's too vague.
-8. Think in code for analysis — when planning requires repo-wide counts/inventories/comparisons, prefer one script/command that computes concise results over many raw reads.
-9. Reuse before create — search for existing shared code before planning to create new components, utilities, or patterns. Evidence in Verified Facts.
-10. Write ALL steps — the plan file must contain every step for every phase. Partial plans block execution.
-11. Copy [`plan-template.md`](plan-template.md) verbatim — do not invent your own format.
+5. For broad refactors, domain logic, or boundary changes, apply architecture/design-quality prompts from `references/code-quality.md`; record tradeoffs in Verified Facts or Design Decisions.
+6. Fill the Design Decisions table — surface every UX, schema, or API choice for user confirmation. Write `None — no design-sensitive changes.` if N/A.
+7. Break into vertical slices — each step is one thin slice through all layers (types, logic, tests), independently verifiable. Never horizontal.
+8. Bullet quality — every plan bullet must name a tool (`edit`/`write`/`bash`), a file path, and the specific change. If a bullet doesn't reference a concrete location, it's too vague.
+9. Think in code for analysis — when planning requires repo-wide counts/inventories/comparisons, prefer one script/command that computes concise results over many raw reads.
+10. Reuse before create — search for existing shared code before planning to create new components, utilities, or patterns. Evidence in Verified Facts.
+11. Write ALL steps — the plan file must contain every step for every phase. Partial plans block execution.
+12. Copy [`plan-template.md`](plan-template.md) verbatim — do not invent your own format.
 
 ## Instructions
 
@@ -33,6 +34,7 @@
      - Frontend: search for existing shared/reusable components, design tokens, layout patterns
      - Schema: search for naming conventions, relationship patterns, migration style
      - API: search for route naming, response shape, error format
+   - **Architecture/design-quality review** (for broad refactors, domain logic, or boundary changes): apply `references/code-quality.md` prompts for boundaries, dependency direction, code smells, and test-first opportunities.
    - **Reuse check:** before planning to create anything new, search for existing equivalents. Record evidence ("no match found" or "existing X can be extended").
    - Record all evidence in the plan's Working Set and Verified Facts
    - If `plans/repo-map.md` exists, treat it as advisory; verify entries before relying on them
