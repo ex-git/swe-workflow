@@ -5,13 +5,15 @@
 1. Read the plan file. Confirm `Open Questions` is `None.` — if not, STOP and ask in chat.
 2. Select the first PENDING step. Mark it `IN_PROGRESS`. Update `Last Updated`.
 3. Re-read target files before editing — do not rely on memory. Verify imports, callers, dependencies.
-4. If step is design-sensitive (UI, schema, API shape): confirm the approach matches existing conventions or the Design Decisions table. If ambiguous, ask the user before implementing.
-5. Protect code: `git commit` or `git stash` before changes.
-6. Use `edit` for existing files, `write` for new files. Never `write` over an existing file.
-7. Implement ONLY what this step requires. Do not touch unrelated files.
-8. Reuse before create: if about to create a new component/utility/pattern, search for existing equivalents first. Record evidence.
-9. Update Working Set, Verified Facts, Implementation Notes, Files Changed.
-10. If scope needs to expand: STOP, update the plan, notify user. Never silently expand.
+4. Think in code for analysis tasks — when answering aggregate questions across many files/logs, prefer one short script/command that computes concise results.
+5. If step is design-sensitive (UI, schema, API shape): confirm the approach matches existing conventions or the Design Decisions table. If ambiguous, ask the user before implementing.
+6. Protect code: `git commit` or `git stash` before changes.
+7. Use `edit` for existing files, `write` for new files. Never `write` over an existing file.
+8. Tool-output heuristics — prefer targeted search/scoped reads/bounded command output; summarize key lines instead of dumping large raw output.
+9. Implement ONLY what this step requires. Do not touch unrelated files.
+10. Reuse before create: if about to create a new component/utility/pattern, search for existing equivalents first. Record evidence.
+11. Update Working Set, Verified Facts, Implementation Notes, Files Changed.
+12. If scope needs to expand: STOP, update the plan, notify user. Never silently expand.
 
 ## Instructions
 
@@ -30,6 +32,8 @@
    - Check imports/exports and nearby code for local conventions
    - Search callers/usages before changing shared functions, types, routes, schemas, or config
    - Verify dependencies/packages/APIs exist before importing
+   - Prefer targeted reads/search (`rg`, scoped line ranges) over full raw dumps unless full context is required
+   - For aggregate checks (counts, inventories, comparisons), run one short script/command and capture concise output
    - Record new evidence in Working Set and Verified Facts
 
 7. **Quality Gate Before Editing:**

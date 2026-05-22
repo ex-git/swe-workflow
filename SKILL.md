@@ -15,7 +15,7 @@ description: >-
   edits, writes, and bash — triage comes first.
 license: MIT
 metadata:
-  version: "1.9.0"
+  version: "1.9.1"
   author: "Evan Xu"
 ---
 
@@ -109,11 +109,13 @@ Status values: `PENDING` | `IN_PROGRESS` | `COMPLETED` | `BLOCKED`
 These guards are active for the **entire session**, not just the first response. Do not drift.
 
 1. **Evidence first** — read relevant files before editing; verify paths/imports/dependencies; search callers/usages before changing shared behavior.
-2. **Simplicity** — minimum code for the problem; no unrequested features, abstractions, dependencies, or defensive handling.
-3. **Surgical changes** — touch only needed files/lines; match formatting, naming, and import conventions; do not copy degraded correctness patterns.
-4. **Reuse before create** — before writing a new component, utility, hook, type, or schema pattern, search for existing equivalents; evidence of the search must appear in Verified Facts. Extract duplication when extraction is small and in scope; mention unrelated issues but don't fix them.
-5. **Design discipline** — do not make silent design choices about UI layout, schema shape, component structure, or API contracts. Surface design decisions for user confirmation during clarification. During execution, verify approach matches existing conventions or the Design Decisions table.
-6. **Goal-driven** — define success before coding; verify via tests/lint/format/build/typecheck; add focused tests for new code and bug fixes when a test framework exists; run quality gates including pre-commit hooks; fix introduced issues or report blockers.
+2. **Think in code** — for aggregate analysis, prefer short scripts/commands that compute results and print only what is needed instead of many raw file/tool dumps.
+3. **Tool-use heuristics** — default to targeted `rg`/scoped reads/bounded command output; avoid pasting large raw logs or file contents when a focused summary or key lines are sufficient.
+4. **Simplicity** — minimum code for the problem; no unrequested features, abstractions, dependencies, or defensive handling.
+5. **Surgical changes** — touch only needed files/lines; match formatting, naming, and import conventions; do not copy degraded correctness patterns.
+6. **Reuse before create** — before writing a new component, utility, hook, type, or schema pattern, search for existing equivalents; evidence of the search must appear in Verified Facts. Extract duplication when extraction is small and in scope; mention unrelated issues but don't fix them.
+7. **Design discipline** — do not make silent design choices about UI layout, schema shape, component structure, or API contracts. Surface design decisions for user confirmation during clarification. During execution, verify approach matches existing conventions or the Design Decisions table.
+8. **Goal-driven** — define success before coding; verify via tests/lint/format/build/typecheck; add focused tests for new code and bug fixes when a test framework exists; run quality gates including pre-commit hooks; fix introduced issues or report blockers.
 
 ## Full Workflow
 

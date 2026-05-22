@@ -9,9 +9,10 @@
 5. Fill the Design Decisions table — surface every UX, schema, or API choice for user confirmation. Write `None — no design-sensitive changes.` if N/A.
 6. Break into vertical slices — each step is one thin slice through all layers (types, logic, tests), independently verifiable. Never horizontal.
 7. Bullet quality — every plan bullet must name a tool (`edit`/`write`/`bash`), a file path, and the specific change. If a bullet doesn't reference a concrete location, it's too vague.
-8. Reuse before create — search for existing shared code before planning to create new components, utilities, or patterns. Evidence in Verified Facts.
-9. Write ALL steps — the plan file must contain every step for every phase. Partial plans block execution.
-10. Copy [`plan-template.md`](plan-template.md) verbatim — do not invent your own format.
+8. Think in code for analysis — when planning requires repo-wide counts/inventories/comparisons, prefer one script/command that computes concise results over many raw reads.
+9. Reuse before create — search for existing shared code before planning to create new components, utilities, or patterns. Evidence in Verified Facts.
+10. Write ALL steps — the plan file must contain every step for every phase. Partial plans block execution.
+11. Copy [`plan-template.md`](plan-template.md) verbatim — do not invent your own format.
 
 ## Instructions
 
@@ -26,6 +27,8 @@
 3. **Explore the codebase narrowly:**
    - Search for relevant files and directories with targeted `rg`/`find`/`git` commands
    - Read only files needed to plan: likely targets, direct callers/callees, nearby tests, relevant config
+   - Prefer targeted reads (specific sections/line ranges) over full-file dumps unless full structure is required.
+   - For aggregate questions (counts, inventories, comparisons), prefer one short script/command that computes and prints concise results.
    - **Design convention discovery** (when task touches UI, schema, or API):
      - Frontend: search for existing shared/reusable components, design tokens, layout patterns
      - Schema: search for naming conventions, relationship patterns, migration style

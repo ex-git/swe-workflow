@@ -1,6 +1,6 @@
 # swe-workflow
 
-A lightweight, structured development workflow for AI coding agents. Compatible with **Pi**, **Claude Code**, **Cursor**, **Codex**, **Gemini**, and other agents supporting the Agent Skills spec.
+A lightweight, structured Software Engineering Workflow (SWE workflow) for AI coding agents. Compatible with **Pi**, **Claude Code**, **Cursor**, **Codex**, **Gemini**, and other agents supporting the Agent Skills spec.
 
 > Every code task starts with workflow triage. Simple tasks stay lightweight; broad, ambiguous, or multi-file tasks use a persisted plan.
 

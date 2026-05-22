@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.1] - 2026-05-21
+
+### Added
+- Added explicit **Think in code** behavioral guidance in `SKILL.md` to prefer concise computed results for aggregate analysis over raw dumps.
+- Added explicit **Tool-use heuristics** behavioral guidance in `SKILL.md` to prefer targeted search/scoped reads/bounded output.
+- Added planning-phase heuristics in `references/create-plan.md` for targeted reads and script-based aggregate analysis.
+- Added execution-phase heuristics in `references/execute-step.md` for bounded tool output and computed summaries.
+- Clarified `README.md` opening text to explicitly expand `SWE` as Software Engineering Workflow.
+
 ## [1.9.0] - 2026-05-11
 
 ### Added
@@ -189,7 +198,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.9.0...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.9.1...HEAD
+[1.9.1]: https://github.com/ex-git/swe-workflow/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/ex-git/swe-workflow/compare/v1.8.0...v1.9.0
 [1.8.0]: https://github.com/ex-git/swe-workflow/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/ex-git/swe-workflow/compare/v1.6.1...v1.7.0
