@@ -35,7 +35,7 @@ Before asking "Should I continue?", after 2-3 steps, when significant decisions 
 
 ## Current Step
 **Step N: [Title]**
-**Status:** IN_PROGRESS | PENDING
+> Status: IN_PROGRESS | PENDING
 
 ### What Was Done
 - [Action taken]

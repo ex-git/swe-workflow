@@ -99,5 +99,3 @@ _(none — ready to continue)_
 | `npx tsc --noEmit` | Type-check without emitting |
 
 ---
-
-*Optional advisory project memory: [`repo-map.md`](repo-map.md); verify entries before use.*

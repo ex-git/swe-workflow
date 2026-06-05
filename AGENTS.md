@@ -34,11 +34,30 @@ If a Lightweight task grows into any trigger above, stop before further edits, d
 
 Before any write/edit/delete that changes task target files in Full workflow mode:
 
-1. a plan file must exist under `plans/`,
-2. exactly one current step must be marked `IN_PROGRESS`, and
-3. the intended edit must map to that step.
+1. A plan directory must exist under `plans/<YYYY-MM-DD>-<slug>/`
+2. Exactly one step file must have a step marked `IN_PROGRESS`
+3. The intended edit must map to that step's scope
 
-Only workflow bookkeeping files (`plans/*.md`) may be created or updated before this gate is satisfied.
+Only workflow bookkeeping files (`plans/context.md`, `plans/*/plan.md`, `plans/*/steps/*.md`) may be created or updated before this gate is satisfied.
+
+## Plan Directory Structure
+
+All plans live in subdirectories for better organization and smaller-model efficiency:
+
+```
+plans/
+├── context.md                           # Optional session state (overwritten each pause)
+└── <YYYY-MM-DD>-<slug>/                # One directory per task
+     ├── plan.md                         # Task overview, design decisions, working set
+     └── steps/
+          ├── step-1.md                  # Step 1: focused, self-contained
+          ├── step-2.md                  # Step 2: ...
+          └── step-N.md                 # Step N: ...
+```
+
+- Date-prefixed slugs (`YYYY-MM-DD-<name>`) ensure chronological file sorting
+- One file per step eliminates context noise from unrelated steps
+- Plan discovery uses filesystem scans of plan directories and step statuses
 
 ## Change Discipline
 

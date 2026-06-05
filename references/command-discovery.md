@@ -49,6 +49,19 @@ Record commands as:
 | Test |  |  |  |
 | Build |  |  |  |
 
+## Command Evidence
+
+For noisy commands, keep raw output out of model context:
+
+1. Write raw output to `/tmp` in its native format (`.log`, `.json`, `.txt`, `.diff`).
+2. Print only the useful summary, failure lines, or bounded `head`/`tail` slice.
+3. Record the compact evidence schema:
+   - `Command`: exact command run
+   - `Exit`: exit code
+   - `Output`: `/tmp/...` file path, or `inline` for small output
+   - `Summary`: one-line result
+   - `Freshness`: current workspace/session, stale after relevant changes unless rerun
+
 ## Skipped Commands
 
 For every skipped command, record:

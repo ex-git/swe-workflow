@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-06-05
+
+### Added
+- Added lightweight evidence discipline across the canonical guard, execution gate, task overview template, and Definition of Done so agents label key repo claims as Verified, Assumption, Unknown, or Recommendation.
+- Added anti-shortcut safeguards for smaller LLMs: evidence-before-edit, no-guessed-facts handling, evidence-gap completion blockers, and visible skipped-check reasons.
+- Added bounded command-output guidance with `/tmp` raw-output storage and a compact `Command`/`Exit`/`Output`/`Summary`/`Freshness` evidence schema.
+- Added conditional Spec-Lite fields, optional gate triggers, quality-checklist dedupe, lifecycle state ownership, and a compact final response standard.
+- **Directory-based plan structure.** Plans now live in `plans/<YYYY-MM-DD>-<slug>/` with a task overview at `plan.md` and individual step files in `steps/step-N.md`. Date-prefixed slugs ensure chronological sorting; one file per step keeps each unit small enough to fit cleanly in smaller LLMs' context windows.
+- **`references/task-overview-template.md`** — canonical skeleton for `plan.md` (task overview only: Goal, Assumptions, Design Decisions, Steps Overview table, Working Set, Verified Facts, Implementation Log).
+- **`references/step-template.md`** — canonical skeleton for each `steps/step-N.md` (10 required fields, 20–40 lines per step).
+- **Plan-level status vocabulary** (`DRAFT │ ACTIVE │ COMPLETED │ ARCHIVED`) introduced alongside the existing step-level vocabulary (`PENDING │ IN_PROGRESS │ COMPLETED │ BLOCKED`). Plan status describes lifecycle; step status describes execution state. New "Status Vocabularies" section in `SKILL.md` makes the distinction explicit.
+- New "Plan Directory Structure" and "Status Vocabularies" top-level sections in `SKILL.md`.
+- Inline status documentation comment in `references/task-overview-template.md` so the template itself explains the lifecycle values.
+
+### Changed
+- **`SKILL.md`** front-matter `description` rewritten to point at the two new templates and updated path conventions; YAML indentation normalized to 2-space throughout.
+- **`AGENTS.md`** updated with the new directory structure diagram and pre-edit gate rules.
+- **`README.md`** structure tree, multi-agent handoff section, and Full workflow paragraph updated to reflect the directory layout.
+- **`references/execute-step.md`** updated: select step by reading `steps/step-N.md`, mark `IN_PROGRESS` in the step file, and sync `plan.md`.
+- **`references/plan-example.md`** rewritten as a directory-layout example showing both `plan.md` (task overview) and individual step files.
+
+### Removed
+- Removed repo-map and runtime plan indexes from the active workflow, examples, resume/persist guidance, and shipped reference files. Task-local `plan.md`, step files, and optional `context.md` are now the only workflow state surfaces.
+- **`references/plan-template.md`** — superseded by `task-overview-template.md` (overview) + `step-template.md` (per-step).
+- Runtime plan state reference docs and examples — markdown plan/step files are now the source of truth.
+
+### Fixed
+- Stray trailing backticks in `references/plan-example.md` example bullets.
+- Indentation drift in `README.md` structure tree, `SKILL.md` triage block code fence, and `SKILL.md` description folded scalar.
+- Missing `plan.md` entry in the `SKILL.md` Plan Directory Structure tree.
+- Path placeholder `plans/<task>/...` in `references/step-template.md` corrected to `plans/<YYYY-MM-DD>-<slug>/...` to match the convention used everywhere else.
+
 ## [1.9.2] - 2026-05-21
 
 ### Added
@@ -204,7 +236,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.9.2...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.10.0...HEAD
+[1.10.0]: https://github.com/ex-git/swe-workflow/compare/v1.9.2...v1.10.0
 [1.9.2]: https://github.com/ex-git/swe-workflow/compare/v1.9.1...v1.9.2
 [1.9.1]: https://github.com/ex-git/swe-workflow/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/ex-git/swe-workflow/compare/v1.8.0...v1.9.0

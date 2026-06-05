@@ -3,18 +3,23 @@
 ## Contract — Read This First
 
 1. Run once when ALL steps are COMPLETED — this is the last gate before delivery.
-2. Re-read the entire plan file AND every modified/created file with `read`.
+2. Re-read the plan overview AND every step file AND every modified/created file with `read`.
 3. Verify goal achieved, evidence accurate, architecture clean, no artifacts.
-4. Fix issues found. Minor → fix directly. Major → create new steps. Critical → STOP and flag.
-5. Would you hand this to another developer to maintain? If not, fix the uncomfortable parts.
+4. Verify `plan.md` Steps Overview and step files agree on final state.
+5. Fix issues found. Minor → fix directly. Major → create new steps. Critical → STOP and flag.
+6. Would you hand this to another developer to maintain? If not, fix the uncomfortable parts.
 
 ## Instructions
 
-1. **Re-read the plan file** — verify all steps COMPLETED, review Implementation Log, check deviations, review Working Set/Verified Facts for evidence gaps, review Context & Learnings for completeness.
+1. **Re-read the plan overview** (`plans/<YYYY-MM-DD>-<slug>/plan.md`) — verify all entries in Steps Overview are COMPLETED, review Implementation Log, check deviations, review Working Set/Verified Facts for evidence gaps, review Context & Learnings for completeness.
 
-2. **Re-read ALL modified/created files** with `read` — in the order changes were made.
+2. **Re-read every step file** (`plans/<YYYY-MM-DD>-<slug>/steps/step-N.md`) — verify each has `Status: COMPLETED`, all 10 fields populated, Implementation Notes filled, Files Changed accurate.
 
-3. **Evaluate:**
+3. **Verify plan/step consistency** — confirm every step file status matches the Steps Overview table and all steps are `COMPLETED`.
+
+4. **Re-read ALL modified/created files** with `read` — in the order changes were made.
+
+5. **Evaluate:**
 
    | Area | Check |
    |------|-------|
@@ -37,7 +42,9 @@
 
 ## Mandatory Checklist
 
-- [ ] Re-read entire plan file
+- [ ] Re-read entire plan overview (`plan.md`)
+- [ ] Re-read every step file (`steps/step-N.md`)
+- [ ] Verified `plan.md` Steps Overview matches step file statuses
 - [ ] Re-read ALL modified/created files
 - [ ] Goal achieved with evidence
 - [ ] Context & Learnings complete (decisions, gotchas, patterns)
@@ -52,7 +59,8 @@
 
 If all checks pass:
 1. Feature is **DONE**.
-2. Consider: `git add -A && git commit -m "feat: [description]"`
+2. Update plan overview: set `Status: COMPLETED` and update `Last Updated`.
+3. Consider: `git add -A && git commit -m "feat: [description]"`
 
 If issues found and fixed: update Implementation Log, re-run affected tests.
 

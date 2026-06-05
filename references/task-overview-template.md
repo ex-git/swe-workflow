@@ -1,24 +1,46 @@
-# Plan Template
+# Task Overview Template
 
-> Copy this file verbatim to `plans/<task>.md` for every new Full-workflow task. Do not reconstruct from memory. Do not invent your own format. All labeled sections and per-step fields below are required. See [`references/plan-example.md`](plan-example.md) for a filled-in example.
+> Copy this file to `plans/<YYYY-MM-DD>-<slug>/plan.md` for every new Full-workflow task. Do not reconstruct from memory. This is the **task overview** — high-level context, design decisions, and working set. Individual steps live in `steps/step-N.md` files.
 
 ---
 
 ```markdown
 # Plan: [Task Name]
 
-> Status: DRAFT | IN_PROGRESS | COMPLETED
+> Status: DRAFT | ACTIVE | COMPLETED | ARCHIVED
 > Created: YYYY-MM-DD
 > Last Updated: YYYY-MM-DD
+
+<!--
+  Plan-level status (lifecycle):
+    DRAFT     — awaiting approval after clarification
+    ACTIVE    — execution in progress
+    COMPLETED — all steps done, verified
+    ARCHIVED  — optional long-term archival state
+  This is distinct from step-level status (PENDING|IN_PROGRESS|COMPLETED|BLOCKED)
+  in `steps/step-N.md`. The pre-edit gate checks step status, not plan status.
+-->
 
 ## Goal
 [One sentence describing what "done" looks like.]
 
 ## Assumptions
-- [What we're taking for granted — verify or make explicit.]
+- [What we're taking for granted — verify or make explicit. Label unverified repo claims here until evidence moves them to Verified Facts.]
 
 ## Open Questions
 None.
+
+## Spec-Lite
+> Fill for ambiguous, high-risk, or behavior-heavy work. Otherwise write `N/A — covered by Goal, Deliverables, and Validation.`
+
+### Acceptance Criteria
+- [ ] [Observable behavior or outcome that must be true.]
+
+### Non-goals
+- [What is explicitly out of scope.]
+
+### Edge Cases
+- [Important boundary/failure case, or `N/A`.]
 
 ## Design Decisions
 > Decisions about UX, schema shape, component structure, or API contract.
@@ -29,14 +51,21 @@ None.
 |----------|--------------------|--------|-----------|
 | [e.g. User list layout] | [Table vs Card grid] | [Table — matches /admin pages] | [yes/no] |
 
+## Steps Overview
+| Step | File | Status | Goal |
+|------|------|--------|------|
+| Step 1 | `steps/step-1.md` | PENDING | [One-line goal] |
+| Step 2 | `steps/step-2.md` | PENDING | [One-line goal] |
+| Step 3 | `steps/step-3.md` | PENDING | [One-line goal] |
+
 ## Validation Commands
 
 | Purpose | Command | Source | Required? |
 |---|---|---|---|
-| Typecheck |  |  |  |
-| Lint |  |  |  |
-| Test |  |  |  |
-| Build |  |  |  |
+| Typecheck |   |   |   |
+| Lint |   |   |   |
+| Test |   |   |   |
+| Build |   |   |   |
 
 ## Context & Learnings
 ### Key Decisions
@@ -51,74 +80,45 @@ None.
 | [path] | [why this file matters] | [read/rg/test/config check used to verify] |
 ### Verified Facts
 - [Fact] — verified by [tool/read/search/config], [date or step].
-
-## Steps
-
-### Step 1: [Title]
-**Status:** PENDING | IN_PROGRESS | COMPLETED | BLOCKED
-**Prerequisites:**
-- [Step N completed — specific artifact exists, e.g. "`UserService` class created in Step 1"]
-- [Files to modify: `src/auth/validate.ts`, `src/auth/__tests__/validate.test.ts`]
-- [Design: confirm approach with user before implementing (if design-sensitive)]
-**Deliverables:**
-- [What this step produces, e.g. "`validateEmail()` accepts an `options` parameter"]
-- [After this step: `npm test -- --filter=validate` passes, function signature updated]
-**Plan:**
-- [ ] `edit` src/auth/validate.ts — add `options: ValidateOptions` parameter to `validateEmail()`
-- [ ] `write` src/auth/__tests__/validate.test.ts — new test covering happy path + invalid email
-- [ ] `bash` npm test -- --filter=validate — expect 0 failures
-**Quality Checklist:**
-- [ ] Existing pattern identified:
-- [ ] Contract understood:
-- [ ] Reuse checked:
-- [ ] Risk reviewed:
-- [ ] Mitigation recorded:
-**Validation Checklist:**
-- [ ] `npm run build` exits 0
-- [ ] `npm run lint` exits 0
-**Test Checklist:**
-- [ ] `npm test -- --filter=validate` — all pass (or `N/A` if no test framework)
-**Implementation Notes:**
-[Fill after implementation — what actually happened, surprises, deviations.]
-**Files Changed:**
-[List exact paths after implementation.]
-
-<!-- Repeat the full block above for each step. -->
+- Unknowns stay out of Verified Facts until checked; record them in Assumptions, Open Questions, or the current step's Implementation Notes.
 
 ## Implementation Log
 | Date | Step | Summary |
 |------|------|---------|
 ```
 
-## Required fields checklist
+## Required Fields Checklist
 
 For `## Open Questions`, the valid content is exactly `None.`. If any known question would be listed there, do not create or finalize the plan; ask the user in chat first. `DRAFT` means plan review/approval after clarification is complete, not unresolved requirements.
 
-Before marking any step `COMPLETED`, confirm the step has all eight fields populated:
+Before marking any step **COMPLETED**, confirm the corresponding `steps/step-N.md` file has all ten required fields populated:
 
-- [ ] `Status` — one of `PENDING`, `IN_PROGRESS`, `COMPLETED`, `BLOCKED`
-- [ ] `Prerequisites`
-- [ ] `Deliverables`
-- [ ] `Plan` (action checklist)
-- [ ] `Quality Checklist`
-- [ ] `Validation Checklist`
-- [ ] `Test Checklist` (use `N/A` if no test framework exists)
-- [ ] `Files Changed`
+- [ ] **Status** — one of `PENDING`, `IN_PROGRESS`, `COMPLETED`, `BLOCKED`
+- [ ] **Goal**
+- [ ] **Prerequisites**
+- [ ] **Deliverables**
+- [ ] **Plan** (action checklist)
+- [ ] **Quality Checklist**
+- [ ] **Validation Checklist**
+- [ ] **Test Checklist** (use `N/A` if no test framework)
+- [ ] **Implementation Notes**
+- [ ] **Files Changed**
 
-The top-level plan file must also have:
+The task overview file must also have:
 
 - [ ] Header block with `Status`, `Created`, `Last Updated`
-- [ ] `Goal`, `Assumptions`, `Open Questions` (exactly `None.`), `Design Decisions` (filled or `None — no design-sensitive changes.`)
-- [ ] `Validation Commands` table populated from repo evidence or marked unavailable with reason
+- [ ] `Goal`, `Assumptions`, `Open Questions` (exactly `None.`), `Spec-Lite` (filled or `N/A`), `Design Decisions` (filled or `None`)
+- [ ] `Steps Overview` table listing all steps
+- [ ] `Validation Commands` table populated from repo evidence or marked unavailable
 - [ ] `Context & Learnings`, including `Working Set` and `Verified Facts`
 - [ ] `Implementation Log` table (appended to as steps complete)
 
-## Violations to avoid
+## Violations to Avoid
 
-- `### Step N — Title [STATUS]` headers with inline status brackets instead of a `**Status:**` field.
-- Steps missing any of the eight required fields.
+- `### Step N — Title [STATUS]` headers with inline status brackets instead of a `> Status:` field.
+- Steps missing any of the ten required fields.
 - Horizontal slicing (Step 1 = all types, Step 2 = all logic, Step 3 = all tests). Each step must be a thin vertical slice through the necessary layers — independently verifiable.
-- Marking a step `COMPLETED` with known validation or test failures. Either fix them or mark `BLOCKED`.
+- Marking a step **COMPLETED** with known validation or test failures. Either fix them or mark **BLOCKED**.
 - Recording guessed paths, APIs, dependencies, or conventions as facts without read/search/tool evidence.
 - Creating a new component, utility, hook, or schema pattern without searching for an existing reusable equivalent. Evidence of the search must appear in Verified Facts.
 - Making silent design choices (UI layout, schema shape, API contract) without confirming with the user. Surface design decisions in the Design Decisions table.

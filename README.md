@@ -17,7 +17,7 @@ Enforces visible workflow selection plus a disciplined process for any coding ta
 
 Every reference file front-loads a **Contract block** (first 5-10 rules) so even low-thinking agents absorb the critical gates.
 
-In Full workflow mode, task state lives in `plans/<task>.md` plus `plans/context.md`; optional `plans/repo-map.md` stores advisory project memory that must be verified against the current workspace.
+In Full workflow mode, task state lives in `plans/<YYYY-MM-DD>-<slug>/plan.md` plus individual step files at `steps/step-N.md` plus `plans/context.md`.
 
 ## Why
 
@@ -43,7 +43,7 @@ Plan needed: yes | no
 
 Full workflow mode is mandatory for broad cleanup/refactor/lint tasks, deletes/moves, backend + UI changes, API/schema/route/tooling/config changes, source-of-truth docs, ambiguous work, or anything expected to touch more than 3 files.
 
-In Full workflow mode, unresolved questions must be asked in chat before plan creation/finalization; valid plans record `Open Questions` as `None.` and surface design choices in a `Design Decisions` table for user confirmation. Implementation edits must wait until a valid plan exists, the current step is marked `IN_PROGRESS`, and the edit maps to that step.
+In Full workflow mode, unresolved questions must be asked in chat before plan creation/finalization; valid plans record `Open Questions` as `None.` and surface design choices in a `Design Decisions` table for user confirmation. Implementation edits must wait until a valid plan exists under `plans/<YYYY-MM-DD>-<slug>/`, the current step file is marked `IN_PROGRESS`, and the edit maps to that step.
 
 ## Installation
 
@@ -88,8 +88,9 @@ cp -r swe-workflow ~/.gemini/skills/
 swe-workflow/
 ├── SKILL.md                     # Agent-facing entry point (mandatory router/contract)
 ├── references/                  # Supplementary detail for each workflow phase
-│   ├── plan-template.md         # Canonical plan skeleton — copy verbatim
-│   ├── plan-example.md          # Filled-in 3-step example plan
+│   ├── task-overview-template.md # Task overview skeleton — copy to plan.md verbatim
+│   ├── step-template.md         # Per-step file skeleton — copy to steps/step-N.md verbatim
+│   ├── plan-example.md          # Filled-in 3-step example plan (directory structure)
 │   ├── code-quality.md          # Reusable code quality bar
 │   ├── definition-of-done.md     # Final completion gate
 │   ├── command-discovery.md      # Validation command discovery
@@ -100,7 +101,6 @@ swe-workflow/
 │   ├── resume-workflow.md
 │   ├── execute-step.md
 │   ├── verify-step.md
-│   ├── maintain-repo-map.md
 │   ├── persist-plan.md
 │   ├── dump-context.md
 │   ├── reflect-after-changes.md
@@ -139,7 +139,7 @@ Add a function that validates email addresses
 
 ## Multi-Agent Handoffs
 
-The task plan and context files are portable across agents. Agent A can complete steps 1–3 and dump context; Agent B reads `plans/context.md` + `plans/<task>.md`, optionally checks `plans/repo-map.md` for advisory project memory, verifies relevant entries in the current workspace, and picks up at step 4.
+The task plan and context files are portable across agents. Agent A can complete steps 1–3 and dump context; Agent B reads `plans/context.md` if present, scans `plans/<YYYY-MM-DD>-<slug>/plan.md` and step statuses to find active work, verifies relevant entries in the current workspace, and picks up at step 4.
 
 ## Documentation
 
