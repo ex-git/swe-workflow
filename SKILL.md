@@ -18,7 +18,7 @@ description: >-
   first.
 license: MIT
 metadata:
-  version: "1.10.0"
+  version: "1.11.0"
   author: "Evan Xu"
 ---
 
@@ -43,6 +43,25 @@ This block is the minimum every agent must follow. If you skim only this section
 4. **Plan file format.** The task overview at `plans/<YYYY-MM-DD>-<slug>/plan.md` copies [`references/task-overview-template.md`](references/task-overview-template.md) verbatim (contains `Design Decisions` table, `Working Set`, `Verified Facts`). Each step file `plans/<YYYY-MM-DD>-<slug>/steps/step-N.md` copies [`references/step-template.md`](references/step-template.md) verbatim. Every step has ten fields: `Status`, `Goal`, `Prerequisites`, `Deliverables`, `Plan`, `Quality Checklist`, `Validation Checklist`, `Test Checklist`, `Implementation Notes`, `Files Changed`.
 5. **Clarification gate (Full mode).** If any requirement question is known, ask it in chat before writing or finalizing plan files. A valid plan has no unresolved questions; `DRAFT` means awaiting plan approval, not awaiting requirement answers, and clarification must not be turned into an implementation step.
 6. **One step at a time.** Never batch. Never mark `COMPLETED` with known failures — fix or mark `BLOCKED`.
+
+## Delegated Mode (Multi-Agent)
+
+When **all** of the following are true, you are in **Delegated Mode** — skip triage, plan creation, and the pre-edit gate:
+
+1. Your task was assigned by another agent or orchestrator — not an open-ended user request
+2. You received explicit scope, success criteria, or an acceptance contract
+3. You are operating in a focused role (implementer, reviewer, analyst, researcher, etc.)
+
+In Delegated Mode:
+
+- **Skip** the triage block, plan file creation, pre-edit gate, and resume protocol
+- **Follow** all Behavioral Guards below (evidence first, surgical changes, simplicity, etc.)
+- **Follow** the code-quality bar in [`references/code-quality.md`](references/code-quality.md)
+- **Report** changed files, commands run with exit codes, validation evidence, and surprises
+- **Escalate** unapproved design/architecture/scope decisions back to your caller — do not decide silently
+- **Stay in scope** — implement only what was assigned; do not expand into adjacent work
+
+If your orchestrator provides a standalone guards file (`references/delegated-guards.md`), follow that instead of the full skill. Both paths enforce the same behavioral quality bar.
 
 ## Plan Directory Structure
 
@@ -181,6 +200,7 @@ New session on existing work → read in order: `plans/context.md` if present �
 |---|---|
 | [task-overview-template](references/task-overview-template.md) | Task overview skeleton — copy to `plan.md` verbatim |
 | [step-template](references/step-template.md) | Per-step file skeleton — copy to `steps/step-N.md` verbatim |
+| [delegated-guards](references/delegated-guards.md) | Standalone guards for child agents in multi-agent setups |
 | [require-clarification](references/require-clarification.md) | Clarify ambiguous requests before planning |
 | [create-plan](references/create-plan.md) | Exploration, step sizing, plan creation procedure |
 | [execute-step](references/execute-step.md) | Code protection, implementation, scope management |

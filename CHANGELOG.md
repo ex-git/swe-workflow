@@ -5,7 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.11.0] - 2026-06-10
+
+### Added
+- **Delegated Mode (Multi-Agent).** New section in `SKILL.md` that lets child agents skip triage, plan creation, and the pre-edit gate when they receive a focused task from an orchestrator with explicit scope and success criteria. Detection is agent-agnostic — any LLM self-applies based on context, no platform-specific hooks required.
+- **`references/delegated-guards.md`** — standalone behavioral guards and code quality bar for orchestrators that want minimal-overhead injection into child agents. Works across Pi, Claude Code, Cursor, Codex, Gemini, and any platform that supports injecting text into a child's context.
+- **Subagent / Multi-Agent Orchestration** section in `README.md` documenting orchestrator vs delegated child roles, three injection strategies, and platform examples.
 
 ## [1.10.0] - 2026-06-05
 
@@ -236,7 +241,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.10.0...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.11.0...HEAD
+[1.11.0]: https://github.com/ex-git/swe-workflow/compare/v1.10.0...v1.11.0
 [1.10.0]: https://github.com/ex-git/swe-workflow/compare/v1.9.2...v1.10.0
 [1.9.2]: https://github.com/ex-git/swe-workflow/compare/v1.9.1...v1.9.2
 [1.9.1]: https://github.com/ex-git/swe-workflow/compare/v1.9.0...v1.9.1

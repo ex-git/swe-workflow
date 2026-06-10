@@ -92,6 +92,7 @@ swe-workflow/
 │   ├── step-template.md         # Per-step file skeleton — copy to steps/step-N.md verbatim
 │   ├── plan-example.md          # Filled-in 3-step example plan (directory structure)
 │   ├── code-quality.md          # Reusable code quality bar
+│   ├── delegated-guards.md      # Standalone guards for child agents in multi-agent setups
 │   ├── definition-of-done.md     # Final completion gate
 │   ├── command-discovery.md      # Validation command discovery
 │   ├── risk-classification.md    # Compact risk routing rules
@@ -140,6 +141,39 @@ Add a function that validates email addresses
 ## Multi-Agent Handoffs
 
 The task plan and context files are portable across agents. Agent A can complete steps 1–3 and dump context; Agent B reads `plans/context.md` if present, scans `plans/<YYYY-MM-DD>-<slug>/plan.md` and step statuses to find active work, verifies relevant entries in the current workspace, and picks up at step 4.
+
+## Subagent / Multi-Agent Orchestration
+
+This skill supports both **orchestrator** and **delegated child** roles:
+
+| Role | What applies | What's skipped |
+|------|-------------|----------------|
+| **Orchestrator** (top-level agent, user-facing) | Full workflow: triage → plan → execute → verify | Nothing |
+| **Delegated child** (focused task from another agent) | Behavioral Guards + Code Quality Bar | Triage block, plan creation, pre-edit gate |
+
+### How it works
+
+When an agent receives a focused task from an orchestrator (not an open-ended user request) with explicit scope and success criteria, it automatically enters **Delegated Mode** — defined in `SKILL.md`. No platform-specific hooks needed; the LLM self-detects based on its context.
+
+### For orchestrator authors
+
+Three options for child agents, from lightest to heaviest:
+
+1. **Inject only `references/delegated-guards.md`** — minimal overhead, standalone file with behavioral guards and code quality bar. Works on any platform that supports injecting text into a child's context.
+2. **Inject the full skill** — children self-detect Delegated Mode and skip the ceremony. More tokens but requires no orchestrator-side configuration.
+3. **No skill injection** — rely on the orchestrator's task prompt to encode quality expectations. Least overhead, most fragile.
+
+### Platform examples
+
+```bash
+# Pi: child inherits skill automatically, self-detects delegated mode
+# Or inject only the guards file via task prompt / reads
+
+# Claude Code: reference in child context
+# Cursor: include in child rules
+# Codex: include in child system instructions
+# Any LLM: paste references/delegated-guards.md into child context
+```
 
 ## Documentation
 
