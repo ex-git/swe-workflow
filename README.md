@@ -90,10 +90,9 @@ swe-workflow/
 ├── references/                  # Supplementary detail for each workflow phase
 │   ├── task-overview-template.md # Task overview skeleton — copy to plan.md verbatim
 │   ├── step-template.md         # Per-step file skeleton — copy to steps/step-N.md verbatim
-│   ├── plan-example.md          # Filled-in 3-step example plan (directory structure)
 │   ├── code-quality.md          # Reusable code quality bar
 │   ├── delegated-guards.md      # Standalone guards for child agents in multi-agent setups
-│   ├── definition-of-done.md     # Final completion gate
+│   ├── checkpoint.md            # Reflect on changes + dump context before pause
 │   ├── command-discovery.md      # Validation command discovery
 │   ├── risk-classification.md    # Compact risk routing rules
 │   ├── project-agents-template.md # Template for target repo AGENTS.md
@@ -101,13 +100,12 @@ swe-workflow/
 │   ├── create-plan.md
 │   ├── resume-workflow.md
 │   ├── execute-step.md
-│   ├── verify-step.md
+│   ├── verify-step.md           # Includes Definition of Done
 │   ├── persist-plan.md
-│   ├── dump-context.md
-│   ├── reflect-after-changes.md
 │   └── global-reflection.md
 ├── examples/                    # Worked examples and optional evaluation aids
-│   └── evaluation-prompts.md     # Prompts for workflow evaluation
+│   ├── evaluation-prompts.md     # Prompts for workflow evaluation
+│   └── plan-example.md          # Filled-in 3-step example plan
 ├── AGENTS.md                    # Repo-level agent instructions / template
 ├── CHANGELOG.md
 ├── LICENSE

@@ -28,7 +28,7 @@
 - [ ] `bash` npm test -- --filter=validate — expect 0 failures
 
 ## Quality Checklist
-> Evidence summary only. Detailed guidance lives in `references/code-quality.md`, `references/risk-classification.md`, and `references/definition-of-done.md`.
+> Evidence summary only. Detailed guidance lives in `references/code-quality.md`, `references/risk-classification.md`, and `references/verify-step.md`.
 
 - [ ] Evidence-before-edit: target read [path], impact search [cmd or N/A], validation [cmd or skipped reason]
 - [ ] Existing pattern / reuse checked: [path/search evidence]

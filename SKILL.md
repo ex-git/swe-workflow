@@ -1,3 +1,4 @@
+[$T1=references/project-agents-template.md, $T2=references/task-overview-template.md, $T3=references/step-template.md, $T4=references/code-quality.md, $T5=references/execute-step.md, $T6=references/create-plan.md, $T7=references/verify-step.md, $T8=steps/step-N.md]
 ---
 name: swe-workflow
 description: >-
@@ -7,8 +8,8 @@ description: >-
   labels exactly `Workflow mode: Lightweight|Full`, `Reason:`, `Success
   criteria:`, `Plan needed: yes|no`. Step 3 for Full-mode work, write
   `plans/<YYYY-MM-DD>-<slug>/plan.md` and
-  `plans/<YYYY-MM-DD>-<slug>/steps/step-N.md` using the templates at
-  `references/task-overview-template.md` and `references/step-template.md`
+  `plans/<YYYY-MM-DD>-<slug>/$T8` using the templates at
+  `$T2` and `$T3`
   (required per-step fields: `Status`, `Goal`, `Prerequisites`,
   `Deliverables`, `Plan`, `Quality Checklist`, `Validation Checklist`,
   `Test Checklist`, `Implementation Notes`, `Files Changed`). Violations
@@ -18,7 +19,7 @@ description: >-
   first.
 license: MIT
 metadata:
-  version: "1.11.0"
+  version: "1.12.0"
   author: "Evan Xu"
 ---
 
@@ -27,8 +28,6 @@ metadata:
 > Every code task starts with workflow triage. Simple tasks stay lightweight; broad or ambiguous tasks use a persisted plan.
 
 ## Contract
-
-This block is the minimum every agent must follow. If you skim only this section, you are still compliant.
 
 1. **Triage first.** The first lines of your reply to any code-related task must be:
    ```text
@@ -39,174 +38,59 @@ This block is the minimum every agent must follow. If you skim only this section
    Plan needed: yes | no
    ```
 2. **Full workflow is mandatory for:** repo-wide scans/migrations/cleanup, lint/type/build/test cleanup, broad refactors touching multiple files, deleting/moving/renaming files, backend + frontend changes in one task, API/schema/route/config contract changes, source-of-truth doc updates, tasks touching >3 files, or ambiguous scope. Lightweight work that hits any trigger MUST escalate: stop, declare Full, create a plan, then resume.
-3. **Pre-edit gate (Full mode).** Before any `write`/`edit`/`bash` on task target files: a plan directory must exist under `plans/<YYYY-MM-DD>-<slug>/`, exactly one step file must have `> Status: IN_PROGRESS`, and the edit must map to that step. Only workflow bookkeeping files (`plans/context.md`, `plans/*/plan.md`, `plans/*/steps/*.md`) may be written before this gate is satisfied.
-4. **Plan file format.** The task overview at `plans/<YYYY-MM-DD>-<slug>/plan.md` copies [`references/task-overview-template.md`](references/task-overview-template.md) verbatim (contains `Design Decisions` table, `Working Set`, `Verified Facts`). Each step file `plans/<YYYY-MM-DD>-<slug>/steps/step-N.md` copies [`references/step-template.md`](references/step-template.md) verbatim. Every step has ten fields: `Status`, `Goal`, `Prerequisites`, `Deliverables`, `Plan`, `Quality Checklist`, `Validation Checklist`, `Test Checklist`, `Implementation Notes`, `Files Changed`.
-5. **Clarification gate (Full mode).** If any requirement question is known, ask it in chat before writing or finalizing plan files. A valid plan has no unresolved questions; `DRAFT` means awaiting plan approval, not awaiting requirement answers, and clarification must not be turned into an implementation step.
+3. **Pre-edit gate (Full mode).** Before any `write`/`edit`/`bash` on task target files: a plan directory must exist under `plans/<YYYY-MM-DD>-<slug>/`, exactly one step file must have `> Status: IN_PROGRESS`, and the edit must map to that step. Only workflow bookkeeping files may be written before this gate is satisfied.
+4. **Plan file format.** Copy [`$T2`]($T2) to `plan.md` and [`$T3`]($T3) to each step file verbatim. Do not reconstruct from memory. Every step has ten fields: `Status`, `Goal`, `Prerequisites`, `Deliverables`, `Plan`, `Quality Checklist`, `Validation Checklist`, `Test Checklist`, `Implementation Notes`, `Files Changed`.
+5. **Clarification gate (Full mode).** Ask requirement questions in chat before writing plan files. A valid plan has `Open Questions: None.` — clarification is never an implementation step.
 6. **One step at a time.** Never batch. Never mark `COMPLETED` with known failures — fix or mark `BLOCKED`.
 
-## Delegated Mode (Multi-Agent)
+## Delegated Mode
 
-When **all** of the following are true, you are in **Delegated Mode** — skip triage, plan creation, and the pre-edit gate:
+When **all** of the following are true, skip triage/plan/pre-edit gate:
 
-1. Your task was assigned by another agent or orchestrator — not an open-ended user request
-2. You received explicit scope, success criteria, or an acceptance contract
-3. You are operating in a focused role (implementer, reviewer, analyst, researcher, etc.)
+1. Task assigned by another agent or orchestrator (not an open-ended user request)
+2. Explicit scope, success criteria, or acceptance contract received
+3. Operating in a focused role (implementer, reviewer, analyst, etc.)
 
-In Delegated Mode:
+In Delegated Mode: follow all Behavioral Guards and [`$T4`]($T4); report changed files, commands, validation evidence, and surprises; escalate unapproved design/architecture decisions; stay in scope.
 
-- **Skip** the triage block, plan file creation, pre-edit gate, and resume protocol
-- **Follow** all Behavioral Guards below (evidence first, surgical changes, simplicity, etc.)
-- **Follow** the code-quality bar in [`references/code-quality.md`](references/code-quality.md)
-- **Report** changed files, commands run with exit codes, validation evidence, and surprises
-- **Escalate** unapproved design/architecture/scope decisions back to your caller — do not decide silently
-- **Stay in scope** — implement only what was assigned; do not expand into adjacent work
+## Statuses
 
-If your orchestrator provides a standalone guards file (`references/delegated-guards.md`), follow that instead of the full skill. Both paths enforce the same behavioral quality bar.
+**Plan-level** (`plan.md`): `DRAFT` → `ACTIVE` → `COMPLETED` → `ARCHIVED`
+**Step-level** (`$T8`): `PENDING` → `IN_PROGRESS` → `COMPLETED` | `BLOCKED`
 
-## Plan Directory Structure
+Only one step may be `IN_PROGRESS` at a time. The pre-edit gate checks step-level status.
 
-All plans live in date-prefixed subdirectories for chronological sorting and smaller-model efficiency:
+## Reference Loading
 
-```
-plans/
-├── context.md                           # Optional session state (overwritten each pause)
-└── <YYYY-MM-DD>-<slug>/                 # One directory per task
-     ├── plan.md                         # Task overview, design decisions, working set
-     └── steps/                          # Individual step files
-          ├── step-1.md                  # Step 1: focused, self-contained
-          ├── step-2.md                  # Step 2: ...
-          └── step-N.md                  # Step N: ...
-```
+Load only what the current phase needs:
 
-Date-prefixed slugs (`YYYY-MM-DD-<name>`) ensure chronological file sorting. To find active work, scan `plans/<YYYY-MM-DD>-<slug>/plan.md` files and step statuses. One file per step eliminates context noise from unrelated steps — critical for smaller LLM models with limited context windows.
+- **Planning:** [`$T6`]($T6), [`$T2`]($T2), [`$T3`]($T3)
+- **Execution:** [`$T5`]($T5), [`$T4`]($T4)
+- **Verification:** [`$T7`]($T7)
+- **Command discovery:** [`references/command-discovery.md`](references/command-discovery.md)
+- **Risk review:** [`references/risk-classification.md`](references/risk-classification.md)
+- **Project setup:** [`$T1`]($T1)
 
-## Status Vocabularies
+## Behavioral Guards
 
-The workflow uses **two distinct status vocabularies** — do not mix them up:
+Active for the entire session. Do not drift.
 
-| Layer | File | Values | Meaning |
-|-------|------|--------|---------|
-| **Plan-level** (lifecycle) | `plan.md` | `DRAFT │ ACTIVE │ COMPLETED │ ARCHIVED` | Where the task is in its overall lifecycle |
-| **Step-level** (execution) | `steps/step-N.md` | `PENDING │ IN_PROGRESS │ COMPLETED │ BLOCKED` | What the agent is doing right now |
+1. **Evidence first** — read target files before editing; search callers/usages before changing shared behavior; label claims as `Verified`/`Assumption`/`Unknown`.
+2. **Anti-shortcut gate** — before editing: target read ✓, impact search (or `N/A — isolated`) ✓, validation command (or skipped reason) ✓.
+3. **Think in code** — for aggregate analysis, prefer short scripts/commands that compute results over many raw file dumps. For noisy output, store in `/tmp`, print bounded slice.
+4. **Simplicity** — minimum code for the problem; no unrequested features, abstractions, or dependencies.
+5. **Surgical changes** — touch only needed files/lines; match existing formatting, naming, and conventions; do not copy degraded patterns.
+6. **Reuse before create** — search for existing equivalents before writing new components/utilities/patterns; evidence of search in Verified Facts.
+7. **Design discipline** — do not make silent design choices. Surface decisions for user confirmation. Verify approach matches conventions or Design Decisions table.
+8. **Goal-driven** — define success before coding; verify via tests/lint/build/typecheck; add focused tests for new code and bug fixes; fix introduced issues or report blockers.
 
-**Plan transitions:** `DRAFT` (awaiting approval) → `ACTIVE` (executing) → `COMPLETED` (all steps done) → `ARCHIVED` (optional, for long-term cleanup).
+## Full Workflow Phases
 
-**Step transitions:** `PENDING` → `IN_PROGRESS` → `COMPLETED` (or `BLOCKED` if it cannot proceed). Only one step per plan may be `IN_PROGRESS` at a time.
-
-The pre-edit gate checks **step-level** `IN_PROGRESS`, never plan-level.
-
-## Plan Templates
-
-Use [`references/task-overview-template.md`](references/task-overview-template.md) as the source of truth for `plans/<YYYY-MM-DD>-<slug>/plan.md`. Use [`references/step-template.md`](references/step-template.md) for each step file. Copy them verbatim for every new plan. Do not reconstruct the structure from memory; do not invent alternative formats.
-
-## Reference Loading Rules
-
-Load reference files only when the current phase needs them.
-
-- Planning: read [`references/create-plan.md`](references/create-plan.md), [`references/task-overview-template.md`](references/task-overview-template.md), and [`references/step-template.md`](references/step-template.md).
-- Implementation: read [`references/execute-step.md`](references/execute-step.md) and [`references/code-quality.md`](references/code-quality.md).
-- Verification: read [`references/verify-step.md`](references/verify-step.md) and [`references/definition-of-done.md`](references/definition-of-done.md).
-- Command discovery: read [`references/command-discovery.md`](references/command-discovery.md) before deciding validation commands.
-- Risk review: read [`references/risk-classification.md`](references/risk-classification.md) for API, data, security, performance, or observability risk.
-- Project setup: use [`references/project-agents-template.md`](references/project-agents-template.md) only when creating or improving a target repo's `AGENTS.md`.
-
-## Anti-Patterns — Wrong vs Right
-
-**Plan format — missing required fields:**
-```
-WRONG:   ### Step 1 — Add dependency [COMPLETED]      ← no Status field, no Prerequisites,
-         ### Step 2 — Create module [COMPLETED]         no Deliverables, no Quality, no Files Changed
-
-RIGHT:   ### Step 1: Add dependency
-         **Status:** COMPLETED
-         **Prerequisites:** ...
-         **Deliverables:** ...
-         **Quality Checklist:** ...
-         **Validation Checklist:** ...
-         **Files Changed:** ...
-```
-
-**Step decomposition — horizontal vs vertical slices:**
-```
-WRONG (horizontal):              RIGHT (vertical):
-  Step 1: Define all types         Step 1: Implement + test feature A
-  Step 2: Write all functions       Step 2: Implement + test feature B
-  Step 3: Write all tests           Step 3: Implement + test feature C
-```
-Each step is a thin vertical slice through all layers (types, logic, tests) — independently verifiable.
-
-**Triage skipped because "the task seemed simple":** the triage block decides what is simple. Emit it even for one-line changes; Lightweight is a valid outcome, but the declaration is not optional.
-
-**Open questions parked in the plan:**
-```
-WRONG:   ## Open Questions
-         - Which UI should change?
-         ### Step 1: Resolve open questions
-
-RIGHT:  Ask the question in chat before creating/finalizing the plan,
-        then write ## Open Questions as `None.`
-```
-
-**Silent design assumptions:**
-```
-WRONG:  Agent picks modal vs page, dropdown vs radio, join table vs JSON column
-        without asking — implements whatever seems reasonable
-
-RIGHT:  Surface the choice in Design Decisions table during planning,
-        confirm with user, then implement the confirmed approach
-```
-
-Status values: `PENDING` | `IN_PROGRESS` | `COMPLETED` | `BLOCKED`
-
-## Behavioral Guards — All Code Tasks
-
-These guards are active for the **entire session**, not just the first response. Do not drift.
-
-1. **Evidence first** — read relevant files before editing; verify paths/imports/dependencies; search callers/usages before changing shared behavior.
-2. **Anti-shortcut gate** — before editing, have a target read, impact search when shared behavior can change, and validation command or skipped reason. If any item is `N/A`, say why.
-3. **Evidence discipline** — label repo claims as `Verified`, `Assumption`, `Unknown`, or `Recommendation`; cite files/commands for key claims and do not present assumptions as facts.
-4. **Think in code** — for aggregate analysis, prefer short scripts/commands that compute results and print only what is needed instead of many raw file/tool dumps.
-5. **Tool-use heuristics** — default to targeted `rg`/scoped reads/bounded command output; avoid pasting large raw logs or file contents when a focused summary or key lines are sufficient. For noisy commands, store raw native output in `/tmp`, print only a bounded slice, and record `Command`, `Exit`, `Output`, `Summary`, `Freshness`.
-6. **Simplicity** — minimum code for the problem; no unrequested features, abstractions, dependencies, or defensive handling.
-7. **Surgical changes** — touch only needed files/lines; match formatting, naming, and import conventions; do not copy degraded correctness patterns.
-8. **Reuse before create** — before writing a new component, utility, hook, type, or schema pattern, search for existing equivalents; evidence of the search must appear in Verified Facts. Extract duplication when extraction is small and in scope; mention unrelated issues but don't fix them.
-9. **Design discipline** — do not make silent design choices about UI layout, schema shape, component structure, or API contracts. Surface design decisions for user confirmation during clarification. During execution, verify approach matches existing conventions or the Design Decisions table.
-10. **Goal-driven** — define success before coding; verify via tests/lint/format/build/typecheck; add focused tests for new code and bug fixes when a test framework exists; run quality gates including pre-commit hooks; fix introduced issues or report blockers.
-
-## Full Workflow
-
-### Phases
-
-1. **Clarify** — analyze scope, ask targeted questions, get explicit confirmation. See [require-clarification](references/require-clarification.md).
-2. **Plan** — break into small ordered steps, write task overview to `plans/<YYYY-MM-DD>-<slug>/plan.md` and step files to `steps/step-N.md`. See [create-plan](references/create-plan.md).
-3. **Execute** — one step at a time: [execute-step](references/execute-step.md) → [verify-step](references/verify-step.md) → [persist-plan](references/persist-plan.md). Every 2–3 steps: [reflect](references/reflect-after-changes.md). Before pausing: [dump-context](references/dump-context.md).
-4. **Reflect** — after all steps done: [global-reflection](references/global-reflection.md).
+1. **Clarify** — ask targeted questions, get explicit confirmation. See [`references/require-clarification.md`](references/require-clarification.md).
+2. **Plan** — break into vertical-slice steps. See [`$T6`]($T6).
+3. **Execute** — one step at a time: [`$T5`]($T5) → [`$T7`]($T7) → [`references/persist-plan.md`](references/persist-plan.md). Every 2–3 steps: [`references/checkpoint.md`](references/checkpoint.md). Before pausing: dump context.
+4. **Reflect** — after all steps done: [`references/global-reflection.md`](references/global-reflection.md).
 
 ### Resume Protocol
 
-New session on existing work → read in order: `plans/context.md` if present → relevant `plans/<YYYY-MM-DD>-<slug>/plan.md` → current step file. If the task is unknown, scan plan directories for ACTIVE plans and step statuses. See [resume-workflow](references/resume-workflow.md).
-
-## Core Constraints
-
-- **One step at a time** — never batch multiple steps.
-- **Stay in scope** — only touch files in the step's plan.
-- **Persist reality** — keep `plan.md` and step files accurate at all times.
-- **Record evidence** — keep Working Set, Verified Facts, Implementation Notes, and Files Changed accurate across plan overview and step files.
-- **Never mark COMPLETED with known issues** — fix or mark `BLOCKED`.
-
-## Reference Guide
-
-| Reference | Purpose |
-|---|---|
-| [task-overview-template](references/task-overview-template.md) | Task overview skeleton — copy to `plan.md` verbatim |
-| [step-template](references/step-template.md) | Per-step file skeleton — copy to `steps/step-N.md` verbatim |
-| [delegated-guards](references/delegated-guards.md) | Standalone guards for child agents in multi-agent setups |
-| [require-clarification](references/require-clarification.md) | Clarify ambiguous requests before planning |
-| [create-plan](references/create-plan.md) | Exploration, step sizing, plan creation procedure |
-| [execute-step](references/execute-step.md) | Code protection, implementation, scope management |
-| [verify-step](references/verify-step.md) | Validate + test + review diff (single gate) |
-| [persist-plan](references/persist-plan.md) | Update plan and step status after each step |
-| [dump-context](references/dump-context.md) | Save session state before pausing |
-| [reflect-after-changes](references/reflect-after-changes.md) | Catch complexity every 2–3 steps |
-| [global-reflection](references/global-reflection.md) | Final review when all steps done |
-| [resume-workflow](references/resume-workflow.md) | Resume existing work in a new session |
+New session → read `plans/context.md` → relevant `plan.md` → current step file. See [`references/resume-workflow.md`](references/resume-workflow.md).

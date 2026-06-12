@@ -66,7 +66,7 @@ Update the current step file with:
 
 ## Before Asking User "Should I Continue?"
 
-1. Write current state to `plans/context.md` (see [dump-context](dump-context.md)).
+1. Write current state to `plans/context.md` (see [checkpoint](checkpoint.md)).
 2. Then ask the user.
 
 ## Mandatory Updates When Marking COMPLETED

@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0] - 2026-06-11
+
+### Changed
+- **SKILL.md reduced 57%** (14.8KB → 6.4KB, ~3,700 → ~1,600 tokens). Removed Anti-Patterns section (covered by templates), Reference Guide table (redundant with phase-gated loading), Plan Templates section (redundant with Contract #4), Core Constraints (redundant with Contract + Guards). Compressed Status Vocabularies and Plan Directory Structure. Tightened Behavioral Guards from 10 → 8.
+- **`references/verify-step.md`** now includes Definition of Done (formerly a separate file). Always-co-loaded files merged into one.
+- **`references/execute-step.md` reduced 61%** (9.7KB → 3.8KB). Removed contract bullets that restated SKILL.md guards and implementation guidelines that pointed to code-quality.md.
+- **`references/checkpoint.md`** replaces `reflect-after-changes.md` + `dump-context.md` (always sequential, now one file).
+
+### Removed
+- `references/definition-of-done.md` — merged into `verify-step.md`.
+- `references/reflect-after-changes.md` — merged into `checkpoint.md`.
+- `references/dump-context.md` — merged into `checkpoint.md`.
+- `references/plan-example.md` — relocated to `examples/plan-example.md` (not a runtime reference).
+
 ## [1.11.0] - 2026-06-10
 
 ### Added
