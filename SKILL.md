@@ -1,4 +1,3 @@
-[$T1=references/project-agents-template.md, $T2=references/task-overview-template.md, $T3=references/step-template.md, $T4=references/code-quality.md, $T5=references/execute-step.md, $T6=references/create-plan.md, $T7=references/verify-step.md, $T8=steps/step-N.md]
 ---
 name: swe-workflow
 description: >-
@@ -22,6 +21,7 @@ metadata:
   version: "1.12.0"
   author: "Evan Xu"
 ---
+[$T1=references/project-agents-template.md, $T2=references/task-overview-template.md, $T3=references/step-template.md, $T4=references/code-quality.md, $T5=references/execute-step.md, $T6=references/create-plan.md, $T7=references/verify-step.md, $T8=steps/step-N.md]
 
 # SWE Workflow
 
