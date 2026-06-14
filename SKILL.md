@@ -18,7 +18,7 @@ description: >-
   first.
 license: MIT
 metadata:
-  version: "1.12.0"
+  version: "1.12.1"
   author: "Evan Xu"
 ---
 [$T1=references/project-agents-template.md, $T2=references/task-overview-template.md, $T3=references/step-template.md, $T4=references/code-quality.md, $T5=references/execute-step.md, $T6=references/create-plan.md, $T7=references/verify-step.md, $T8=steps/step-N.md]
@@ -78,7 +78,7 @@ Active for the entire session. Do not drift.
 1. **Evidence first** — read target files before editing; search callers/usages before changing shared behavior; label claims as `Verified`/`Assumption`/`Unknown`.
 2. **Anti-shortcut gate** — before editing: target read ✓, impact search (or `N/A — isolated`) ✓, validation command (or skipped reason) ✓.
 3. **Think in code** — for aggregate analysis, prefer short scripts/commands that compute results over many raw file dumps. For noisy output, store in `/tmp`, print bounded slice.
-4. **Simplicity** — minimum code for the problem; no unrequested features, abstractions, or dependencies.
+4. **Minimalism ladder** — before adding code, prefer: delete/skip if not needed → stdlib/native feature → existing dependency/helper → smallest safe implementation; never cut security, data safety, accessibility, or explicit requirements.
 5. **Surgical changes** — touch only needed files/lines; match existing formatting, naming, and conventions; do not copy degraded patterns.
 6. **Reuse before create** — search for existing equivalents before writing new components/utilities/patterns; evidence of search in Verified Facts.
 7. **Design discipline** — do not make silent design choices. Surface decisions for user confirmation. Verify approach matches conventions or Design Decisions table.

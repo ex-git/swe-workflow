@@ -21,7 +21,7 @@ These apply for the entire task. Do not drift.
 3. **Evidence discipline** — label repo claims as `Verified`, `Assumption`, `Unknown`, or `Recommendation`; cite files/commands for key claims and do not present assumptions as facts.
 4. **Think in code** — for aggregate analysis, prefer short scripts/commands that compute results and print only what is needed instead of many raw file/tool dumps.
 5. **Tool-use heuristics** — default to targeted search/scoped reads/bounded command output; avoid pasting large raw logs or file contents when a focused summary or key lines are sufficient.
-6. **Simplicity** — minimum code for the problem; no unrequested features, abstractions, dependencies, or defensive handling.
+6. **Minimalism ladder** — before adding code, prefer: delete/skip if not needed → stdlib/native feature → existing dependency/helper → smallest safe implementation; never cut security, data safety, accessibility, or explicit requirements.
 7. **Surgical changes** — touch only needed files/lines; match formatting, naming, and import conventions; do not copy degraded correctness patterns.
 8. **Reuse before create** — before writing a new component, utility, hook, type, or schema pattern, search for existing equivalents first.
 9. **Design discipline** — do not make silent design choices. Escalate ambiguous design decisions to your caller.
@@ -30,7 +30,7 @@ These apply for the entire task. Do not drift.
 ## Code Quality Bar
 
 1. Preserve existing behavior unless explicitly changed.
-2. Prefer the smallest complete change.
+2. Prefer the smallest complete change: delete/skip unnecessary work, then use stdlib/native features, then existing helpers/dependencies, before writing custom code.
 3. Follow local project patterns.
 4. Reuse before creating.
 5. Handle failure modes consistently with nearby code.

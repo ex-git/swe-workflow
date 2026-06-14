@@ -7,7 +7,7 @@ This file defines general quality standards. Do not add framework-specific or pr
 ## Contract
 
 1. Preserve existing behavior unless explicitly changed.
-2. Prefer the smallest complete change.
+2. Prefer the smallest complete change: delete/skip unnecessary work, then use stdlib/native features, then existing helpers/dependencies, before writing custom code.
 3. Follow local project patterns.
 4. Reuse before creating.
 5. Handle failure modes consistently.
@@ -21,9 +21,11 @@ This file defines general quality standards. Do not add framework-specific or pr
 - Do not introduce race conditions, stale state, or partial updates.
 
 ## Simplicity
-- Prefer the smallest change that fully satisfies the task.
+- Prefer the smallest change that fully satisfies the task; delete or skip work that does not need to exist.
+- Use standard library, native platform features, and existing helpers/dependencies before writing custom code.
 - Do not add abstractions until there are at least two real call sites or the existing project pattern requires it.
 - Avoid speculative options, flags, frameworks, or new dependencies.
+- Never simplify away explicit requirements, trust-boundary validation, security, accessibility, or data-loss prevention.
 
 ## Maintainability
 - Use names that reveal domain meaning, not implementation mechanics.
