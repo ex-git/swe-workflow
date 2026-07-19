@@ -2,104 +2,87 @@
 
 ## Contract — Read This First
 
-1. Check for existing plans first — if an active plan exists, ask user before starting new work.
-2. Read the codebase before asking — don't ask questions you can answer by exploring code.
-3. If ANY ambiguity exists, ask — one question at a time, with your recommended answer.
-4. Analyze every answer — does it resolve fully? Does it introduce new requirements? New ambiguity?
-5. Do NOT proceed with unanswered questions — re-ask explicitly.
-6. Summarize and get explicit confirmation before moving to create-plan.
-7. Surface design decisions — if the task involves UI, schema, or API choices, identify them now.
+1. In Full mode, check for an active plan before starting a new implementation plan.
+2. Read the repository before asking; do not ask for facts the code, docs, config, or tests can answer.
+3. Ask only when the answer materially changes scope, behavior, acceptance, design, compatibility, or an irreversible action.
+4. Ask the smallest focused question needed and include a recommendation when useful.
+5. Analyze each answer for newly introduced requirements or unresolved decision-critical ambiguity.
+6. Do not proceed to planning while a decision-critical question remains unanswered.
+7. Do not add a routine confirmation handshake after the user has already approved the scope; the completed plan gets the sole routine pre-execution approval.
 
 ## When to Use
 
-- New task or feature request
-- Vague or underspecified request
-- Multiple interpretations possible
-- Tempted to start coding immediately
+- Full-mode implementation with unresolved product, architecture, API, schema, security, compatibility, or irreversible choices
+- Lightweight discovery that uncovers a decision required before safe edits
+- A user answer that introduces materially different scope or acceptance criteria
 
 ## Check for Active Plans
 
 ```bash
-ls plans/*.md 2>/dev/null
+find plans -mindepth 2 -maxdepth 2 -name plan.md 2>/dev/null | sort
+rg -n "^> Status:|^\| Step .* \|" plans/*/plan.md plans/*/steps/*.md 2>/dev/null
 ```
 
-If a plan exists with IN_PROGRESS steps: remind user, ask whether to continue existing or switch. Do NOT assume abandonment.
+If a nested plan has an `IN_PROGRESS` step: remind the user and ask whether to continue it or switch. Step-file status is authoritative; do not assume abandonment.
 
 ## Instructions
 
-1. **Analyze the request** for completeness:
-   - Scope defined? (included and excluded)
-   - Inputs, outputs clear?
-   - Constraints specified? (performance, compatibility, dependencies)
-   - Success criteria stated?
+1. **Analyze the request:** identify the intended outcome, explicit constraints, acceptance evidence, and any irreversible or contract-sensitive choice.
 
-2. **Read the codebase first:**
-   - Check existing patterns and conventions
-   - Look for related functionality and reusable code
-   - Understand architecture context
-   - Only ask questions you CAN'T answer by reading
+2. **Explore first:**
+   - Read relevant code, docs, config, callers, and tests.
+   - Find existing conventions and reusable behavior.
+   - Resolve factual uncertainty with repository evidence.
 
-3. **Identify design decisions** (when task involves UI, schema, or API):
-   - What UX/layout/component choices need to be made?
-   - What schema shape, naming, or relationship decisions exist?
-   - What API contract choices exist?
-   - Present options with your recommendation for each
+3. **Apply the decision test:**
 
-4. **If ANY ambiguity exists, grill relentlessly:**
-   - Walk down each branch of the design tree, resolving dependencies one by one
-   - Ask specific, targeted questions — prefer multiple-choice
-   - Ask ONE question at a time with your recommended answer
-   - WAIT for response before proceeding
-   - Keep probing until every branch is resolved
+   | Ask | Do not ask |
+   |-----|------------|
+   | Multiple plausible outcomes would produce materially different behavior | A nearby established convention answers the question |
+   | The user must approve a product, UX, API, schema, security, compatibility, or destructive choice | The detail is implementation-local and reversible |
+   | Acceptance cannot be made testable without the answer | The question is speculative or does not change implementation |
 
-5. **Analyze every answer:**
-   - Does it fully resolve the question?
-   - Did it introduce new requirements or change scope?
-   - Did it add details that need clarification themselves?
-   - If new ambiguity → ask follow-up. Only proceed to step 6 when complete.
+4. **Ask efficiently:**
+   - Ask one focused decision at a time; include only inseparable subparts.
+   - Prefer concrete options and state the recommended option with rationale.
+   - Stop when scope and acceptance are sufficient for a safe plan; do not explore hypothetical branches without a trigger.
 
-6. **Summarize and confirm:**
-   - State your complete understanding: scope, inputs/outputs, success criteria, key decisions
-   - Explicitly state assumptions
-   - Include identified design decisions and chosen approaches
-   - Ask: "Is this understanding correct? Ready to proceed to planning?"
-   - WAIT for explicit confirmation
+5. **Analyze the answer:** confirm it resolves the decision and note any new scope, acceptance, or design consequence. Ask a follow-up only when that consequence blocks planning.
 
-## Handling Partial Answers
+6. **Hand off to planning:** summarize material decisions and assumptions once. If the user already approved the implementation scope, proceed to `create-plan`; do not ask a second "ready to plan" question. The resulting plan is presented once for execution approval.
 
-When you ask multiple questions and the user only answers some:
+## Handling Partial or Vague Answers
+
+When the answer does not resolve the focused decision:
 
 ```
-Agent: "1. What happens to Channel Digest? 2. Same behavior for Slack and Chat? 3. Task Listener?"
-User:  "Channel Digest removed. Auto-replier same behavior."
+Agent: "Should Task Listener also be removed? Recommended: keep it, because no caller evidence links it to this cleanup."
+User:  "Use the same behavior."
 
-Agent: "Got it — 1. remove ✓  2. same ✓
-        You didn't mention Task Listener — what should happen?
-        a) Remove  b) Move  c) Keep as-is"
+Agent: "I cannot map 'same behavior' to remove or keep. Should Task Listener be removed?
+        a) Keep (recommended)  b) Remove"
 ```
 
-**Do NOT proceed until ALL questions are answered.** Do NOT assume answers for skipped questions.
+Do not proceed while the focused decision remains unresolved. Do not reinterpret a partial or vague answer as approval.
 
 ## Mandatory Checklist
 
-- [ ] All scope boundaries defined
-- [ ] Inputs and outputs specified
-- [ ] Success criteria clear and testable
-- [ ] Design decisions identified and options presented (if applicable)
-- [ ] No assumptions about unclear requirements
-- [ ] All answers analyzed for scope changes
-- [ ] User confirmed understanding explicitly
+- [ ] Repository evidence gathered before questions
+- [ ] Material scope and acceptance criteria are clear enough to plan
+- [ ] Decision-sensitive choices identified and answered
+- [ ] No unanswered question can materially change implementation
+- [ ] Answers analyzed for scope or acceptance changes
+- [ ] Already-approved scope is not sent through a duplicate confirmation handshake
 
 ## Constraints
 
-- **Never assume missing requirements** — ask
-- **Never skip to planning with open questions**
-- **Read the codebase first** — don't ask what you can discover
-- **Analyze every answer** for new requirements or scope changes
-- **Must get explicit confirmation** — no confirmation = no plan
-- If user says "just do it": acknowledge urgency, flag top 1-2 ambiguity risks
-- One question at a time — don't overwhelm
+- **Never invent decision-critical requirements** — ask when evidence cannot resolve them
+- **Never plan with decision-critical open questions**
+- **Read the repository first** — do not ask what you can discover
+- **Analyze every answer** for material scope or acceptance changes
+- If the user says "just do it," proceed when the request is safely actionable; otherwise ask only the single blocking decision
+- Do not require confirmation of facts or scope the user already explicitly approved
 
 ## Next Step
 
-→ **create-plan** — only when all questions resolved and user confirmed.
+→ **create-plan** — when decision-critical questions are resolved and Full-mode implementation scope is sufficiently clear.

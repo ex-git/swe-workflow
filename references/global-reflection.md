@@ -2,16 +2,16 @@
 
 ## Contract — Read This First
 
-1. Run once when ALL steps are COMPLETED — this is the last gate before delivery.
-2. Re-read the plan overview AND every step file AND every modified/created file with `read`.
-3. Verify goal achieved, evidence accurate, architecture clean, no artifacts.
-4. Verify `plan.md` Steps Overview and step files agree on final state.
-5. Fix issues found. Minor → fix directly. Major → create new steps. Critical → STOP and flag.
-6. Would you hand this to another developer to maintain? If not, fix the uncomfortable parts.
+1. Run when all current execution steps are `COMPLETED` and the plan is still `ACTIVE` — this is the last gate before delivery.
+2. Re-read the plan overview, every step file, and every modified/created file.
+3. Verify goal achieved, evidence accurate, architecture clean, and no artifacts remain.
+4. Verify `plan.md` Steps Overview and step files agree.
+5. If any fix requires a file change, create and start a scoped fix step before editing; then verify it and rerun reflection. Critical issue → STOP and flag.
+6. Would you hand this to another developer to maintain? If not, record the concrete issue and route it through a fix step.
 
 ## Instructions
 
-1. **Re-read the plan overview** (`plans/<YYYY-MM-DD>-<slug>/plan.md`) — verify all entries in Steps Overview are COMPLETED, review Implementation Log, check deviations, review Working Set/Verified Facts for evidence gaps, review Context & Learnings for completeness.
+1. **Re-read the plan overview** (`plans/<YYYY-MM-DD>-<slug>/plan.md`) — verify the plan is `ACTIVE`, all current Steps Overview entries are `COMPLETED`, and the Implementation Log, Working Set, Verified Facts, and Context & Learnings are complete.
 
 2. **Re-read every step file** (`plans/<YYYY-MM-DD>-<slug>/steps/step-N.md`) — verify each has `Status: COMPLETED`, all 10 fields populated, Implementation Notes filled, Files Changed accurate.
 
@@ -32,19 +32,19 @@
    | **Security** | Input validation? Auth checks? Injection risks? |
    | **Performance** | N+1 queries? Unnecessary loops? Memory leaks? |
 
-4. **Fix what you find:**
+6. **Route what you find:**
 
-   | Severity | Action |
-   |----------|--------|
-   | Minor (typos, small improvements) | Fix directly, update plan notes |
-   | Major (architecture, missing features) | Create new plan steps, execute through full workflow |
-   | Critical (security, data loss risk) | STOP, flag to user, do not proceed |
+   | Outcome | Action |
+   |---------|--------|
+   | No file change needed | Record the observation and continue the gate |
+   | Any fix requiring a file change | Add a scoped step, mark it `IN_PROGRESS`, implement → verify → persist, then rerun global reflection |
+   | Critical security or data-loss risk | STOP, mark/report the blocker, and do not proceed without user direction |
 
 ## Mandatory Checklist
 
 - [ ] Re-read entire plan overview (`plan.md`)
 - [ ] Re-read every step file (`steps/step-N.md`)
-- [ ] Verified `plan.md` Steps Overview matches step file statuses
+- [ ] Verified plan is `ACTIVE` and Steps Overview matches completed step files
 - [ ] Re-read ALL modified/created files
 - [ ] Goal achieved with evidence
 - [ ] Context & Learnings complete (decisions, gotchas, patterns)
@@ -58,11 +58,11 @@
 ## After Reflection
 
 If all checks pass:
-1. Feature is **DONE**.
-2. Update plan overview: set `Status: COMPLETED` and update `Last Updated`.
-3. Consider: `git add -A && git commit -m "feat: [description]"`
+1. Update the plan overview to `Status: COMPLETED` and update `Last Updated`.
+2. Record the successful reflection in the Implementation Log.
+3. The task is **DONE**. Do not stage or commit unless the user explicitly requests it.
 
-If issues found and fixed: update Implementation Log, re-run affected tests.
+If an issue needs a file change: keep the plan `ACTIVE`, create an authorized fix step, execute it through verification/persistence, and rerun this reflection.
 
 ## This is the End
 

@@ -1,18 +1,17 @@
 # Plan Example (Directory Structure)
 
-> A filled-in example showing how a completed plan looks in the directory-based structure. Every file follows its template exactly. Use this as a reference when filling in [`task-overview-template.md`](task-overview-template.md) and [`step-template.md`](step-template.md).
+> A compact mid-execution example using the current required structure. Behavior steps are vertical slices: each includes implementation, tests, and focused validation. Use [`task-overview-template.md`](../references/task-overview-template.md) and [`step-template.md`](../references/step-template.md) as the canonical templates.
 
 ---
 
 ## Directory Layout
 
-```
+```text
 plans/2026-04-28-add-email-validation/
-├── plan.md                          # Task overview (see below)
+├── plan.md
 └── steps/
-    ├── step-1-client-validation.md   # Step 1: Add client-side validation (see below)
-    ├── step-2-server-validation.md   # Step 2: Add server-side validation
-    └── step-3-shared-messages.md     # Step 3: Extract shared messages
+    ├── step-1.md   # Client validation + tests (COMPLETED)
+    └── step-2.md   # Server validation + tests (IN_PROGRESS)
 ```
 
 ## `plan.md` — Task Overview
@@ -20,164 +19,179 @@ plans/2026-04-28-add-email-validation/
 ```markdown
 # Plan: Add email validation to user registration
 
-> Status: IN_PROGRESS
+> Status: ACTIVE
 > Created: 2026-04-28
 > Last Updated: 2026-04-28
 
 ## Goal
-Registration rejects invalid email formats and shows a user-friendly error message before hitting the server.
+Registration rejects invalid email formats in both the form and API using the project's existing zod validation pattern.
 
 ## Assumptions
-- The project uses React + TypeScript frontend with a Node/Express backend.
-- There is an existing test framework (vitest) and lint setup (eslint).
-- No email validation library is currently installed.
+- React + TypeScript frontend and Node/Express backend.
+- Vitest and eslint are configured.
+- zod is already used for API schemas.
 
 ## Open Questions
 None.
 
+## Spec-Lite
+
+### Acceptance Criteria
+- [x] Invalid email is blocked in the registration form with the existing inline-error pattern.
+- [ ] Invalid email is rejected by `POST /register` with the existing 400 error shape.
+- [ ] Focused client and API tests pass.
+
+### Non-goals
+- Email deliverability, DNS/MX lookup, or changes to login.
+
+### Edge Cases
+- Empty input, malformed input, and a valid plus-address.
+
 ## Design Decisions
+
 | Decision | Options Considered | Chosen | Confirmed |
 |----------|--------------------|--------|-----------|
-| Where to validate | Client-only vs client+server | Client + server — defense in depth | yes |
-| Error display style | Inline under field vs toast | Inline — matches existing form patterns in `src/components/LoginForm.tsx` | yes |
-| Validation library | regex vs zod vs validator.js | zod — already a project dependency for API schemas | yes |
+| Validation depth | Client only vs client + server | Client + server — defense in depth | yes |
+| Error display | Inline vs toast | Inline — matches `LoginForm.tsx` | yes |
+| Validator | New dependency vs zod | zod — already used by auth schemas | yes |
 
 ## Steps Overview
 | Step | File | Status | Goal |
 |------|------|--------|------|
-| Step 1 | `steps/step-1-client-validation.md` | COMPLETED | Add client-side email validation to RegistrationForm |
-| Step 2 | `steps/step-2-server-validation.md` | IN_PROGRESS | Add server-side email validation to POST /register |
-| Step 3 | `steps/step-3-shared-messages.md` | PENDING | Extract shared validation message constants |
+| Step 1 | `steps/step-1.md` | COMPLETED | Add client validation and focused form tests. |
+| Step 2 | `steps/step-2.md` | IN_PROGRESS | Add server validation and focused API tests. |
 
 ## Validation Commands
 
 | Purpose | Command | Source | Required? |
 |---|---|---|---|
-| Typecheck | `npx tsc --noEmit` | tsconfig.json | yes |
-| Lint | `npx eslint src/` | .eslintrc.js | yes |
-| Test | `npx vitest run` | package.json scripts | yes |
+| Typecheck | `npx tsc --noEmit` | `package.json` | yes |
+| Lint | `npx eslint src/` | `package.json` | yes |
+| Test | `npx vitest run` | `package.json` | yes |
+| Build | N/A | No configured build | no |
 
 ## Context & Learnings
 ### Key Decisions
-- Use zod for email validation since it is already a dependency for API schema validation.
+- Reuse zod and the existing inline field-error component.
 ### Gotchas & Warnings
-- `RegistrationForm` uses uncontrolled inputs with `useRef`; validation must read `.current.value`.
+- Client validation improves feedback but never replaces server validation.
 
 > Append only. Never delete or rewrite existing entries below — only add new rows/facts as steps complete.
 ### Working Set
 | Path | Role in this task | Evidence |
 |------|-------------------|----------|
-| `src/components/RegistrationForm.tsx` | Form to add validation to | `read` — 89 lines, uncontrolled inputs with refs |
-| `src/api/routes/auth.ts` | Server endpoint to add validation to | `read` — POST /register handler at line 42 |
-| `src/api/schemas/auth.ts` | Existing zod schemas for auth | `read` — exports `loginSchema`, no `registerSchema` yet |
-| `src/components/__tests__/RegistrationForm.test.tsx` | Existing test file to extend | `read` — 3 tests, all happy-path |
-| `src/api/__tests__/auth.test.ts` | Existing API test file | `read` — covers POST /login, no /register tests |
+| `src/components/RegistrationForm.tsx` | Client validation target | Form and nearby tests read |
+| `src/components/__tests__/RegistrationForm.test.tsx` | Client behavior tests | Existing Vitest pattern read |
+| `src/api/schemas/auth.ts` | Existing zod schema pattern | Auth schema read |
+| `src/api/routes/auth.ts` | Registration API target | Route and error handling read |
+| `src/api/__tests__/auth.test.ts` | API behavior tests | Existing route tests read |
 ### Verified Facts
-- zod is installed (v3.22.4) — verified by `read package.json`, 2026-04-28.
-- `RegistrationForm` uses `useRef` not `useState` for inputs — verified by `read src/components/RegistrationForm.tsx`, line 12-14.
-- POST /register has no server-side email check — verified by `read src/api/routes/auth.ts`, line 42-58.
-- `LoginForm.tsx` shows inline error pattern: `<span className="field-error">` — verified by `read src/components/LoginForm.tsx`, line 31.
+- zod is already installed and used for auth schemas — verified by `package.json` and `src/api/schemas/auth.ts`.
+- `LoginForm.tsx` renders inline errors with `field-error` — verified by file read.
+- `POST /register` currently accepts an unchecked email string — verified by route read.
 
 ## Implementation Log
 | Date | Step | Summary |
 |------|------|---------|
-| 2026-04-28 | Step 1 | Client-side email validation with zod + inline errors + 3 tests. |
+| 2026-04-28 | Step 1 | Added client-side zod validation, inline error behavior, and three focused tests. |
 ```
 
-## `step-1-client-validation.md` — Completed Step Example
+## `steps/step-1.md` — Completed Vertical Slice
 
 ```markdown
-# Step 1: Add client-side email validation to RegistrationForm
+# Step 1: Add client validation and tests
 
 > Status: COMPLETED
 > Created: 2026-04-28
 
 ## Goal
-RegistrationForm validates email on blur and submit using zod, showing inline error for invalid formats.
+RegistrationForm validates email on blur and submit and reports invalid input with the existing inline-error pattern.
 
 ## Prerequisites
 - Files to modify: `src/components/RegistrationForm.tsx`, `src/components/__tests__/RegistrationForm.test.tsx`
-- Design: inline error display confirmed (matches LoginForm pattern)
+- Inline error and zod choices confirmed in the task plan.
 
 ## Deliverables
-- `RegistrationForm` validates email on blur and submit using zod
-- Inline error message shown for invalid emails
-- After this step: `npx vitest run --filter=RegistrationForm` passes with new validation tests
+- Client email validation on blur and submit.
+- Focused tests for valid, invalid, and corrected input.
+- After this step: focused RegistrationForm tests pass.
 
 ## Plan
-- [x] `edit` src/components/RegistrationForm.tsx — import `z` from zod, add `emailSchema = z.string().email()`, validate in `handleSubmit` and `onBlur`
-- [x] `edit` src/components/RegistrationForm.tsx — add `<span className="field-error">` below email input (matches LoginForm pattern)
-- [x] `edit` src/components/__tests__/RegistrationForm.test.tsx — add tests: valid email submits, invalid email shows error, error clears on valid input
-- [x] `bash` npx vitest run --filter=RegistrationForm — expect 0 failures
+- [x] `edit` `src/components/RegistrationForm.tsx` — reuse zod and the inline field-error pattern.
+- [x] `edit` `src/components/__tests__/RegistrationForm.test.tsx` — cover valid, invalid, and corrected input.
+- [x] `run` `npx vitest run --filter=RegistrationForm` — expect 0 failures.
 
 ## Quality Checklist
-- [x] Existing pattern identified — `LoginForm.tsx` inline `field-error` display
-- [x] Contract understood — registration form validates email before submit
-- [x] Reuse checked — zod already used for validation schemas
-- [x] Error/edge cases handled — invalid format and error clearing covered
-- [x] Security/data/performance risk reviewed — client validation only; server validation remains Step 2
+- [x] Evidence-before-edit: form and tests read; impact isolated to registration form; focused command identified.
+- [x] Existing pattern / reuse checked: `LoginForm.tsx` and auth zod schemas.
+- [x] Contract understood: prevent submit while invalid and clear the error when corrected.
+- [x] Risk reviewed: correctness / accessibility.
+- [x] Mitigation recorded: behavior tests and existing accessible error markup retained.
 
 ## Validation Checklist
-- [x] `npx tsc --noEmit` exits 0
-- [x] `npx eslint src/components/RegistrationForm.tsx` exits 0
+- [x] `npx tsc --noEmit` exits 0.
+- [x] `npx eslint src/components/RegistrationForm.tsx` exits 0.
 
 ## Test Checklist
-- [x] `npx vitest run --filter=RegistrationForm` — 6 tests pass (3 existing + 3 new)
+- [x] `npx vitest run --filter=RegistrationForm` — 6 tests pass.
 
 ## Implementation Notes
-Added zod email validation with blur + submit triggers. Used same `field-error` class as LoginForm for consistency. Added 3 tests covering invalid format, valid format, and error clearing.
+Reused the existing zod and inline-error patterns; no dependency or component abstraction was added.
 
 ## Files Changed
-`src/components/RegistrationForm.tsx`, `src/components/__tests__/RegistrationForm.test.tsx`
+- `src/components/RegistrationForm.tsx`
+- `src/components/__tests__/RegistrationForm.test.tsx`
 ```
 
-## `step-2-server-validation.md` — In-Progress Step Example
+## `steps/step-2.md` — In-Progress Vertical Slice
 
 ```markdown
-# Step 2: Add server-side email validation to POST /register
+# Step 2: Add server validation and tests
 
 > Status: IN_PROGRESS
 > Created: 2026-04-28
 
 ## Goal
-POST /register rejects invalid emails with 400 + error body using zod `registerSchema`.
+`POST /register` rejects malformed email input through the existing zod/error-response path.
 
 ## Prerequisites
-- Step 1 completed — client-side validation in place
-- Files to modify: `src/api/routes/auth.ts`, `src/api/schemas/auth.ts`, `src/api/__tests__/auth.test.ts`
+- Step 1 completed.
+- Files to modify: `src/api/schemas/auth.ts`, `src/api/routes/auth.ts`, `src/api/__tests__/auth.test.ts`
+- Existing 400 error shape verified and unchanged.
 
 ## Deliverables
-- `registerSchema` with email validation exported from schemas
-- POST /register rejects invalid emails with 400 + error body
-- After this step: `npx vitest run --filter=auth` passes with new registration tests
+- Register schema validates email.
+- Route uses the shared schema and existing 400 response shape.
+- Focused API tests cover valid, malformed, and missing email.
+- After this step: focused auth API tests pass.
 
 ## Plan
-- [ ] `edit` src/api/schemas/auth.ts — add `registerSchema = z.object({ email: z.string().email(), password: z.string().min(8) })`
-- [ ] `edit` src/api/routes/auth.ts — import `registerSchema`, add `.safeParse(req.body)` at top of POST /register handler
-- [ ] `edit` src/api/__tests__/auth.test.ts — add tests: valid registration, invalid email returns 400, missing email returns 400
-- [ ] `bash` npx vitest run --filter=auth — expect 0 failures
+- [x] `edit` `src/api/schemas/auth.ts` — add email validation to the register schema.
+- [ ] `edit` `src/api/routes/auth.ts` — apply the schema through the existing parse/error path.
+- [ ] `edit` `src/api/__tests__/auth.test.ts` — cover valid, malformed, and missing email.
+- [ ] `run` `npx vitest run --filter=auth` — expect 0 failures.
 
 ## Quality Checklist
-- [ ] Existing pattern identified
-- [ ] Contract understood
-- [ ] Reuse checked
-- [ ] Error/edge cases handled
-- [ ] Security/data/performance risk reviewed
+- [x] Evidence-before-edit: schema, route, callers, and API tests read.
+- [x] Existing pattern / reuse checked: existing auth zod parse/error path.
+- [x] Contract understood: preserve the current 400 response shape.
+- [x] Risk reviewed: API compatibility / correctness.
+- [x] Mitigation recorded: caller search and focused API tests.
 
 ## Validation Checklist
-- [ ] `npx tsc --noEmit` exits 0
-- [ ] `npx eslint src/api/` exits 0
+- [ ] `npx tsc --noEmit` exits 0.
+- [ ] `npx eslint src/api/` exits 0.
 
 ## Test Checklist
-- [ ] `npx vitest run --filter=auth` — all pass including 3 new registration tests
+- [ ] `npx vitest run --filter=auth` — all registration cases pass.
 
 ## Implementation Notes
-[Fill after implementation]
+Schema update is complete; route integration and tests remain.
 
 ## Files Changed
-[Fill after implementation]
+- `src/api/schemas/auth.ts`
 ```
 
 ---
 
-> Note: This example shows the new directory-based plan structure. Each step is a separate file under `steps/`, eliminating context noise from unrelated steps in a flat monolithic plan file. Plan discovery works by scanning plan directories and step statuses.
+This example is intentionally mid-execution. Plan-level status remains `ACTIVE`, exactly one writer step is `IN_PROGRESS`, and each behavior step includes its own implementation and tests.

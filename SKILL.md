@@ -1,47 +1,44 @@
 ---
 name: swe-workflow
 description: >-
-  REQUIRED for every code-related task. Step 1 read this skill's SKILL.md via
-  the `read` tool before acting — do not proceed from this description alone.
-  Step 2 emit the triage block as the first lines of your reply; it has four
-  labels exactly `Workflow mode: Lightweight|Full`, `Reason:`, `Success
-  criteria:`, `Plan needed: yes|no`. Step 3 for Full-mode work, write
-  `plans/<YYYY-MM-DD>-<slug>/plan.md` and
-  `plans/<YYYY-MM-DD>-<slug>/$T8` using the templates at
-  `$T2` and `$T3`
-  (required per-step fields: `Status`, `Goal`, `Prerequisites`,
-  `Deliverables`, `Plan`, `Quality Checklist`, `Validation Checklist`,
-  `Test Checklist`, `Implementation Notes`, `Files Changed`). Violations
-  include freeform plans, inline `### Step N — title [STATUS]` headers,
-  skipping the triage block, and deciding a task is "simple" without
-  emitting triage. Applies to reads, edits, writes, and bash — triage comes
-  first.
+  REQUIRED for every code-related task. Read SKILL.md before acting, then start
+  the reply with workflow triage. Use `Workflow mode: Lightweight — <reason>;
+  success: <outcome>; plan: no.` for clear localized changes and read-only
+  review or discovery. Use the Full triage block and persisted plan for risky,
+  coupled, cross-session, or contract-changing implementation. Escalate from
+  Lightweight before target-file edits when discovery reveals Full-mode risk.
+  Focused delegated agents follow Delegated Mode instead.
 license: MIT
+compatibility: Requires file read/search/edit capabilities; shell and Git are recommended for validation.
 metadata:
-  version: "1.12.1"
+  version: "1.12.2"
   author: "Evan Xu"
 ---
-[$T1=references/project-agents-template.md, $T2=references/task-overview-template.md, $T3=references/step-template.md, $T4=references/code-quality.md, $T5=references/execute-step.md, $T6=references/create-plan.md, $T7=references/verify-step.md, $T8=steps/step-N.md]
 
 # SWE Workflow
 
-> Every code task starts with workflow triage. Simple tasks stay lightweight; broad or ambiguous tasks use a persisted plan.
+> Every code task starts with workflow triage. Bounded work stays lightweight; risky or coordination-heavy implementation uses a persisted plan.
 
 ## Contract
 
-1. **Triage first.** The first lines of your reply to any code-related task must be:
+1. **Triage first.** Start the first reply to a code-related task with one of these declarations:
    ```text
-   Workflow mode: Lightweight | Full
+   Workflow mode: Lightweight — <reason>; success: <outcome>; plan: no.
+   ```
+   ```text
+   Workflow mode: Full
    Reason: <one sentence>
    Success criteria:
    - <what done means>
-   Plan needed: yes | no
+   Plan needed: yes
    ```
-2. **Full workflow is mandatory for:** repo-wide scans/migrations/cleanup, lint/type/build/test cleanup, broad refactors touching multiple files, deleting/moving/renaming files, backend + frontend changes in one task, API/schema/route/config contract changes, source-of-truth doc updates, tasks touching >3 files, or ambiguous scope. Lightweight work that hits any trigger MUST escalate: stop, declare Full, create a plan, then resume.
-3. **Pre-edit gate (Full mode).** Before any `write`/`edit`/`bash` on task target files: a plan directory must exist under `plans/<YYYY-MM-DD>-<slug>/`, exactly one step file must have `> Status: IN_PROGRESS`, and the edit must map to that step. Only workflow bookkeeping files may be written before this gate is satisfied.
-4. **Plan file format.** Copy [`$T2`]($T2) to `plan.md` and [`$T3`]($T3) to each step file verbatim. Do not reconstruct from memory. Every step has ten fields: `Status`, `Goal`, `Prerequisites`, `Deliverables`, `Plan`, `Quality Checklist`, `Validation Checklist`, `Test Checklist`, `Implementation Notes`, `Files Changed`.
-5. **Clarification gate (Full mode).** Ask requirement questions in chat before writing plan files. A valid plan has `Open Questions: None.` — clarification is never an implementation step.
-6. **One step at a time.** Never batch. Never mark `COMPLETED` with known failures — fix or mark `BLOCKED`.
+2. **Lightweight is the default** for clear localized changes, bounded investigation, and read-only reviews or discovery—even when many files must be inspected. It uses the Behavioral Guards but no persisted plan.
+3. **Full is required before implementation** when work is risky or hard to reverse; changes API/schema/migration/security/configuration contracts; couples multiple subsystems; is a broad refactor/migration/cleanup; needs durable multi-session or multi-agent coordination; remains materially ambiguous after bounded discovery; or the user requests a plan. File count alone is a signal, not a trigger.
+4. **Escalate before target-file edits.** Lightweight discovery may gather evidence first. If Full criteria emerge, stop before mutating task files, declare Full mode, clarify decision-critical questions, create the plan, and then resume. If edits already began, preserve the verified state and escalate before expanding scope.
+5. **Pre-edit gate (Full mode).** Before mutating task target files: a plan directory must exist under `plans/<YYYY-MM-DD>-<slug>/`, exactly one step file must have `> Status: IN_PROGRESS`, and the edit must map to that step. Read-only exploration and workflow-bookkeeping updates are allowed before this gate.
+6. **Plan file format.** Copy [`references/task-overview-template.md`](references/task-overview-template.md) to `plan.md` and [`references/step-template.md`](references/step-template.md) to each step file. Every step has ten fields: `Status`, `Goal`, `Prerequisites`, `Deliverables`, `Plan`, `Quality Checklist`, `Validation Checklist`, `Test Checklist`, `Implementation Notes`, `Files Changed`.
+7. **Clarification gate (Full mode).** Ask only decision-critical questions that repository evidence cannot answer. A valid plan has `Open Questions: None.`; the plan approval is the sole routine pre-execution approval.
+8. **One writer step at a time.** Exactly one step may authorize active-worktree writes. Independent read-only investigation or validation may run concurrently. Never mark `COMPLETED` with known failures—fix through an authorized step or mark `BLOCKED`.
 
 ## Delegated Mode
 
@@ -51,25 +48,25 @@ When **all** of the following are true, skip triage/plan/pre-edit gate:
 2. Explicit scope, success criteria, or acceptance contract received
 3. Operating in a focused role (implementer, reviewer, analyst, etc.)
 
-In Delegated Mode: follow all Behavioral Guards and [`$T4`]($T4); report changed files, commands, validation evidence, and surprises; escalate unapproved design/architecture decisions; stay in scope.
+In Delegated Mode: follow all Behavioral Guards and [`references/code-quality.md`](references/code-quality.md); report changed files, commands, validation evidence, and surprises; escalate unapproved design/architecture decisions; stay in scope.
 
 ## Statuses
 
 **Plan-level** (`plan.md`): `DRAFT` → `ACTIVE` → `COMPLETED` → `ARCHIVED`
-**Step-level** (`$T8`): `PENDING` → `IN_PROGRESS` → `COMPLETED` | `BLOCKED`
+**Step-level** (`steps/step-N.md`): `PENDING` → `IN_PROGRESS` → `COMPLETED` | `BLOCKED`
 
-Only one step may be `IN_PROGRESS` at a time. The pre-edit gate checks step-level status.
+Only one writer step may be `IN_PROGRESS` at a time. The pre-edit gate checks step-level status. The plan remains `ACTIVE` after execution steps finish and becomes `COMPLETED` only after global reflection passes.
 
 ## Reference Loading
 
 Load only what the current phase needs:
 
-- **Planning:** [`$T6`]($T6), [`$T2`]($T2), [`$T3`]($T3)
-- **Execution:** [`$T5`]($T5), [`$T4`]($T4)
-- **Verification:** [`$T7`]($T7)
+- **Planning:** [`references/create-plan.md`](references/create-plan.md), [`references/task-overview-template.md`](references/task-overview-template.md), [`references/step-template.md`](references/step-template.md)
+- **Execution:** [`references/execute-step.md`](references/execute-step.md), [`references/code-quality.md`](references/code-quality.md)
+- **Verification:** [`references/verify-step.md`](references/verify-step.md)
 - **Command discovery:** [`references/command-discovery.md`](references/command-discovery.md)
 - **Risk review:** [`references/risk-classification.md`](references/risk-classification.md)
-- **Project setup:** [`$T1`]($T1)
+- **Project setup:** [`references/project-agents-template.md`](references/project-agents-template.md)
 
 ## Behavioral Guards
 
@@ -86,10 +83,10 @@ Active for the entire session. Do not drift.
 
 ## Full Workflow Phases
 
-1. **Clarify** — ask targeted questions, get explicit confirmation. See [`references/require-clarification.md`](references/require-clarification.md).
-2. **Plan** — break into vertical-slice steps. See [`$T6`]($T6).
-3. **Execute** — one step at a time: [`$T5`]($T5) → [`$T7`]($T7) → [`references/persist-plan.md`](references/persist-plan.md). Every 2–3 steps: [`references/checkpoint.md`](references/checkpoint.md). Before pausing: dump context.
-4. **Reflect** — after all steps done: [`references/global-reflection.md`](references/global-reflection.md).
+1. **Clarify** — resolve only decision-critical ambiguity that repository evidence cannot answer. See [`references/require-clarification.md`](references/require-clarification.md).
+2. **Plan** — break into vertical-slice steps. See [`references/create-plan.md`](references/create-plan.md).
+3. **Execute** — one step at a time: [`references/execute-step.md`](references/execute-step.md) → [`references/verify-step.md`](references/verify-step.md) → [`references/persist-plan.md`](references/persist-plan.md). Every 2–3 steps: [`references/checkpoint.md`](references/checkpoint.md). Before pausing: dump context.
+4. **Reflect** — after all execution steps are done, keep the plan `ACTIVE`; [`references/global-reflection.md`](references/global-reflection.md) owns final plan completion.
 
 ### Resume Protocol
 

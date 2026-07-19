@@ -1,43 +1,42 @@
-# Step 4: Update CHANGELOG and docs
+# Step 4: Document the verified public contract
 
 > Status: PENDING
 > Created: 2024-11-04
 
 ## Goal
-Document `validateEmail` for end users: a CHANGELOG entry under `[Unreleased]` and a section in `docs/utils.md`.
+Document the validated `validateEmail()` contract and record the user-visible addition.
 
 ## Prerequisites
-- Step 3 completed (test suite passing, function behavior locked in)
-- Files to modify: `CHANGELOG.md`, `docs/utils.md`
+- Step 3 completed and the full behavior matrix passes.
+- Files to modify: `docs/utils.md`, `CHANGELOG.md`.
+- Public signature, error codes, boundaries, and non-goals are fixed by passing tests.
 
 ## Deliverables
-- CHANGELOG entry under `## [Unreleased]` → `### Added`
-- `docs/utils.md` section documenting signature, error codes, and out-of-scope items (IDN)
-- Cross-link from utils index in docs
-- After this step: docs render correctly, anchor navigation works
+- Public docs list the signature, all codes, supported boundaries, and IDN non-goal.
+- Unreleased changelog entry describes the utility.
+- After this step: docs links resolve and the documented contract matches tests.
 
 ## Plan
-- [ ] `edit` CHANGELOG.md — add entry under `## [Unreleased]` → `### Added` describing `validateEmail`
-- [ ] `edit` docs/utils.md — add `### validateEmail` section with signature, error codes, examples
-- [ ] `edit` docs/utils.md — add link from utils index/TOC to the new section
-- [ ] `bash` markdown lint check — expect clean
+- [ ] `edit` `docs/utils.md` — add signature, result examples, code table, boundaries, and non-goals.
+- [ ] `edit` `CHANGELOG.md` — add the utility under Unreleased.
+- [ ] `run` the configured Markdown/link check — expect success.
 
 ## Quality Checklist
-- [ ] Existing pattern identified — other utils in `docs/utils.md` follow signature → params → returns → examples format
-- [ ] Contract understood — docs must list every error code so callers can switch on them
-- [ ] Reuse checked — `validatePhone` doc section is a good template
-- [ ] Risk reviewed — low (documentation only)
-- [ ] Mitigation recorded — manual render check
+- [ ] Evidence-before-edit: passing tests and neighboring docs reread; docs command identified.
+- [ ] Existing pattern / reuse checked: `validatePhone` docs section reused.
+- [ ] Contract understood: document only behavior protected by completed tests.
+- [ ] Risk reviewed: documentation drift.
+- [ ] Mitigation recorded: compare docs against types/tests and run link validation.
 
 ## Validation Checklist
-- [ ] Markdown lint clean
-- [ ] Anchor links resolve
+- [ ] Configured Markdown/link check exits 0.
+- [ ] `git diff --check` exits 0.
 
 ## Test Checklist
-- [ ] Manual: render docs locally, confirm anchor navigation works
+- [ ] Manual contract comparison: every documented code and boundary has a passing behavior test.
 
 ## Implementation Notes
-[Fill after implementation]
+Pending Step 3 completion.
 
 ## Files Changed
-[Fill after implementation]
+None yet.

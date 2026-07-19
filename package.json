@@ -1,9 +1,12 @@
 {
   "name": "swe-workflow",
-  "version": "1.12.1",
-  "description": "Behavioral guards, mandatory workflow triage, and structured planning for complex or broad coding tasks — compatible with Pi, Claude Code, Cursor, Codex, Gemini, and other agents supporting the Agent Skills spec.",
+  "version": "1.12.2",
+  "description": "Two-mode triage, behavioral guards, and structured planning for risky coding tasks — built on the portable Agent Skills core; host-specific behavior varies by version.",
   "author": "Evan Xu",
   "license": "MIT",
+  "scripts": {
+    "test": "node scripts/validate.mjs"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ex-git/swe-workflow.git"
@@ -28,6 +31,7 @@
     "SKILL.md",
     "references/",
     "examples/",
+    "scripts/",
     "README.md",
     "AGENTS.md",
     "LICENSE",

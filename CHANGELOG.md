@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.2] - 2026-07-18
+
+### Added
+- Added `npm test` validation with no npm dependencies for full YAML front matter and field types, version alignment, unsupported aliases, internal links, packaged paths, template fields, source-control safety, plan discovery/lifecycle, and mode routing.
+- Expanded behavioral evaluation cases with expected and forbidden outcomes for both modes, escalation, delegated work, resume, clarification, dirty-worktree safety, and final reflection.
+
+### Changed
+- Kept the two-mode model while making Lightweight the default for localized changes and read-only review/discovery regardless of inspected-file count.
+- Routed Full by implementation risk, contract impact, coupling, durable coordination, or ambiguity remaining after bounded discovery; file count is now a signal rather than an automatic trigger.
+- Reduced routine ceremony with concise Lightweight triage, decision-critical clarification, one plan approval, outcome-sized steps, and single-writer/read-only-concurrency guidance.
+- Updated both plan examples to the current template fields and vertical behavior slices.
+- Qualified cross-host compatibility and manual installation guidance because discovery paths and host-specific behavior vary by version.
+
+### Fixed
+- Replaced unsupported tokenized path aliases with standard Agent Skills/Markdown paths and repaired remaining broken example links.
+- Removed automatic staging, stashing, and committing instructions; user work now requires explicit authorization before any Git state mutation.
+- Fixed active-plan discovery to scan canonical nested plans and authoritative step statuses.
+- Made global reflection the sole owner of plan-level completion and required scoped fix steps for reflection-discovered edits.
+- Aligned repository-level instructions with the Delegated Mode exemption and strengthened validation with malformed-front-matter and generalized Git-mutation regressions.
+
 ## [1.12.1] - 2026-06-13
 
 ### Changed
@@ -262,7 +282,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.12.1...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.12.2...HEAD
+[1.12.2]: https://github.com/ex-git/swe-workflow/compare/v1.12.1...v1.12.2
 [1.12.1]: https://github.com/ex-git/swe-workflow/compare/v1.12.0...v1.12.1
 [1.12.0]: https://github.com/ex-git/swe-workflow/compare/v1.11.0...v1.12.0
 [1.11.0]: https://github.com/ex-git/swe-workflow/compare/v1.10.0...v1.11.0

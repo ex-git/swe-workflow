@@ -24,8 +24,8 @@
 
 ## Plan
 - [ ] `edit` src/auth/validate.ts — add `options: ValidateOptions` parameter to `validateEmail()`
-- [ ] `write` src/auth/__tests__/validate.test.ts — new test covering happy path + invalid email
-- [ ] `bash` npm test -- --filter=validate — expect 0 failures
+- [ ] `create` src/auth/__tests__/validate.test.ts — add focused happy-path and invalid-email coverage
+- [ ] `run` `npm test -- --filter=validate` — expect 0 failures
 
 ## Quality Checklist
 > Evidence summary only. Detailed guidance lives in `references/code-quality.md`, `references/risk-classification.md`, and `references/verify-step.md`.
@@ -58,7 +58,7 @@ Before marking any step **COMPLETED**, confirm all fields below are populated:
 - [ ] **Goal** — one-sentence description
 - [ ] **Prerequisites** — explicit dependencies listed
 - [ ] **Deliverables** — what this step produces + observable outcome
-- [ ] **Plan** — action checklist with tool + file path + specific change
+- [ ] **Plan** — action checklist with capability + file path/query + specific change
 - [ ] **Quality Checklist** — evidence summary, not duplicated quality doctrine
 - [ ] **Validation Checklist** — build/lint commands
 - [ ] **Test Checklist** — test commands or `N/A`

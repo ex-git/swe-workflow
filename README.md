@@ -1,17 +1,17 @@
 # swe-workflow
 
-A lightweight, structured Software Engineering Workflow (SWE workflow) for AI coding agents. Compatible with **Pi**, **Claude Code**, **Cursor**, **Codex**, **Gemini**, and other agents supporting the Agent Skills spec.
+A lightweight, structured Software Engineering Workflow (SWE workflow) for AI coding agents. It targets the portable Agent Skills core and is designed for **Pi**, **Claude Code**, **Cursor**, **Codex**, and **Gemini**; discovery paths and host-specific behavior vary by version.
 
-> Every code task starts with workflow triage. Simple tasks stay lightweight; broad, ambiguous, or multi-file tasks use a persisted plan.
+> Every code task starts with workflow triage. Bounded work stays lightweight; risky or coordination-heavy implementation uses a persisted plan.
 
 ## What It Does
 
 Enforces visible workflow selection plus a disciplined process for any coding task complex enough to warrant it:
 
-1. **Triage** — declare `Lightweight` or `Full` mode before edits
-2. **Clarify** — understand the request before acting; surface design decisions
-3. **Plan** — break Full workflow work into small, ordered steps with a Design Decisions table
-4. **Execute** — one step at a time, documented as you go; verify design against conventions
+1. **Triage** — choose `Lightweight` or `Full` before target-file edits
+2. **Discover/clarify** — inspect first; ask only decision-critical questions evidence cannot answer
+3. **Plan** — persist Full work as ordered, independently verifiable steps
+4. **Execute** — keep one active writer step while allowing independent read-only investigation/validation
 5. **Verify** — re-read, test, review diff (single gate)
 6. **Reflect** — catch complexity before it compounds
 
@@ -31,19 +31,23 @@ This workflow addresses all of that with a single skill, mandatory mode declarat
 
 ## Expected Agent Behavior
 
-For every code-related task, the agent must first declare:
+For clear localized work and read-only review/discovery, the agent starts with:
 
 ```text
-Workflow mode: Lightweight | Full
+Workflow mode: Lightweight — <reason>; success: <outcome>; plan: no.
+```
+
+For risky, coupled, cross-session, contract-changing, or still-materially-ambiguous implementation, it starts with:
+
+```text
+Workflow mode: Full
 Reason: ...
 Success criteria:
 - ...
-Plan needed: yes | no
+Plan needed: yes
 ```
 
-Full workflow mode is mandatory for broad cleanup/refactor/lint tasks, deletes/moves, backend + UI changes, API/schema/route/tooling/config changes, source-of-truth docs, ambiguous work, or anything expected to touch more than 3 files.
-
-In Full workflow mode, unresolved questions must be asked in chat before plan creation/finalization; valid plans record `Open Questions` as `None.` and surface design choices in a `Design Decisions` table for user confirmation. Implementation edits must wait until a valid plan exists under `plans/<YYYY-MM-DD>-<slug>/`, the current step file is marked `IN_PROGRESS`, and the edit maps to that step.
+File count alone does not select Full. Lightweight discovery escalates before target-file edits when it uncovers Full-mode risk. In Full mode, valid plans record `Open Questions` as `None.`, surface decision-sensitive choices, and require exactly one writer step marked `IN_PROGRESS` before implementation.
 
 ## Installation
 
@@ -63,7 +67,7 @@ npx skills add ex-git/swe-workflow -g --agent gemini
 
 ### Manual install
 
-Copy the skill directory to your agent's skills location:
+Copy the skill directory to your host's documented skill location. Common locations are shown below; verify them against the current host version:
 
 ```bash
 # Pi
@@ -103,9 +107,11 @@ swe-workflow/
 │   ├── verify-step.md           # Includes Definition of Done
 │   ├── persist-plan.md
 │   └── global-reflection.md
-├── examples/                    # Worked examples and optional evaluation aids
-│   ├── evaluation-prompts.md     # Prompts for workflow evaluation
-│   └── plan-example.md          # Filled-in 3-step example plan
+├── examples/                    # Worked examples and behavioral evaluation cases
+│   ├── evaluation-prompts.md    # Expected/forbidden behavior matrix
+│   └── plan-example.md          # Current vertical-slice plan example
+├── scripts/
+│   └── validate.mjs             # Metadata/link/contract regression checks
 ├── AGENTS.md                    # Repo-level agent instructions / template
 ├── CHANGELOG.md
 ├── LICENSE
@@ -128,13 +134,22 @@ Keep `SKILL.md` small. Put project-specific rules in the target repo's `AGENTS.m
 
 ## Verification
 
-After installing, test with a vague feature request:
+Validate the packaged skill contract:
 
-```
-Add a function that validates email addresses
+```bash
+npm test
+npm pack --dry-run
 ```
 
-**Expected behavior:** the agent declares Full workflow mode, explains why the request is ambiguous, and asks clarifying questions (scope, input format, error shape) rather than jumping to code.
+Repository validation requires Node.js 18+ and Ruby's standard YAML library (used for full front-matter parsing). `npm test` checks front matter and field types, version alignment, unsupported aliases, internal links, packaged paths, required template fields, Git-safety rules, nested-plan discovery, lifecycle ownership, and two-mode routing.
+
+For behavioral evaluation, run the expected/forbidden cases in [`examples/evaluation-prompts.md`](examples/evaluation-prompts.md) and record the host/model version. A useful vague-request smoke test is:
+
+```text
+Add email validation.
+```
+
+Expected: start with Lightweight discovery, inspect the existing contract, ask only unresolved decision-critical questions, and escalate to Full before edits only when the resulting implementation meets Full criteria.
 
 ## Multi-Agent Handoffs
 
@@ -146,7 +161,7 @@ This skill supports both **orchestrator** and **delegated child** roles:
 
 | Role | What applies | What's skipped |
 |------|-------------|----------------|
-| **Orchestrator** (top-level agent, user-facing) | Full workflow: triage → plan → execute → verify | Nothing |
+| **Orchestrator** (top-level agent, user-facing) | Selects Lightweight or Full; owns escalation, planning, and final verification | Nothing |
 | **Delegated child** (focused task from another agent) | Behavioral Guards + Code Quality Bar | Triage block, plan creation, pre-edit gate |
 
 ### How it works
@@ -164,8 +179,8 @@ Three options for child agents, from lightest to heaviest:
 ### Platform examples
 
 ```bash
-# Pi: child inherits skill automatically, self-detects delegated mode
-# Or inject only the guards file via task prompt / reads
+# Pi: configure child context to inherit the skill, or inject only the guards file
+# Confirm inheritance behavior against the installed orchestration extension/version
 
 # Claude Code: reference in child context
 # Cursor: include in child rules

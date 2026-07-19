@@ -4,11 +4,12 @@
 
 1. The plan directory is the source of truth — update it as soon as reality changes.
 2. Step files own execution status; `plan.md` owns lifecycle status and the human-readable Steps Overview.
-3. Never mark COMPLETED with known introduced issues — fix or mark BLOCKED.
-4. Every COMPLETED step file must have all ten fields populated with evidence-backed entries.
-5. Never leave IN_PROGRESS across sessions — complete, block, or dump context.
-6. Use `edit` for status changes — don't rewrite the entire plan files.
-7. After persisting, orient the user with progress summary.
+3. Keep the plan `ACTIVE` after execution steps finish; only a successful global reflection sets plan-level `COMPLETED`.
+4. Never mark a step `COMPLETED` with known introduced issues — fix or mark `BLOCKED`.
+5. Every `COMPLETED` step file must have all ten fields populated with evidence-backed entries.
+6. Never leave `IN_PROGRESS` across sessions — complete, block, or dump context.
+7. Use targeted edits for status changes; do not rewrite whole plan files.
+8. After persisting, orient the user with a progress summary.
 
 ## When to Use
 
@@ -45,8 +46,8 @@ Update the current step file with:
 4. Update plan overview's Context & Learnings with durable decisions/gotchas.
 5. In the step file: Change `> Status: IN_PROGRESS` → `> Status: COMPLETED`.
 6. In the plan overview: update the matching Steps Overview row and `Last Updated`.
-7. If all step files are COMPLETED, set plan-level status to `COMPLETED`.
-8. Add Implementation Log row in the plan overview.
+7. If all current step files are `COMPLETED`, keep plan-level status `ACTIVE` and proceed to `global-reflection`.
+8. Add an Implementation Log row in the plan overview.
 
 ## After Blocking a Step
 
@@ -81,6 +82,7 @@ Update the current step file with:
 - [ ] Plan overview: Introduced failures fixed or blocker documented
 - [ ] Plan overview: `Last Updated` changed
 - [ ] Plan overview: Implementation Log entry added
+- [ ] Plan remains `ACTIVE` until global reflection passes
 
 ## Orient the User
 
@@ -91,6 +93,6 @@ Update the current step file with:
 ## Next Step
 
 - More PENDING → **execute-step**
-- All COMPLETED → **global-reflection**
+- All steps `COMPLETED` with plan `ACTIVE` → **global-reflection**
 - BLOCKED → next safe step or report
 - Pausing → context dumped, ask user

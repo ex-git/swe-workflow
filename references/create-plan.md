@@ -2,14 +2,14 @@
 
 ## Contract — Read This First
 
-1. Clarification must be complete — no unresolved questions. If any remain, stop and ask in chat.
+1. Full mode must be selected and decision-critical clarification complete. If a blocking decision remains, stop and ask in chat; do not re-confirm scope the user already approved.
 2. Open Questions must be exactly `None.` — do not create a plan with unresolved questions.
 3. Explore narrowly — read only files needed to plan; record evidence in Working Set and Verified Facts.
 4. Discover design conventions — if the task touches UI, schema, or API, search for existing patterns, shared components, and reusable code before planning. Record in Verified Facts.
 5. For broad refactors, domain logic, or boundary changes, apply architecture/design-quality prompts from `references/code-quality.md`; record tradeoffs in Verified Facts or Design Decisions.
 6. Fill the Design Decisions table — surface every UX, schema, or API choice for user confirmation. Write `None — no design-sensitive changes.` if N/A.
 7. Break into vertical slices — each step is one thin slice through all layers (types, logic, tests), independently verifiable. Never horizontal.
-8. Bullet quality — every plan bullet must name a tool (`read`/`rg`/`edit`/`write`/`bash`), a file path or query, and the specific change/check. Include inspection/search/validation bullets when relevant; if skipped, record why.
+8. Bullet quality — every plan bullet must name an action capability (`read`/`search`/`edit`/`create`/`run` or the host equivalent), a file path or query, and the specific change/check. Include inspection/search/validation bullets when relevant; if skipped, record why.
 9. Think in code for analysis — when planning requires repo-wide counts/inventories/comparisons, prefer one script/command that computes concise results over many raw reads.
 10. Reuse before create — search for existing shared code before planning to create new components, utilities, or patterns. Evidence in Verified Facts.
 11. Write ALL steps — the plan must contain every step for every phase. Partial plans block execution.
@@ -17,7 +17,7 @@
 
 ## Instructions
 
-1. **Verify clarification is complete** — if any open questions remain, go back to require-clarification. Do not create, finalize, or present a plan with unresolved questions.
+1. **Verify clarification is complete** — if any decision-critical open question remains, go back to require-clarification. Do not create a plan with unresolved decisions, and do not add a separate confirmation turn for already-approved scope.
 
 2. **Define the plan header:**
     - **Goal:** one sentence describing what we're building
@@ -50,8 +50,8 @@
     - Record all evidence in the plan's Working Set and Verified Facts
 
 4. **Break work into ordered vertical-slice steps:**
-    - Each step is ONE discrete action (5-15 minutes of work)
-    - Each step is a thin slice through all layers (types, logic, tests) — independently verifiable
+    - Each step produces one independently verifiable outcome; size by coherent outcome, not an arbitrary time or file-count target
+    - For behavior changes, each step is a thin slice through necessary layers (types, logic, tests) rather than a horizontal phase
     - Steps must be ordered by dependency
     - All steps start as **PENDING**
     - Do not add a step whose purpose is to resolve open questions
@@ -81,7 +81,7 @@
      - `read` each task overview and step file — confirm Goals, Assumptions, Open Questions (`None.`), Design Decisions, Steps Overview
      - Verify every non-trivial assumption is answered, recorded, or evidence-backed
 
-11. **Report:** `Plan created. Open questions: none. Ready to proceed with Step 1?` — if you cannot truthfully say this, the plan is invalid.
+11. **Present once for execution approval:** `Plan created. Open questions: none. Ready to proceed with Step 1?` This is the sole routine pre-execution approval; do not precede it with a duplicate "ready to plan" handshake.
 
 ## Mandatory Outputs
 
@@ -90,7 +90,7 @@
 - [ ] One step file per step: `plans/<YYYY-MM-DD>-<slug>/steps/step-N.md` — all 10 fields populated
 - [ ] Working Set with evidence, Verified Facts with tool citations in plan overview
 - [ ] All steps for all phases present; steps ordered by dependency
-- [ ] Every plan bullet names a tool + file path + specific change
+- [ ] Every plan bullet names an action capability + file path/query + specific change
 - [ ] No code written yet
 
 ## Constraints
@@ -103,7 +103,7 @@
 - **Do NOT invent your own format** — copy task-overview-template.md and step-template.md verbatim
 - **Do NOT create new code without a reuse check** — search for existing equivalents first; evidence in Verified Facts
 - **Do NOT make silent design choices** — surface in Design Decisions table for user confirmation
-- If you can't break it into steps, the scope is too vague — go back to clarification
+- If coherent, independently verifiable outcomes cannot be defined, return to bounded discovery or clarification
 
 ### Common Scope Traps
 

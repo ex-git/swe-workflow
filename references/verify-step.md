@@ -1,4 +1,3 @@
-[$T1=security/data/performance, $T2=command-discovery.md, $T3=code-quality.md]
 # Verify Step
 
 ## Contract — Read This First
@@ -19,7 +18,7 @@ After finishing implementation in `execute-step`, before `persist-plan`.
 ## Pass 1 — Validate
 
 1. **Re-read every modified file** with `read`. Not from memory.
-2. **Run discovered commands from the plan:** use the Validation Commands table populated via [`$T2`]($T2). Do not replace repo-specific commands with guessed generic commands unless no repo-specific command exists.
+2. **Run discovered commands from the plan:** use the Validation Commands table populated via [`command-discovery.md`](command-discovery.md). Do not replace repo-specific commands with guessed generic commands unless no repo-specific command exists.
 3. **Run pre-commit hooks** when configured. If hooks can't run, document why.
 4. **Verify evidence:** every changed file in Files Changed, every fact in Working Set/Verified Facts backed by read/search/tool output.
 5. **Verify anti-shortcut evidence:** target files re-read; impact search recorded when behavior/contracts are shared; validation commands run or skipped with reason and risk.
@@ -50,13 +49,13 @@ After finishing implementation in `execute-step`, before `persist-plan`.
    | Duplication | Copy-pasted blocks, similar logic in multiple places |
    | Missing handling | No error handling on fallible ops, missing null/empty checks |
    | Contracts | Changed public API/schema/route without caller updates |
-   | $T1 | Leaked secrets, missing auth, injection risk, N+1, unsafe migration |
+   | Security/data/performance | Leaked secrets, missing auth, injection risk, N+1, unsafe migration |
    | Project fit | New pattern when existing pattern exists, inconsistent style |
 
 3. **Scope audit:** every changed file explainable by the step's Plan. Unexplained → dependency (document) or scope creep (revert).
-4. **Quality standard:** apply [`references/$T3`]($T3) and fix violations now.
+4. **Quality standard:** apply [`references/code-quality.md`](code-quality.md) and fix violations now.
 
-**Checklist:** diff reviewed ✓ | no artifacts ✓ | only planned files ✓ | no duplication ✓ | error handling ✓ | contract compatible ✓ | $T1 reviewed ✓ | project fit ✓
+**Checklist:** diff reviewed ✓ | no artifacts ✓ | only planned files ✓ | no duplication ✓ | error handling ✓ | contract compatible ✓ | security/data/performance reviewed ✓ | project fit ✓
 
 ## Definition of Done
 

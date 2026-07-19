@@ -1,46 +1,43 @@
-# Step 2: Implement validateEmail with regex + length checks
+# Step 2: Implement local-part behavior
 
 > Status: COMPLETED
 > Created: 2024-11-04
 
 ## Goal
-Implement the `validateEmail(input: string): EmailValidationResult` function covering all six error codes via regex + length checks.
+Reject invalid local parts and enforce the 64-character local-part boundary with tests.
 
 ## Prerequisites
-- Step 1 completed (types are available in `src/utils/email.ts`)
-- Files to modify: `src/utils/email.ts`
+- Step 1 completed with public types, baseline function, and test file.
+- Files to modify: `src/utils/email.ts`, `src/utils/email.test.ts`.
+- Practical ASCII subset confirmed.
 
 ## Deliverables
-- `validateEmail(input: string): EmailValidationResult` function exported from `src/utils/email.ts`
-- All six error branches reachable (`EMPTY`, `NO_AT`, `MULTIPLE_AT`, `TOO_LONG`, `INVALID_LOCAL`, `INVALID_DOMAIN`)
-- After this step: `npx tsc --noEmit` and `npx eslint src/` both clean
+- `INVALID_LOCAL` behavior for dots, unsupported characters, and excessive length.
+- Boundary tests for 64 valid and 65 invalid local-part characters.
+- After this step: focused email tests and lint pass for local-part behavior.
 
 ## Plan
-- [x] `edit` src/utils/email.ts — empty-string check → `EMPTY`
-- [x] `edit` src/utils/email.ts — `@` count check → `NO_AT` / `MULTIPLE_AT`
-- [x] `edit` src/utils/email.ts — total length ≤254 → `TOO_LONG`
-- [x] `edit` src/utils/email.ts — local part length ≤64 + `LOCAL_RE` → `INVALID_LOCAL`
-- [x] `edit` src/utils/email.ts — domain `DOMAIN_RE` (labels, TLD ≥2 chars) → `INVALID_DOMAIN`
-- [x] `bash` npx tsc --noEmit && npx eslint src/ — expect 0 errors
+- [x] `edit` `src/utils/email.ts` — add local-part length check and focused `LOCAL_RE`.
+- [x] `edit` `src/utils/email.test.ts` — cover leading/trailing/consecutive dots, characters, and 64/65 boundaries.
+- [x] `run` `npx vitest run src/utils/email.test.ts` and `npx eslint src/utils/` — expect success.
 
 ## Quality Checklist
-- [x] Existing pattern identified — `validatePhone.ts` early-returns on each error case
-- [x] Contract understood — function returns discriminated union, never throws
-- [x] Reuse checked — no shared regex utility exists; new constants are appropriate
-- [x] Risk reviewed — medium (regex correctness); mitigated via comprehensive Step 3 tests
-- [x] Mitigation recorded — Step 3 covers all six branches with parameterized tests
+- [x] Evidence-before-edit: Step 1 implementation/tests reread; RFC boundary verified from task evidence.
+- [x] Existing pattern / reuse checked: early-return error ordering retained.
+- [x] Contract understood: local-part failures return `INVALID_LOCAL` without throwing.
+- [x] Risk reviewed: regex correctness / boundary ordering.
+- [x] Mitigation recorded: table-driven examples and explicit 64/65 tests.
 
 ## Validation Checklist
-- [x] `npx tsc --noEmit` exits 0
-- [x] `npx eslint src/utils/email.ts` exits 0
-- [x] No `console.log` or debug statements left
+- [x] `npx tsc --noEmit` exits 0.
+- [x] `npx eslint src/utils/` exits 0.
 
 ## Test Checklist
-- [x] All six error branches manually verified during implementation (formal tests in Step 3)
-- [x] Valid address returns `{ valid: true }`
+- [x] `npx vitest run src/utils/email.test.ts` — local-part cases and prior cases pass.
 
 ## Implementation Notes
-**Deviation from original plan:** the original Step 2 sketch had a single mega-regex. Split into `LOCAL_RE` and `DOMAIN_RE` constants at the top of the file for readability and to make the `INVALID_LOCAL` vs `INVALID_DOMAIN` branching cleaner. No behavioral change. Length check happens first after empty check — cheapest to reject pathological inputs.
+Used a focused local-part expression instead of a single email mega-regex so error codes remain deterministic and tests map directly to behavior.
 
 ## Files Changed
-- `src/utils/email.ts` (modified — added `validateEmail` function and `LOCAL_RE`/`DOMAIN_RE` constants)
+- `src/utils/email.ts`
+- `src/utils/email.test.ts`

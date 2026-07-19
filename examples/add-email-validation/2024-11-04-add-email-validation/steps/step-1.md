@@ -1,42 +1,45 @@
-# Step 1: Define error codes and result type
+# Step 1: Implement presence and at-sign behavior
 
 > Status: COMPLETED
 > Created: 2024-11-04
 
 ## Goal
-Define `EmailErrorCode` discriminated union and `EmailValidationResult` type, both exported via the utils barrel.
+Create the public result types and implement/test `EMPTY`, `NO_AT`, and `MULTIPLE_AT` behavior.
 
 ## Prerequisites
-- `src/utils/` directory exists
-- Existing `validatePhone` signature reviewed for consistency
+- Existing `validatePhone` return shape and utils barrel read.
+- Files to modify: `src/utils/email.ts`, `src/utils/email.test.ts`, `src/utils/index.ts`.
+- Stable error-code representation confirmed.
 
 ## Deliverables
-- `EmailErrorCode` union type covering: `EMPTY`, `NO_AT`, `MULTIPLE_AT`, `INVALID_LOCAL`, `INVALID_DOMAIN`, `TOO_LONG`
-- `EmailValidationResult` type matching the project's `{ valid: boolean; error?: Code }` pattern
-- After this step: `npx tsc --noEmit` clean and types exported from `src/utils/index.ts`
+- Public `EmailErrorCode`, `EmailValidationResult`, and `validateEmail()` export.
+- Presence and `@`-count behavior with focused tests.
+- After this step: focused email tests and typecheck pass for the first behavior slice.
 
 ## Plan
-- [x] `write` src/utils/email.ts — add `EmailErrorCode` union and `EmailValidationResult` type
-- [x] `edit` src/utils/index.ts — add barrel re-export for the new types
-- [x] `bash` npx tsc --noEmit — expect 0 errors
+- [x] `create` `src/utils/email.ts` — add public types and early-return behavior for three codes.
+- [x] `edit` `src/utils/index.ts` — export the new types and function.
+- [x] `create` `src/utils/email.test.ts` — cover empty, whitespace, missing `@`, multiple `@`, and a baseline valid input.
+- [x] `run` `npx vitest run src/utils/email.test.ts` and `npx tsc --noEmit` — expect success.
 
 ## Quality Checklist
-- [x] Existing pattern identified — `validatePhone.ts` uses `satisfies readonly string[]` for the error code union
-- [x] Contract understood — types must be named exports, no default
-- [x] Reuse checked — barrel export pattern already in `src/utils/index.ts`
-- [x] Risk reviewed — low, types only
-- [x] Mitigation recorded — TypeScript compile gate
+- [x] Evidence-before-edit: validator, barrel, and test patterns read; validation commands identified.
+- [x] Existing pattern / reuse checked: `validatePhone` result shape and `describe.each` style reused.
+- [x] Contract understood: stable named exports; function returns and never throws.
+- [x] Risk reviewed: correctness / public contract.
+- [x] Mitigation recorded: focused branch tests and typecheck.
 
 ## Validation Checklist
-- [x] `npx tsc --noEmit` exits 0
-- [x] Types exported from barrel (verified by `grep export src/utils/index.ts`)
+- [x] `npx tsc --noEmit` exits 0.
+- [x] `npx eslint src/utils/email.ts src/utils/email.test.ts` exits 0.
 
 ## Test Checklist
-- [x] Compile-time assertions for exhaustive error codes (via `satisfies`)
+- [x] `npx vitest run src/utils/email.test.ts` — baseline plus all three error codes pass.
 
 ## Implementation Notes
-Used `satisfies readonly string[]` pattern to derive the union from the array; matches `validatePhone.ts` exactly. Exported types as named exports only; no default export.
+Kept the first slice intentionally small but complete: public types, export, implementation branches, and tests landed together.
 
 ## Files Changed
 - `src/utils/email.ts` (created)
-- `src/utils/index.ts` (modified — barrel export added)
+- `src/utils/email.test.ts` (created)
+- `src/utils/index.ts`

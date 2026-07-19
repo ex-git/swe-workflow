@@ -4,41 +4,54 @@ This repository contains the `swe-workflow` skill. `SKILL.md` is the canonical s
 
 ## Mandatory Workflow Triage
 
-For every code-related task, the first assistant response MUST include:
+For every code-related task, the first assistant response MUST start with one of these forms:
 
 ```text
-Workflow mode: Lightweight | Full
+Workflow mode: Lightweight — <reason>; success: <outcome>; plan: no.
+```
+
+```text
+Workflow mode: Full
 Reason: <one sentence>
 Success criteria:
 - <what done means>
-Plan needed: yes | no
+Plan needed: yes
 ```
 
-## When Full Workflow Is Required
+## Mode Routing
 
-Use Full workflow mode before editing for:
+Use **Lightweight** for clear localized changes, bounded investigation, and read-only review/discovery regardless of how many files are inspected.
 
-- repo-wide scans, migrations, or cleanup
-- lint/type/build/test cleanup
-- broad refactors or behavior-preserving rewrites touching multiple files
-- deleting, moving, or renaming files
-- backend + frontend/UI changes in one task
-- API/schema/route/tooling/configuration contract changes
-- docs/source-of-truth updates, including `SKILL.md`, `README.md`, `CHANGELOG.md`, or this file
-- any task expected to touch more than 3 files
-- ambiguous scope or unclear success criteria
+Use **Full** before implementation when one or more applies:
 
-If a Lightweight task grows into any trigger above, stop before further edits, declare escalation to Full workflow mode, create/update the plan, and continue from the current verified state.
+- risky, destructive, or hard-to-reverse work
+- API/schema/migration/security/tooling/configuration contract changes
+- broad refactors, migrations, cleanup, or coupled changes across subsystems
+- work requiring durable multi-session or multi-agent coordination
+- material ambiguity remains after bounded repository discovery
+- the user explicitly requests a persisted plan
+
+File count and source-of-truth documentation are risk signals, not automatic Full triggers. If Lightweight discovery reveals Full criteria, stop before target-file edits, declare escalation, create/update the plan, and continue from the verified state.
+
+## Delegated Mode Exemption
+
+Skip the user-facing triage block, plan creation, and pre-edit gate only when all three are true:
+
+1. The task comes from another agent/orchestrator rather than an open-ended user request.
+2. Scope and success criteria or an acceptance contract are explicit.
+3. The agent is operating in a focused implementer, reviewer, analyst, or researcher role.
+
+Delegated agents follow `SKILL.md` Behavioral Guards, stay in scope, report evidence/results, and escalate unapproved decisions to the orchestrator.
 
 ## Full Workflow Pre-Edit Gate
 
-Before any write/edit/delete that changes task target files in Full workflow mode:
+Before any mutation of task target files in Full workflow mode:
 
 1. A plan directory must exist under `plans/<YYYY-MM-DD>-<slug>/`
-2. Exactly one step file must have a step marked `IN_PROGRESS`
+2. Exactly one writer step file must be marked `IN_PROGRESS`
 3. The intended edit must map to that step's scope
 
-Only workflow bookkeeping files (`plans/context.md`, `plans/*/plan.md`, `plans/*/steps/*.md`) may be created or updated before this gate is satisfied.
+Read-only discovery and workflow-bookkeeping updates (`plans/context.md`, `plans/*/plan.md`, `plans/*/steps/*.md`) are allowed before this gate is satisfied.
 
 ## Plan Directory Structure
 
