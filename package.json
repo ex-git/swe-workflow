@@ -1,6 +1,6 @@
 {
   "name": "swe-workflow",
-  "version": "1.12.2",
+  "version": "1.13.0",
   "description": "Two-mode triage, behavioral guards, and structured planning for risky coding tasks — built on the portable Agent Skills core; host-specific behavior varies by version.",
   "author": "Evan Xu",
   "license": "MIT",

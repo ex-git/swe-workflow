@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-10-03
+
 ### Added
 - Added mandatory STE-inspired writing for agent-authored answers, handoffs, plans, reports, documentation, comments, and docstrings without claiming formal ASD-STE100 compliance.
 - Added explicit implementation-quality gates for existing-pattern reuse, duplicate business rules, regression surfaces, DRY limits, and speculative abstractions.
@@ -291,7 +293,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.12.2...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.13.0...HEAD
+[1.13.0]: https://github.com/ex-git/swe-workflow/compare/v1.12.2...v1.13.0
 [1.12.2]: https://github.com/ex-git/swe-workflow/compare/v1.12.1...v1.12.2
 [1.12.1]: https://github.com/ex-git/swe-workflow/compare/v1.12.0...v1.12.1
 [1.12.0]: https://github.com/ex-git/swe-workflow/compare/v1.11.0...v1.12.0
