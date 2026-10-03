@@ -226,10 +226,76 @@ const evaluationPrompts = read("examples/evaluation-prompts.md");
 const evaluationCases = [...evaluationPrompts.matchAll(/^## \d+\./gm)].length;
 const expectedBlocks = [...evaluationPrompts.matchAll(/^\*\*Expected:\*\*/gm)].length;
 const forbiddenBlocks = [...evaluationPrompts.matchAll(/^\*\*Forbidden:\*\*/gm)].length;
-if (evaluationCases < 10 || expectedBlocks !== evaluationCases || forbiddenBlocks !== evaluationCases) {
+if (evaluationCases < 14 || expectedBlocks !== evaluationCases || forbiddenBlocks !== evaluationCases) {
   fail(`evaluation matrix is incomplete: cases=${evaluationCases} expected=${expectedBlocks} forbidden=${forbiddenBlocks}`);
 } else {
   pass(`behavioral evaluation matrix has ${evaluationCases} expected/forbidden cases`);
+}
+
+for (const marker of [
+  "## 1. Clear localized edit",
+  "## 2. Detailed read-only investigation",
+  "## 6. Delegated child task",
+  "## 11. Exact machine-readable response",
+  "## 12. Reuse existing implementation",
+  "## 13. Shared behavior regression protection",
+  "## 14. Avoid over-engineering",
+  "Do not use word-count limits as a substitute for quality",
+]) {
+  if (!evaluationPrompts.includes(marker)) fail(`evaluation matrix is missing writing/quality case: ${marker}`);
+}
+if (!failures.some((failure) => failure.includes("writing/quality case"))) {
+  pass("behavioral evaluations cover adaptive writing, exact formats, reuse, regression, and over-engineering");
+}
+
+const delegatedGuards = read("references/delegated-guards.md");
+for (const [relativePath, content] of [
+  ["SKILL.md", skill],
+  ["references/delegated-guards.md", delegatedGuards],
+]) {
+  for (const marker of [
+    "STE-inspired writing (mandatory)",
+    "one main idea per sentence",
+    "documentation, comments, and docstrings",
+    "formal ASD-STE100 compliance",
+    "Do not rewrite unrelated prose",
+    "Preserve exact JSON",
+  ]) {
+    if (!content.includes(marker)) fail(`${relativePath} is missing writing contract marker: ${marker}`);
+  }
+}
+if (!failures.some((failure) => failure.includes("writing contract marker"))) {
+  pass("canonical and delegated contracts require STE-inspired writing and preserve exact formats");
+}
+
+const codeQuality = read("references/code-quality.md");
+for (const [relativePath, content] of [
+  ["SKILL.md", skill],
+  ["references/delegated-guards.md", delegatedGuards],
+  ["references/code-quality.md", codeQuality],
+]) {
+  for (const marker of ["Do not duplicate business rules", "speculative abstractions", "regression surface", "DRY"]) {
+    if (!content.includes(marker)) fail(`${relativePath} is missing implementation-quality marker: ${marker}`);
+  }
+}
+if (!failures.some((failure) => failure.includes("implementation-quality marker"))) {
+  pass("core quality contracts cover duplication, regression risk, DRY limits, and over-engineering");
+}
+
+const verifyStep = read("references/verify-step.md");
+for (const marker of [
+  "lead with the answer or outcome",
+  "what changed, what was checked, validation results",
+  "residual risks or uncertainty",
+  "example, not a required layout",
+  "machine-readable contracts",
+]) {
+  if (!verifyStep.includes(marker)) fail(`verification guidance is missing adaptive response marker: ${marker}`);
+}
+if (!delegatedGuards.includes("adaptive guidance, not a required layout")) {
+  fail("delegated handoff guidance still requires a fixed layout");
+} else if (!failures.some((failure) => failure.includes("adaptive response marker"))) {
+  pass("final-response and delegated handoff layouts are adaptive");
 }
 
 const workflowFiles = markdownFiles;

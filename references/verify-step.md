@@ -84,7 +84,14 @@ If a command is skipped, record why. For noisy output use compact evidence: `Com
 - No guessed facts: unverified claims labeled `Assumption`/`Unknown`, not `Verified` ✓
 - Validation: checks run with evidence, or skipped with reason and residual risk ✓
 
-**Final response shape:**
+**Final response contract:**
+- After any required triage, lead with the answer or outcome.
+- Report what changed, what was checked, validation results, and relevant residual risks or uncertainty.
+- Keep material evidence and caveats. Remove repeated facts and process narration.
+- Use headings, lists, tables, and evidence labels only when they improve clarity.
+- Preserve exact JSON and other machine-readable contracts. Add no prose outside an exact format.
+
+The following format is an example, not a required layout:
 ```markdown
 Summary: [What changed]
 Verified: [Key files/commands checked]

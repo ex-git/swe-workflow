@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added mandatory STE-inspired writing for agent-authored answers, handoffs, plans, reports, documentation, comments, and docstrings without claiming formal ASD-STE100 compliance.
+- Added explicit implementation-quality gates for existing-pattern reuse, duplicate business rules, regression surfaces, DRY limits, and speculative abstractions.
+- Added behavioral evaluation and static validation coverage for small edits, detailed investigations, delegated results, exact machine-readable responses, reuse, regression protection, and over-engineering.
+
+### Changed
+- Made final responses answer-first and adaptive while retaining material evidence, validation, uncertainty, caveats, and residual risks.
+- Changed fixed final-response and delegated-handoff layouts into examples and preserved exact JSON or other machine-readable contracts.
+
 ## [1.12.2] - 2026-07-18
 
 ### Added

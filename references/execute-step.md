@@ -30,6 +30,7 @@ Find the first PENDING step file with no unmet prerequisites. Read it. Mark `IN_
 | Validation identified | Discover commands via [`command-discovery.md`](command-discovery.md), or record `skipped — <reason>` + risk |
 | Conventions | Check imports/exports and nearby code for local patterns |
 | Reuse check | Search for existing equivalents before creating new code |
+| Regression surface | Identify affected callers, consumers, and preserved behavior when shared logic changes |
 
 Record evidence in Working Set and Verified Facts.
 
@@ -37,6 +38,9 @@ Record evidence in Working Set and Verified Facts.
 
 - Identify the local pattern this change should follow
 - Identify the contract: inputs, outputs, errors, side effects
+- Choose the smallest complete change; reuse existing implementations and avoid duplicate business rules
+- Reject speculative abstractions, options, dependencies, and unrelated refactors; DRY is not automatic refactor permission
+- Identify the regression surface and the requested and preserved behavior to validate
 - Classify risk with [`risk-classification.md`](risk-classification.md) and record mitigation for non-none risks
 - If design-sensitive (UI, schema, API): verify approach matches conventions or Design Decisions table; ask if ambiguous
 
@@ -54,8 +58,9 @@ Use the host's targeted edit capability for existing files and file-creation cap
 Apply [`references/code-quality.md`](code-quality.md) throughout. Key constraints:
 
 - Stay within scope — only files in the step's plan
-- Follow existing formatting, naming, conventions
-- Do not add unrequested features, abstractions, or dependencies
+- Follow existing formatting, naming, and conventions
+- Reuse existing implementations; do not duplicate business rules
+- Do not add unrequested features, abstractions, options, dependencies, or refactors
 - Handle edge cases and errors consistently with the project
 - Do not complete with unverified imports, packages, or APIs
 

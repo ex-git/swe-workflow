@@ -49,6 +49,14 @@ Plan needed: yes
 
 File count alone does not select Full. Lightweight discovery escalates before target-file edits when it uncovers Full-mode risk. In Full mode, valid plans record `Open Questions` as `None.`, surface decision-sensitive choices, and require exactly one writer step marked `IN_PROGRESS` before implementation.
 
+## Clear Communication and Implementation Quality
+
+Agents use STE-inspired writing for all agent-authored prose. This includes answers, handoffs, plans, reports, documentation, comments, and docstrings. Agents use short, direct sentences. They use one main idea per sentence. They use consistent terms and unambiguous references. Technical terms, identifiers, code, commands, paths, quotations, generated content, third-party content, and exact formats keep their meaning. The skill does not claim formal ASD-STE100 compliance.
+
+After triage, agents lead with the answer or outcome. They retain material evidence, validation, uncertainty, caveats, and residual risks. Headings, lists, tables, and evidence labels are optional tools, not a required response shape. An exact JSON or other machine-readable contract takes precedence over added prose when its schema permits no extra text.
+
+Implementation quality remains separate from writing quality. Agents inspect local patterns and existing implementations before changing logic. They prefer the smallest complete change, avoid duplicate business rules and speculative abstractions, identify the regression surface of shared changes, and validate requested and preserved behavior. DRY is not permission for premature abstraction or unrelated cleanup.
+
 ## Installation
 
 Via the [Agent Skills CLI](https://skills.sh):
@@ -141,9 +149,9 @@ npm test
 npm pack --dry-run
 ```
 
-Repository validation requires Node.js 18+ and Ruby's standard YAML library (used for full front-matter parsing). `npm test` checks front matter and field types, version alignment, unsupported aliases, internal links, packaged paths, required template fields, Git-safety rules, nested-plan discovery, lifecycle ownership, and two-mode routing.
+Repository validation requires Node.js 18+ and Ruby's standard YAML library (used for full front-matter parsing). `npm test` checks front matter and field types, version alignment, unsupported aliases, internal links, packaged paths, required template fields, Git-safety rules, nested-plan discovery, lifecycle ownership, two-mode routing, writing contracts, adaptive response guidance, implementation-quality markers, and evaluation coverage.
 
-For behavioral evaluation, run the expected/forbidden cases in [`examples/evaluation-prompts.md`](examples/evaluation-prompts.md) and record the host/model version. A useful vague-request smoke test is:
+For behavioral evaluation, run the expected/forbidden cases in [`examples/evaluation-prompts.md`](examples/evaluation-prompts.md) and record the host/model version. The matrix checks clear and complete output, exact machine-readable responses, reuse, regression protection, and restraint against over-engineering. It does not use word-count limits as a quality proxy. A useful vague-request smoke test is:
 
 ```text
 Add email validation.

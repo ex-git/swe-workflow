@@ -18,6 +18,8 @@ Success criteria:
 Plan needed: yes
 ```
 
+If an exact machine-readable contract permits no extra text, follow that contract instead of adding a plain-text triage prefix. Include triage fields only when the schema permits them.
+
 ## Mode Routing
 
 Use **Lightweight** for clear localized changes, bounded investigation, and read-only review/discovery regardless of how many files are inspected.
@@ -77,6 +79,12 @@ plans/
 - Keep changes surgical and tied to the user request or current plan step.
 - Verify each step with the relevant lint/type/build/test/manual check.
 - Update `CHANGELOG.md` for user-visible behavior, packaging, or source-of-truth documentation changes.
+
+## Writing and Implementation Discipline
+
+- Use STE-inspired writing for all agent-authored prose, including answers, plans, documentation, comments, and docstrings. Use short, direct sentences. Use one main idea per sentence. Use consistent terms. Use unambiguous references. Preserve technical meaning and exact formats. Do not claim formal ASD-STE100 compliance.
+- After triage, lead with the answer or outcome. Use structure only when it improves clarity. Keep material evidence, validation, uncertainty, caveats, and residual risks.
+- Before changing logic, check local patterns and existing implementations. Prefer the smallest complete change. Do not duplicate business rules or add speculative abstractions, options, dependencies, or refactors. Identify the regression surface for shared behavior and validate requested and preserved behavior. DRY is not automatic refactor permission.
 
 ## Known Pitfalls
 

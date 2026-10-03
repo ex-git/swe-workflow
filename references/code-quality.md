@@ -8,14 +8,18 @@ This file defines general quality standards. Do not add framework-specific or pr
 
 1. Preserve existing behavior unless explicitly changed.
 2. Prefer the smallest complete change: delete/skip unnecessary work, then use stdlib/native features, then existing helpers/dependencies, before writing custom code.
-3. Follow local project patterns.
-4. Reuse before creating.
-5. Handle failure modes consistently.
-6. Do not introduce security, data, or performance risk without mitigation.
+3. Follow local project patterns instead of applying generic best practices mechanically.
+4. Search for and reuse existing implementations before creating new ones.
+5. Do not duplicate business rules or add speculative abstractions, options, dependencies, or refactors.
+6. Identify affected callers and the regression surface before changing shared behavior; validate requested and preserved behavior.
+7. Handle failure modes consistently.
+8. Do not introduce security, data, or performance risk without mitigation.
 
 ## Correctness
 - Preserve existing behavior unless the task explicitly changes it.
 - Identify input/output contracts before editing.
+- Identify the regression surface: callers, consumers, shared state, fixtures, and behavior that must remain unchanged.
+- Add focused checks for the requested behavior and relevant preserved behavior.
 - Handle null, empty, and error cases consistently with nearby code.
 - Do not swallow errors unless existing project conventions do so.
 - Do not introduce race conditions, stale state, or partial updates.
@@ -24,6 +28,7 @@ This file defines general quality standards. Do not add framework-specific or pr
 - Prefer the smallest change that fully satisfies the task; delete or skip work that does not need to exist.
 - Use standard library, native platform features, and existing helpers/dependencies before writing custom code.
 - Do not add abstractions until there are at least two real call sites or the existing project pattern requires it.
+- DRY does not require an abstraction when it would add indirection, cross boundaries, or expand scope. Remove real duplication only when the shared design is clearer.
 - Avoid speculative options, flags, frameworks, or new dependencies.
 - Never simplify away explicit requirements, trust-boundary validation, security, accessibility, or data-loss prevention.
 

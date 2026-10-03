@@ -32,6 +32,7 @@ metadata:
    - <what done means>
    Plan needed: yes
    ```
+   If an exact machine-readable contract permits no extra text, follow that contract instead of adding a plain-text triage prefix. Include triage fields only when the schema permits them.
 2. **Lightweight is the default** for clear localized changes, bounded investigation, and read-only reviews or discovery—even when many files must be inspected. It uses the Behavioral Guards but no persisted plan.
 3. **Full is required before implementation** when work is risky or hard to reverse; changes API/schema/migration/security/configuration contracts; couples multiple subsystems; is a broad refactor/migration/cleanup; needs durable multi-session or multi-agent coordination; remains materially ambiguous after bounded discovery; or the user requests a plan. File count alone is a signal, not a trigger.
 4. **Escalate before target-file edits.** Lightweight discovery may gather evidence first. If Full criteria emerge, stop before mutating task files, declare Full mode, clarify decision-critical questions, create the plan, and then resume. If edits already began, preserve the verified state and escalate before expanding scope.
@@ -72,14 +73,16 @@ Load only what the current phase needs:
 
 Active for the entire session. Do not drift.
 
-1. **Evidence first** — read target files before editing; search callers/usages before changing shared behavior; label claims as `Verified`/`Assumption`/`Unknown`.
+1. **Evidence first** — read target files before editing; search callers/usages before changing shared behavior; distinguish `Verified`/`Assumption`/`Unknown` when evidence status matters and cite key claims.
 2. **Anti-shortcut gate** — before editing: target read ✓, impact search (or `N/A — isolated`) ✓, validation command (or skipped reason) ✓.
 3. **Think in code** — for aggregate analysis, prefer short scripts/commands that compute results over many raw file dumps. For noisy output, store in `/tmp`, print bounded slice.
 4. **Minimalism ladder** — before adding code, prefer: delete/skip if not needed → stdlib/native feature → existing dependency/helper → smallest safe implementation; never cut security, data safety, accessibility, or explicit requirements.
 5. **Surgical changes** — touch only needed files/lines; match existing formatting, naming, and conventions; do not copy degraded patterns.
-6. **Reuse before create** — search for existing equivalents before writing new components/utilities/patterns; evidence of search in Verified Facts.
+6. **Implementation quality** — follow local patterns and search for existing equivalents. Prefer the smallest complete change. Do not duplicate business rules or add speculative abstractions, options, dependencies, or refactors. For shared behavior, identify the regression surface and validate requested and preserved behavior. DRY does not justify premature abstraction or out-of-scope cleanup.
 7. **Design discipline** — do not make silent design choices. Surface decisions for user confirmation. Verify approach matches conventions or Design Decisions table.
 8. **Goal-driven** — define success before coding; verify via tests/lint/build/typecheck; add focused tests for new code and bug fixes; fix introduced issues or report blockers.
+9. **STE-inspired writing (mandatory)** — use this style in all agent-authored prose. Use short, direct sentences. Use one main idea per sentence. Use consistent terms. Name the referent when `it`, `this`, or another reference could be ambiguous. Apply the rule to answers, handoffs, plans, reports, documentation, comments, and docstrings. Preserve the meaning of normal programming terms, identifiers, code, commands, paths, quotations, generated content, third-party content, and exact formats. Do not claim formal ASD-STE100 compliance. Do not rewrite unrelated prose only to apply this rule.
+10. **Answer first** — after the required triage, lead with the answer or outcome. Include material evidence, validation, uncertainty, caveats, and residual risks. Remove repetition and unnecessary narration, but do not omit material findings. Use headings, lists, tables, and evidence labels only when they improve clarity. Preserve exact JSON and other machine-readable contracts.
 
 ## Full Workflow Phases
 

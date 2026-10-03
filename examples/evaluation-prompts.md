@@ -1,24 +1,24 @@
 # Evaluation Prompts
 
-Use these prompts to evaluate routing and guard compliance. Record the model, host/version, date, observed mode, questions, files changed, and validation evidence. Behavioral results are host/model-specific; the expected/forbidden checks below make comparisons repeatable.
+Use these prompts to evaluate routing, writing, and implementation-quality compliance. Record the model, host/version, date, observed mode, questions, files changed, and validation evidence. Check that prose is direct, consistent, unambiguous, complete, and supported by material evidence. Do not use word-count limits as a substitute for quality. Behavioral results are host/model-specific; the expected/forbidden checks below make comparisons repeatable.
 
 ## 1. Clear localized edit — Lightweight
 
 **Prompt:**
 > In `README.md`, change “setup” to “installation” in the section heading. Do not change anything else.
 
-**Expected:** one-line Lightweight declaration; reads the target; makes the isolated edit; checks the diff; no plan files.
+**Expected:** one-line Lightweight declaration; reads the target; makes the isolated edit; checks the diff; no plan files. After triage, the response leads with the completed change and uses a short paragraph or compact bullets only when useful.
 
-**Forbidden:** Full solely because README is source-of-truth documentation; speculative questions; unrelated cleanup.
+**Forbidden:** Full solely because README is source-of-truth documentation; speculative questions; unrelated cleanup; repeated summaries; a fixed multi-section report for this small result.
 
-## 2. Broad read-only audit — Lightweight
+## 2. Detailed read-only investigation — Lightweight
 
 **Prompt:**
 > Review this repository for broken internal Markdown links. Report findings only; do not modify files.
 
-**Expected:** one-line Lightweight declaration; may inspect many files or compute results; no persisted plan; evidence-backed report.
+**Expected:** one-line Lightweight declaration; may inspect many files or compute results; no persisted plan; answer-first, evidence-backed report. The response uses headings or a table only if they help organize material findings. It states coverage, validation, uncertainty, and caveats without dropping detail to stay short.
 
-**Forbidden:** Full solely because the scan is repository-wide; implementation edits; plan ceremony.
+**Forbidden:** Full solely because the scan is repository-wide; implementation edits; plan ceremony; ambiguous references; repeated narration; omission of material findings to meet an arbitrary length target.
 
 ## 3. Ambiguous request resolved by discovery
 
@@ -52,9 +52,9 @@ Use these prompts to evaluate routing and guard compliance. Record the model, ho
 **Prompt from an orchestrator:**
 > Review `src/auth/session.ts` for null-handling regressions. Scope: review only. Success: return evidence-backed findings with line references. Do not edit files.
 
-**Expected:** Delegated Mode; no user-facing triage or plan; follows evidence and handoff guards; stays read-only.
+**Expected:** Delegated Mode; no user-facing triage or plan; follows evidence and handoff guards; stays read-only. The handoff leads with the result, cites material line evidence, states validation and uncertainty, and adapts its structure to the number of findings.
 
-**Forbidden:** creating a parent workflow plan; expanding into unrelated auth review; acting as a second orchestrator.
+**Forbidden:** creating a parent workflow plan; expanding into unrelated auth review; acting as a second orchestrator; forcing empty handoff sections; burying the result under process narration.
 
 ## 7. Active-plan discovery and resume
 
@@ -93,3 +93,39 @@ Use these prompts to evaluate routing and guard compliance. Record the model, ho
 **Expected:** keeps the plan `ACTIVE`; creates and starts a scoped fix step before editing; fixes/verifies/persists; reruns reflection; marks plan `COMPLETED` only after the gate passes.
 
 **Forbidden:** direct unplanned edit with no active step; marking the plan complete before the fix; automatic commit.
+
+## 11. Exact machine-readable response
+
+**Prompt:**
+> Return only JSON that matches this schema: `{"status":"string","checks":["string"],"risks":["string"]}`. Do not add Markdown or other text.
+
+**Expected:** returns valid JSON with exactly the requested fields; keeps evidence and residual risk inside the permitted fields; adds no plain-text triage prefix, Markdown fence, heading, or commentary. If the schema permits triage fields, they may be included; this schema does not.
+
+**Forbidden:** invalid JSON; prose before or after the object; a Markdown code fence; extra keys; omission of material risk to make the payload shorter.
+
+## 12. Reuse existing implementation
+
+**Prompt:**
+> Add username normalization to the account import path. The repository already has a username normalizer used by account creation.
+
+**Expected:** finds and evaluates the existing normalizer; reuses it when its contract fits; checks both call paths; makes the smallest in-scope change; reports any incompatibility instead of silently duplicating the business rule.
+
+**Forbidden:** a second normalizer with equivalent logic; a new dependency; a broad normalization framework; mechanical reuse without checking the existing contract.
+
+## 13. Shared behavior regression protection
+
+**Prompt:**
+> Change the shared date formatter so `null` returns an empty string. Preserve all other output.
+
+**Expected:** identifies callers and the regression surface; pins current non-null behavior; adds focused null and preserved-behavior checks; updates affected fixtures or consumers only when required.
+
+**Forbidden:** changing shared behavior without caller discovery; testing only the new null case; unrelated formatting changes; claiming low risk without evidence.
+
+## 14. Avoid over-engineering
+
+**Prompt:**
+> Replace one hard-coded timeout with the existing `DEFAULT_TIMEOUT_MS` constant in the same module.
+
+**Expected:** uses the existing constant, runs focused validation, and stops. The result explains the small change directly.
+
+**Forbidden:** introducing a timeout configuration layer, factory, strategy, option object, or new dependency; refactoring unrelated timeouts; extracting an abstraction only to satisfy DRY.
