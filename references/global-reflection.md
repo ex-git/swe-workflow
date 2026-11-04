@@ -27,8 +27,8 @@
    | **Evidence** | Working Set accurate? Verified Facts still true? Files Changed complete? |
    | **Architecture** | Clean design? Could be simpler? Appropriate abstractions? Sensible file organization? |
    | **Code quality** | Technical debt? Error handling sufficient? Edge cases covered? Clear naming? |
-   | **Tests** | All passing? Adequate coverage? Edge cases covered? |
-   | **Artifacts** | Commented-out code? TODO/FIXME? Debug statements? Hardcoded values? |
+   | **Tests** | All passing? Behavior and reachable edge cases covered? No tests of implementation details or unreachable inputs? |
+   | **Artifacts** | Commented-out code? TODO/FIXME? Debug statements? Hardcoded values? Comments that restate code or record history? |
    | **Security** | Input validation? Auth checks? Injection risks? |
    | **Performance** | N+1 queries? Unnecessary loops? Memory leaks? |
 
@@ -51,6 +51,8 @@
 - [ ] Working Set, Verified Facts, Files Changed accurate
 - [ ] Architecture clean, no unnecessary complexity
 - [ ] No artifacts (debug statements, commented code, stale TODOs)
+- [ ] Comments explain why; no restated code, change history, or stale comments
+- [ ] Tests match the Test Scope; no tests of implementation details or unreachable inputs
 - [ ] All tests passing
 - [ ] Error handling sufficient
 - [ ] Comfortable handing to another developer

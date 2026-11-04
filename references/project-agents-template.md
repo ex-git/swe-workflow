@@ -67,8 +67,9 @@ Agents must read this before editing code, tests, schemas, configuration, or sou
 ## Testing Rules
 
 - Add or update tests for changed behavior.
-- Cover happy path, edge cases, and failure cases.
+- Cover happy path, reachable edge cases, and failure cases.
 - Prefer behavior-level tests over implementation-detail tests.
+- Do not test inputs that cannot reach the boundary or behavior owned by the framework.
 - Do not weaken or delete tests unless the task explicitly requires it and the reason is documented.
 
 ## Performance Rules

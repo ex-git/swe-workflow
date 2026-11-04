@@ -43,6 +43,8 @@ These apply for the entire task. Do not drift.
 10. Avoid unnecessary full scans, N+1 queries, and repeated network calls.
 11. Preserve existing logging, metrics, and tracing conventions.
 12. Update tests, types, docs, and fixtures together with API/schema changes.
+13. Test behavior through the public interface. Do not test unreachable inputs, framework behavior, or implementation details. Do not change or weaken a test expectation only to make it pass.
+14. Write comments that explain why. Do not restate the code, record change history, or leave stale comments.
 
 ## Handoff Content
 

@@ -5,7 +5,7 @@
 1. Run all three passes — Validate, Test, Review Diff — before marking any step COMPLETED.
 2. Re-read every modified file with `read`. Do not trust memory.
 3. Run discovered commands from the plan; do not replace them with guessed generic commands unless no repo-specific command exists.
-4. Tests must cover happy path, edge cases, and error paths. All must pass.
+4. Tests must cover happy path, reachable edge cases, and error paths, within the Test Scope in [`references/code-quality.md`](code-quality.md). All must pass.
 5. Review the actual `git diff` — no artifacts, no scope creep, no unverified imports.
 6. Every changed file must be in the step's Files Changed; every fact in Verified Facts must have tool evidence.
 7. Evidence gaps block completion: missing target read, missing impact search for shared behavior, guessed repo facts, or missing validation/skipped reason must be fixed or documented as `BLOCKED`.
@@ -28,7 +28,7 @@ After finishing implementation in `execute-step`, before `persist-plan`.
 ## Pass 2 — Test
 
 1. **Define expected behavior** — inputs, outputs, failure modes.
-2. **Write tests** — happy path, edge cases, error cases.
+2. **Write tests** — happy path, reachable edge cases, error cases. Do not test unreachable inputs, framework behavior, or implementation details.
 3. **Run tests** — all must pass.
 4. **No test framework?** Document manual verification.
 5. **Add test files to Working Set.**
@@ -43,6 +43,8 @@ After finishing implementation in `execute-step`, before `persist-plan`.
    | Category | Look for |
    |---|---|
    | Artifacts | `console.log`, commented-out code, stray TODO/FIXME, unused imports |
+   | Comment noise | Comments that restate code, record change history, address the reviewer, or contradict the code |
+   | Test scope | Tests of implementation details or unreachable inputs, copied cases, changed expectations, weakened assertions |
    | Scope creep | Formatting changes to unrelated files, "while I'm here" refactors |
    | Evidence gaps | Unverified imports, packages, APIs, paths, skipped impact search |
    | Quality | Magic numbers, poor names, deep nesting (>3), long functions (>30 lines) |
@@ -55,7 +57,7 @@ After finishing implementation in `execute-step`, before `persist-plan`.
 3. **Scope audit:** every changed file explainable by the step's Plan. Unexplained → dependency (document) or scope creep (revert).
 4. **Quality standard:** apply [`references/code-quality.md`](code-quality.md) and fix violations now.
 
-**Checklist:** diff reviewed ✓ | no artifacts ✓ | only planned files ✓ | no duplication ✓ | error handling ✓ | contract compatible ✓ | security/data/performance reviewed ✓ | project fit ✓
+**Checklist:** diff reviewed ✓ | no artifacts ✓ | comments explain why ✓ | test scope ✓ | only planned files ✓ | no duplication ✓ | error handling ✓ | contract compatible ✓ | security/data/performance reviewed ✓ | project fit ✓
 
 ## Definition of Done
 
