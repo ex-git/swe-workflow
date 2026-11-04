@@ -11,7 +11,7 @@ description: >-
 license: MIT
 compatibility: Requires file read/search/edit capabilities; shell and Git are recommended for validation.
 metadata:
-  version: "1.13.0"
+  version: "1.14.0"
   author: "Evan Xu"
 ---
 

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.14.0] - 2026-11-04
+
 ### Added
 - Added a Test Scope standard to the code quality bar: test behavior through the public interface, test only reachable inputs, parameterize variants, mock only external boundaries, and do not change or weaken expectations only to pass.
 - Added a Comments standard to the code quality bar: explain why, and do not restate code, record change history, address the reviewer, or leave stale comments.
@@ -300,7 +302,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Templates: `plan-template.md`, `repo-map-template.md`,
   `context-template.md`.
 
-[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.13.0...HEAD
+[Unreleased]: https://github.com/ex-git/swe-workflow/compare/v1.14.0...HEAD
+[1.14.0]: https://github.com/ex-git/swe-workflow/compare/v1.13.0...v1.14.0
 [1.13.0]: https://github.com/ex-git/swe-workflow/compare/v1.12.2...v1.13.0
 [1.12.2]: https://github.com/ex-git/swe-workflow/compare/v1.12.1...v1.12.2
 [1.12.1]: https://github.com/ex-git/swe-workflow/compare/v1.12.0...v1.12.1
