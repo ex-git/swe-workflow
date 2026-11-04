@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added a Test Scope standard to the code quality bar: test behavior through the public interface, test only reachable inputs, parameterize variants, mock only external boundaries, and do not change or weaken expectations only to pass.
+- Added a Comments standard to the code quality bar: explain why, and do not restate code, record change history, address the reviewer, or leave stale comments.
+
+### Changed
+- Limited test guidance in verification, global reflection, delegated guards, and the project template to reachable edge cases, and added comment-noise and test-scope checks to the diff review.
+
 ## [1.13.0] - 2026-10-03
 
 ### Added

@@ -51,6 +51,28 @@ Use as prompts, not automatic refactor permission. Fix only smells in the task p
 - Do not force TDD for docs, config-only changes, throwaway exploration, or trivial mechanical edits.
 - Use tests to pin contracts and edge cases; refactor only after behavior is protected.
 
+## Test Scope
+Write the smallest set of tests that would catch a real defect. Missing coverage and excess coverage are both defects.
+- Test behavior through the public interface. Do not assert call counts, internal order, private helpers, or exact log text unless that is the contract.
+- Test inputs that can reach the boundary. Skip inputs that the system itself produces or that an upstream layer already validates.
+- Write one test per distinct behavior or branch. Parameterize variants instead of copying a test.
+- Do not test the framework, library, or language.
+- Mock external boundaries only. Do not mock the unit under test.
+- Avoid large snapshots. Assert the specific values that matter.
+- Do not change a test expectation to make it pass unless the requirement changed. State the reason.
+- Do not weaken, skip, or delete assertions to get a passing run.
+- Ask of each test: would it fail for a defect that a user or real data could hit? If not, remove it.
+
+## Comments
+Comments explain why. Code explains what.
+- Keep comments that state intent, constraints, invariants, non-obvious risks, or the reason for a workaround.
+- Do not restate the code, narrate steps, or add section banners to small files.
+- Do not record change history, such as "fixed X", "updated to use Y", or "added for Z". Version control records it.
+- Do not address the reviewer or the requester in comments.
+- Do not add docstrings that only repeat the signature, unless the project requires them for a public API.
+- Update or delete comments next to changed code. A stale comment is worse than no comment.
+- Follow the project's convention for TODOs, such as a tracking reference. Do not leave untracked TODOs.
+
 ## Design Quality Prompts
 Apply when changing classes, services, modules, hooks, or domain logic; skip when irrelevant.
 - **Single responsibility:** can this unit be explained in one sentence without "and then"?
